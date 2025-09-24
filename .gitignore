@@ -1,0 +1,8 @@
+.vscode
+
+venv/
+.pylintrc
+__pycache__/
+.fixtures
+
+.env*
