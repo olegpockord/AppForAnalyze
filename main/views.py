@@ -6,11 +6,11 @@ from main.utils import fetch_crossref, fetch_openalex
 
 def test(request):
 
-    query = Artical.objects.filter(doi="10.1056/NEJMoa2001316".lower())
+    query = Artical.objects.filter(doi="10.1038/s41586-020-2649-2".lower())
     print(query)
 
     if not query:
-        fetch_crossref("10.1056/NEJMoa2001316".lower())
+        fetch_openalex("10.1038/s41586-020-2649-2".lower())
 
 
     return render(request, "main.html", context={})
