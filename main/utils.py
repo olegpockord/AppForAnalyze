@@ -29,9 +29,11 @@ def parse_openalex(response):
     first_page = data["biblio"]["first_page"]
     last_page = data["biblio"]["last_page"]
 
+    date_of_artical = datetime.strptime(data["publication_date"] , "%Y-%m-%d").date()
+    
+
     with transaction.atomic():
         
-
         artical = Artical.objects.create(
             title = data["title"],
             doi = (data["doi"][16::]).lower(),
@@ -46,12 +48,13 @@ def parse_openalex(response):
             raw = data,
             reference_count = data["cited_by_count"],
             reference_by_count = int(data["referenced_works_count"]),
-            source = "openalex"
+            source = "openalex",
         )
 
         artical_date = ArticalDate.objects.create(
             artical = artical,
-            date_of_artical = datetime.strptime(data["publication_date"] , "%Y-%m-%d").date()
+            date_of_artical = date_of_artical,
+            
         )
 
         artical_cite_information = ArticalCiteInformation.objects.create(
@@ -69,7 +72,6 @@ def parse_crossref(response):
 
     timestamp = int(data['license'][0]['start']['timestamp']) // 1000
     date_of_artical = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
-    print("куку")
 
     first_name = data["author"][0]["given"]
     last_name = data["author"][0]["family"]
@@ -79,7 +81,7 @@ def parse_crossref(response):
             title = data["title"][0],
             doi = (data["DOI"]).lower(),
             issn = data["ISSN"][0],
-            isbn = data["ISSN"][1]
+            isbn = data["ISSN"][1],
         )
 
         artical_cite_data = ArticalCiteData.objects.create(
@@ -87,12 +89,12 @@ def parse_crossref(response):
             raw = data,
             reference_count = int(data["reference-count"]),
             reference_by_count = int(data["is-referenced-by-count"]),
-            source = "crossref"
+            source = "crossref",
         )
 
         artical_date = ArticalDate.objects.create(
             artical = artical,
-            date_of_artical = date_of_artical
+            date_of_artical = date_of_artical,
         )
 
         artical_cite_information = ArticalCiteInformation.objects.create(

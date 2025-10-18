@@ -32,7 +32,7 @@ class ArticalCiteData(models.Model):
         verbose_name_plural = "Информация о цитировании статей"
 
     def __str__(self):
-        return f"{self.pk} - {self.reference_by_count}"
+        return f"{self.artical} - {self.reference_by_count}"
 
 class ArticalDate(models.Model):
     artical = models.ForeignKey(to=Artical, on_delete=models.CASCADE,  null=True, verbose_name="Статья")
@@ -45,7 +45,7 @@ class ArticalDate(models.Model):
         verbose_name_plural = "Информация о датах статьи"
 
     def __str__(self):
-        return f"{self.pk} - {self.date_of_last_update}"
+        return f"{self.artical} - {self.date_of_last_update}"
     
         
 class ArticalCiteInformation(models.Model):
@@ -62,4 +62,4 @@ class ArticalCiteInformation(models.Model):
         verbose_name_plural = "Информация для цитирования статьи"
 
     def __str__(self):
-        return f"{self.pk} - {self.journal_name} - {self.author}"
+        return f"{self.artical} - {self.journal_name} - {self.author}"
