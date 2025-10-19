@@ -91,7 +91,7 @@
                 </div>
                 {% for date in artical.articaldate_set.all %} 
                 <div class="card-footer text-muted">
-                Последнее обновление: {{ date.date_of_artical }}
+                Последнее обновление: {{ date.date_of_last_update }}
                 </div>
                 {% endfor %}
             </div>
@@ -103,10 +103,14 @@
                 <div class="card-header text-center bg-secondary text-white">
                     График цитирования
                 </div>
+                {% if graph %}
                 <div class="card-body d-flex justify-content-center align-items-center">
                     
-                    <img src="https://avatars.mds.yandex.net/i?id=54e76b3bfcd6f8d3f459df3897af9d569288a32a-5159711-images-thumbs&n=13" alt="Citation Chart" class="img-fluid rounded">
+                    <img src="data:image/png;base64,{{ graph }}" alt="Citation Chart" class="img-fluid rounded">
                 </div>
+                {% else %}
+                <div> График невозможно построить из-за нехватки данных или других причин </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -133,3 +137,4 @@
   </div>
 </div>
 {% endblock  %}
+{% comment %} https://avatars.mds.yandex.net/i?id=54e76b3bfcd6f8d3f459df3897af9d569288a32a-5159711-images-thumbs&n=13 {% endcomment %}
