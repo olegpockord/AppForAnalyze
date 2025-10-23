@@ -5,7 +5,7 @@ from django.template.response import TemplateResponse
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation
 from main.utils import fetch_crossref, fetch_openalex, set_cache
 
-from common.mixins import GraphMixin 
+from common.mixins import GraphMixin, CitiationMixin 
 
 def test(request):
 
@@ -14,8 +14,9 @@ def test(request):
 
     if not query:
         fetch_openalex("10.1038/s41586-020-2649-2".lower())
-
-
+    
+    # 10.1109/MCSE.2011.37
+    # 10.1371/journal.ppat.1006698
     return render(request, "search.html", context={})
 
 
@@ -32,7 +33,7 @@ class IndexView(TemplateView):
         return TemplateResponse(request, self.template_name, context)
 
 
-class SearchView(TemplateView, GraphMixin):
+class SearchView(TemplateView, GraphMixin, CitiationMixin):
     template_name = "search.html"
 
     context_object_name = "information"
@@ -52,6 +53,10 @@ class SearchView(TemplateView, GraphMixin):
 
         graph = self.graph_create(Artical_set.first())
 
+        check = self.create_cite_data(Artical_set.first())
+
+
+
         Data_sets = Artical_set.prefetch_related(
             "articalcitedata_set",
             "articaldate_set",
@@ -68,6 +73,8 @@ class SearchView(TemplateView, GraphMixin):
         # set_cache(f"artical-{query}", Data_sets, 600)
 
         context["graph"] = graph
+        context["gost"] = check["GOST"]
+        context["mla"] = check["MLA"]
         context["articals"] = Data_sets
 
         

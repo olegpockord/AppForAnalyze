@@ -72,7 +72,9 @@
                     {% endfor %}
                     <p><i class="fas fa-cogs icon"></i> <strong>DOI:</strong> {{ artical.doi }}</p>
                     <p><i class="fas fa-cogs icon"></i> <strong>ISSN:</strong> {{ artical.issn }}</p>
+                    {% if  artical.isbn %}
                     <p><i class="fas fa-cogs icon"></i> <strong>ISBN:</strong> {{ artical.isbn }}</p>
+                    {% endif %}
                     {% if artical.mag %}
                     <p><i class="fas fa-cogs icon"></i> <strong>MAG:</strong> {{ artical.mag }}</p> 
                     {% endif %}
@@ -125,11 +127,11 @@
       </div>
       <div class="modal-body">
         <p><strong>ГОСТ:</strong><br>
-          Ivanov, Ivan. "Deep Learning in Genomics." <i>Nature</i> 12.3 (2024): 123-135. Web. (Позже по шаблону буду подгружать)
+          {{gost}}
         </p>
         <hr>
         <p><strong>MLA:</strong><br>
-          Ivanov, Ivan. "Deep Learning in Genomics." <i>Nature</i> 12.3 (2024): 123-135. Web.
+          {{mla}}
         </p>
         <hr>
       </div>

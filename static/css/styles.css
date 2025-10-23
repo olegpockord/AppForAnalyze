@@ -85,3 +85,16 @@ body {
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
 }
+
+.modal-plot-img {
+  max-width: 100%;
+  transition: filter 300ms ease, opacity 300ms ease;
+  filter: blur(8px) brightness(0.95);
+  opacity: 0.98;
+  display: block;
+}
+.modal-plot-img.revealed {
+  filter: none;
+  opacity: 1;
+}
+
