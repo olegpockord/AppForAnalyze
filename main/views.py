@@ -55,7 +55,7 @@ class SearchView(TemplateView, GraphMixin, CitiationMixin):
 
         check = self.create_cite_data(Artical_set.first())
 
-
+        # Протестить .annotate метод для начального поля
 
         Data_sets = Artical_set.prefetch_related(
             "articalcitedata_set",
@@ -66,7 +66,7 @@ class SearchView(TemplateView, GraphMixin, CitiationMixin):
         
 
         #Tecтовые переменные#
-        # Author_info_set = ArticalCiteInformation.objects.select_related("artical").get(artical_id = (Artical_set.first().pk))
+        
         
         
         

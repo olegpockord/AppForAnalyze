@@ -9,7 +9,6 @@ def fetch_openalex(doi):
     url = f"https://api.openalex.org/works?filter=doi:{doi}"
     r = requests.get(url, timeout=10)
     if r.status_code == 200 and len(r.json()["results"]) != 0:
-        print("БЛЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯ")
         return parse_openalex(r)
     return fetch_crossref(doi)
 
@@ -31,24 +30,21 @@ def parse_openalex(response):
     first_page = data["biblio"]["first_page"]
     last_page = data["biblio"]["last_page"]
 
+    safety_data = get_safety_data_openalex(data)
+
     date_of_artical = datetime.strptime(data["publication_date"], "%Y-%m-%d").date()
     
-    pubmed = None
-
-    try:
-        pubmed = data["ids"]["pmid"][32::]
-    except:
-        KeyError
+    
 
     with transaction.atomic():
         
         artical = Artical.objects.create(
             title = data["title"],
             doi = (data["doi"][16::]).lower(),
-            mag = data["ids"]["mag"],
-            pubmed = pubmed,
+            mag = safety_data["mag"],
+            pubmed = safety_data["pubmed"][32::] if safety_data["pubmed"] else None,
             issn = data["primary_location"]["source"]["issn"][0],
-            isbn = data["primary_location"]["source"]["issn"][1] or None,
+            isbn = safety_data["isbn"],
         )
 
         artical_cite_data = ArticalCiteData.objects.create(
@@ -68,7 +64,7 @@ def parse_openalex(response):
             artical = artical,
             journal_name = data["primary_location"]["source"]["display_name"],
             pages = f"{first_page}-{last_page}",
-            volume = data["biblio"]["volume"],
+            volume = safety_data["volume"],
             author = data["authorships"][0]["raw_author_name"], # Придумать нормализацию в дальнейшем
             issue = data["biblio"]["issue"],
         )
@@ -83,14 +79,6 @@ def parse_crossref(response):
     first_name = data["author"][0]["given"]
     last_name = data["author"][0]["family"]
 
-    isbn = None
-    volume = None
-
-    try:
-        isbn = data["ISSN"][1]
-        volume = data["volume"]
-    except:
-        IndexError or KeyError
 
 
     with transaction.atomic():
@@ -98,7 +86,7 @@ def parse_crossref(response):
             title = data["title"][0],
             doi = (data["DOI"]).lower(),
             issn = data["ISSN"][0],
-            isbn = isbn,
+            isbn = data.get("ISSN")[1] if data.get("ISSN") else None,
         )
 
         artical_cite_data = ArticalCiteData.objects.create(
@@ -118,8 +106,8 @@ def parse_crossref(response):
             artical = artical,
             journal_name = data["container-title"][0],
             pages = data["page"],
-            volume = volume,
-            author = f"{last_name} {first_name}", # Придумать нормализацию в дальнейшем
+            volume = data.get("volume"),
+            author = f"{last_name} {first_name}",
             issue = data["issue"],
         )
         
@@ -135,5 +123,24 @@ def set_cache(cache_name, query, cache_time):
 
 
 
-def get_data_for_cite():
-    ...
+def get_safety_data_openalex(response):
+    ids = response.get("ids")
+
+    mag = ids.get("mag")
+    pmid = ids.get("pmid")
+
+    primary_location = response.get("primary_location").get("source").get("issn")
+    
+    isbn = primary_location[1] if len(primary_location) > 1 else None
+
+    volume = response.get("biblio").get("volume")
+
+    return {
+        "mag": mag,
+        "pubmed": pmid,
+        "isbn": isbn,
+        "volume": volume,
+    }
+
+    
+    
