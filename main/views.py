@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation
-from main.utils import fetch_crossref, fetch_openalex, set_cache
+from main.models import Artical
+from main.utils import fetch_openalex, set_cache
+
+
 
 from common.mixins import GraphMixin, CitiationMixin 
 
@@ -44,16 +46,20 @@ class SearchView(TemplateView, GraphMixin, CitiationMixin):
 
         query = self.request.GET.get('q').lower()
 
+        
         Artical_set = Artical.objects.filter(doi=str(query))
         
-
         if not Artical_set:
             fetch_openalex(str(query))
             Artical_set = Artical.objects.filter(doi=str(query))
 
-        graph = self.graph_create(Artical_set.first())
+        
 
-        check = self.create_cite_data(Artical_set.first())
+        current_artical = Artical_set.first()
+
+        graph = self.graph_create(current_artical)
+
+        cite_data = self.create_cite_data(current_artical)
 
         # Протестить .annotate метод для начального поля
 
@@ -62,19 +68,13 @@ class SearchView(TemplateView, GraphMixin, CitiationMixin):
             "articaldate_set",
             "articalciteinformation_set")
         
-
-        
-
-        #Tecтовые переменные#
-        
-        
         
         
         # set_cache(f"artical-{query}", Data_sets, 600)
 
         context["graph"] = graph
-        context["gost"] = check["GOST"]
-        context["mla"] = check["MLA"]
+        context["gost"] = cite_data["GOST"]
+        context["mla"] = cite_data["MLA"]
         context["articals"] = Data_sets
 
         
