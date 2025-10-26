@@ -1,5 +1,5 @@
 from main.models import Artical, ArticalCiteData, ArticalCiteInformation, ArticalDate
-from main.utils import set_cache
+from django.core.cache import cache
 
 import io, base64
 import matplotlib
@@ -33,6 +33,10 @@ class GraphMixin:
     def graph_visual(self, years, citiations, primary_key):
         cache_key = f"gpaphNo-{primary_key}"
 
+        data = cache.get(cache_key)
+        if data:
+            return data
+
         matplotlib.use('agg')
         buf = io.BytesIO()
 
@@ -52,6 +56,8 @@ class GraphMixin:
         plt.close()
         buf.seek(0)
         b64 = base64.b64encode(buf.getvalue()).decode('ascii')
+        cache.set(cache_key, b64, 600)
+
 
         return b64
     
@@ -104,3 +110,14 @@ class CitiationMixin:
         }
 
         return cite_data_set
+    
+
+class CacheMixin:
+    def set_get_cache(self, cache_name, query, cache_time):
+        data = cache.get(cache_name)
+
+        if not data:
+            data = query
+            cache.set(cache_name, data, cache_time)
+
+        return data

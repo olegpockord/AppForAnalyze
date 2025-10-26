@@ -3,11 +3,11 @@ from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
 
 from main.models import Artical
-from main.utils import fetch_openalex, set_cache
+from main.utils import fetch_openalex
 
 
 
-from common.mixins import GraphMixin, CitiationMixin 
+from common.mixins import GraphMixin, CitiationMixin, CacheMixin 
 
 def test(request):
 
@@ -35,7 +35,7 @@ class IndexView(TemplateView):
         return TemplateResponse(request, self.template_name, context)
 
 
-class SearchView(TemplateView, GraphMixin, CitiationMixin):
+class SearchView(TemplateView, GraphMixin, CitiationMixin, CacheMixin):
     template_name = "search.html"
 
     context_object_name = "information"
@@ -68,14 +68,11 @@ class SearchView(TemplateView, GraphMixin, CitiationMixin):
             "articaldate_set",
             "articalciteinformation_set")
         
-        
-        
-        # set_cache(f"artical-{query}", Data_sets, 600)
 
         context["graph"] = graph
         context["gost"] = cite_data["GOST"]
         context["mla"] = cite_data["MLA"]
-        context["articals"] = Data_sets
+        context["articals"] = self.set_get_cache(f"prefetchcache-{query}", Data_sets, 60 * 1)
 
         
         return context

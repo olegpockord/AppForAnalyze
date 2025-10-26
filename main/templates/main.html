@@ -1,50 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-
-
-{% comment %} {% if not information and request.GET.q %}
-    <div class="container">
-        <h1 class="text-center mb-3 ">Ничего не найдено, попробуйте другой запрос</h1>
-
-    {% elif request.GET.q %}
-    <div class="container">
-        <h1 class="text-center mb-3">Выполнен поиск по: {{request.GET.q}}</h1>
-    {% else %}
-    <div class="container">
-        <h1 class="text-center mb-4">Полный список научных работ</h1>
-    {% endif %} {% endcomment %}
-    {% comment %} <div class="container">
-        <h1 class="text-center mb-4">Текст для тестирования</h1>
-
-
-        <div class="row">
-            
-            <div class="col-lg-6 col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        Название статьи
-                    </div>
-                    <div class="card-body">
-
-                        <h5 class="card-title">
-                            Имя автора
-                        </h5>
-
-                        <p class="card-text"><b>Тут будет фотка графика(Будет ниже)</b>:#</p>
-
-                        <p><i class="fas fa-book icon"></i><strong>Журнал:</strong> #</p>
-                        <p><i class="fas fa-calendar icon"></i><strong>Год публикации:</strong>#</p>
-                        <p><i class="fas fa-cogs icon"></i><strong>DOI:</strong> #</p>
-                        <p><i class="fas fa-cogs icon"></i><strong>ISSN:</strong> #</p>
-                        <p><i class="fas fa-cogs icon"></i><strong>ISBN:</strong> #</p>
-                        <p><i class="fas fa-cogs icon"></i><strong>MAG:</strong> #</p>
-                        <p><i class="fas fa-cogs icon"></i><strong>PubMed:</strong> #</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
 {% block page_title %}
 {{ name }}
 {% endblock  %}

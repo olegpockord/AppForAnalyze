@@ -120,17 +120,6 @@ def parse_crossref(response):
         raise Http404("При получении данных о статье возникла ошибка")
         
 
-def set_cache(cache_name, query, cache_time):
-    data = cache.get(cache_name)
-
-    if not data:
-        data = query
-        cache.set(cache_name, data, cache_time)
-
-    return data
-
-
-
 def get_safety_data_openalex(response):
     ids = response.get("ids")
 
