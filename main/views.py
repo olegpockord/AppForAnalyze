@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
 
-from main.models import Artical
+from main.models import Artical, ArticalCiteData, ArticalCiteInformation, ArticalDate
 from main.utils import fetch_openalex
 
 
@@ -36,7 +36,7 @@ class IndexView(TemplateView):
 
 
 class SearchView(TemplateView, GraphMixin, CitiationMixin, CacheMixin):
-    template_name = "search.html"
+    template_name = "search2.html"
 
     context_object_name = "information"
 
@@ -45,34 +45,41 @@ class SearchView(TemplateView, GraphMixin, CitiationMixin, CacheMixin):
         context["name"] = "search"
 
         query = self.request.GET.get('q').lower()
-
-        
-        Artical_set = Artical.objects.filter(doi=str(query))
+ 
+        Artical_set = Artical.objects.get(doi=str(query))
         
         if not Artical_set:
             fetch_openalex(str(query))
-            Artical_set = Artical.objects.filter(doi=str(query))
+            Artical_set = Artical.objects.get(doi=str(query))
 
-        
+        pk = Artical_set.pk
 
-        current_artical = Artical_set.first()
+        cite_data_set = ArticalCiteData.objects.select_related("artical").get(artical_id = pk)
 
-        graph = self.graph_create(current_artical)
+        citing_data_set = ArticalCiteInformation.objects.select_related("artical").get(artical_id = pk)
 
-        cite_data = self.create_cite_data(current_artical)
+        date_set = ArticalDate.objects.select_related("artical").get(artical_id = pk)
 
-        # Протестить .annotate метод для начального поля
+        graph = self.graph_create(cite_data_set)
 
-        Data_sets = Artical_set.prefetch_related(
-            "articalcitedata_set",
-            "articaldate_set",
-            "articalciteinformation_set")
-        
+        cite_data = self.create_cite_data(Artical_set, cite_data_set, citing_data_set, date_set)
+
+
+        context["artical"] = Artical_set
+        context["author_info"] = citing_data_set
+        context["date"] = date_set
+        context["cite"] = cite_data_set
 
         context["graph"] = graph
         context["gost"] = cite_data["GOST"]
         context["mla"] = cite_data["MLA"]
-        context["articals"] = self.set_get_cache(f"prefetchcache-{query}", Data_sets, 60 * 1)
+
+        # Data_sets = Artical_set.prefetch_related(
+        #     "articalcitedata_set",
+        #     "articaldate_set",
+        #     "articalciteinformation_set")
+        
+        # context["articals"] = self.set_get_cache(f"prefetchcache-{query}", Data_sets, 60 * 1)
 
         
         return context

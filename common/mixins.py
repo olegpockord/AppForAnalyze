@@ -1,6 +1,7 @@
 from main.models import Artical, ArticalCiteData, ArticalCiteInformation, ArticalDate
 from django.core.cache import cache
 
+
 import io, base64
 import matplotlib
 import matplotlib.pyplot as plt
@@ -8,9 +9,27 @@ import matplotlib.pyplot as plt
 
 class GraphMixin:
 
-    def graph_create(self, query):
-        pk = query.pk
-        cite_data_set = ArticalCiteData.objects.select_related("artical").get(artical_id = pk)
+    # def graph_create(self, query):
+    #     pk = query.pk
+    #     cite_data_set = ArticalCiteData.objects.select_related("artical").get(artical_id = pk)
+
+    #     source = cite_data_set.source
+    #     json = cite_data_set.raw
+
+    #     if source == "openalex":
+    #         citiation_by_years = json["counts_by_year"]
+
+    #         quantity_of_citiations = len(citiation_by_years)
+
+    #         years = [citiation_by_years[i]['year'] for i in range(quantity_of_citiations)]
+    #         citiations = [citiation_by_years[i]['cited_by_count'] for i in range(quantity_of_citiations)]
+
+    #         return self.graph_visual(years, citiations, pk)
+    #     else:
+    #         return None
+    def graph_create(self, cite_data_set):
+        # pk = query.pk
+        pk = cite_data_set.pk
 
         source = cite_data_set.source
         json = cite_data_set.raw
@@ -62,13 +81,13 @@ class GraphMixin:
         return b64
     
 class CitiationMixin:
-    def create_cite_data(self, query):
-        pk = query.pk
-        title = query.title
+    def create_cite_data(self, artical_set, cite_data_set, citing_data_set, date_set):
+        pk = artical_set.pk
+        title = artical_set.title
 
-        citing_data_set = ArticalCiteInformation.objects.select_related("artical").get(artical_id = pk)
-        source = ArticalCiteData.objects.select_related("artical").get(artical_id = pk).source
-        date = ArticalDate.objects.select_related("artical").get(artical_id = pk).date_of_artical
+        
+        source = cite_data_set.source
+        date = date_set.date_of_artical
         
         journal = citing_data_set.journal_name
         pages = citing_data_set.pages

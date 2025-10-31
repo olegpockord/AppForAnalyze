@@ -46,7 +46,7 @@ def parse_openalex(response):
                 doi = (data["doi"][16::]).lower(),
                 mag = safety_data["mag"],
                 pubmed = safety_data["pubmed"][32::] if safety_data["pubmed"] else None,
-                issn = data["primary_location"]["source"]["issn"][0],
+                issn = safety_data["isbn"],
                 isbn = safety_data["isbn"],
             )
 
@@ -91,7 +91,7 @@ def parse_crossref(response):
             artical = Artical.objects.create(
                 title = data["title"][0],
                 doi = (data["DOI"]).lower(),
-                issn = data["ISSN"][0],
+                issn = data.get("ISSN")[0] if data.get("ISSN") else None,
                 isbn = data.get("ISSN")[1] if data.get("ISSN") else None,
             )
 
@@ -126,15 +126,17 @@ def get_safety_data_openalex(response):
     mag = ids.get("mag")
     pmid = ids.get("pmid")
 
-    primary_location = response.get("primary_location").get("source").get("issn")
-    
-    isbn = primary_location[1] if len(primary_location) > 1 else None
+    issn_list = (response.get("primary_location", {}) .get("source", {}) .get("issn")) or []
+
+    issn = issn_list[0] if len(issn_list) > 1 else None
+    isbn = issn_list[1] if len(issn_list) > 1 else None
 
     volume = response.get("biblio").get("volume")
 
     return {
         "mag": mag,
         "pubmed": pmid,
+        "issn": issn,
         "isbn": isbn,
         "volume": volume,
     }
