@@ -55,21 +55,16 @@
 <div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
     <div class="row w-100 justify-content-center">
         
-        {% for artical in articals %}
+        
         <div class="col-lg-5 col-md-8 col-sm-10 mb-4">
             <div class="card shadow-lg h-100">
                 <div class="card-header text-center bg-primary text-white">
                     {{ artical.title }}
                 </div>
                 <div class="card-body position-relative pb-0">
-                    {% for author_info in artical.articalciteinformation_set.all %}
                     <h5 class="card-title mb-4">{{author_info.author}}</h5>
-                    
                     <p><i class="fas fa-book icon"></i> <strong>Журнал:</strong> {{author_info.journal_name}}</p>
-                    {% endfor %}
-                    {% for date in artical.articaldate_set.all %} 
                     <p><i class="fas fa-calendar icon"></i> <strong>Год публикации:</strong> {{ date.date_of_artical }}</p>
-                    {% endfor %}
                     <p><i class="fas fa-cogs icon"></i> <strong>DOI:</strong> {{ artical.doi }}</p>
                     <p><i class="fas fa-cogs icon"></i> <strong>ISSN:</strong> {{ artical.issn }}</p>
                     {% if  artical.isbn %}
@@ -81,24 +76,20 @@
                     {% if artical.pubmed %}
                     <p><i class="fas fa-cogs icon"></i> <strong>PubMed:</strong> {{ artical.pubmed }}</p>
                     {% endif %}
-                    {% for cite in artical.articalcitedata_set.all %}
                     <p><i class="fas fa-bookmark icon"></i> <strong>Цитирований в статье:</strong> {{ cite.reference_count}}</p>
                     <p><i class="fas fa-bookmark  icon"></i> <strong>Сколько цитировалась</strong> {{ cite.reference_by_count}}</p>
-                    {% endfor %}
                 </div>
                 <div class="d-flex justify-content-end mt-0 ">
                     <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#citeModal">
                     <i class="fas fa-quote-right"></i> Цитировать
                     </button>
                 </div>
-                {% for date in artical.articaldate_set.all %} 
                 <div class="card-footer text-muted">
                 Последнее обновление: {{ date.date_of_last_update }}
                 </div>
-                {% endfor %}
             </div>
         </div>
-        {% endfor %}
+
         
         <div class="col-lg-5 col-md-8 col-sm-10 d-flex justify-content-center align-items-center">
             <div class="card shadow-lg w-100">
@@ -109,6 +100,7 @@
                 <div class="card-body d-flex justify-content-center align-items-center">
                     
                     <img src="data:image/png;base64,{{ graph }}" alt="Citation Chart" class="img-fluid rounded">
+                    
                 </div>
                 {% else %}
                 <div> График невозможно построить из-за нехватки данных или других причин </div>
@@ -125,6 +117,7 @@
         <h5 class="modal-title" id="citeModalLabel"><i class="fas fa-quote-right"></i> Цитировать статью</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      {% if gost or mla %}
       <div class="modal-body">
         <p><strong>ГОСТ:</strong><br>
           {{gost}}
@@ -135,6 +128,7 @@
         </p>
         <hr>
       </div>
+      {% endif %}
     </div>
   </div>
 </div>

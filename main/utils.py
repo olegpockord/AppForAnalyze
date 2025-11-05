@@ -4,7 +4,6 @@ from datetime import datetime
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation
 
 from django.db import transaction
-from django.core.cache import cache
 from django.http import Http404
 
 def fetch_openalex(doi):
@@ -37,8 +36,6 @@ def parse_openalex(response):
 
         date_of_artical = datetime.strptime(data["publication_date"], "%Y-%m-%d").date()
         
-        
-
         with transaction.atomic():
             
             artical = Artical.objects.create(
@@ -141,5 +138,3 @@ def get_safety_data_openalex(response):
         "volume": volume,
     }
 
-    
-    

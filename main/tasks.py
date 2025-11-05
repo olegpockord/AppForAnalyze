@@ -1,8 +1,13 @@
 from django.utils import timezone
 from datetime import timedelta
+
 from main.models import Artical, ArticalCiteData, ArticalCiteInformation, ArticalDate
+from django.core.management import call_command
 
 import requests
+from celery import shared_task
+
+
 
 def check_test_update(query):
     ...
@@ -64,3 +69,8 @@ def check_test_update(query):
     # for i in check_dates:
     #     print(i.date_of_last_update)
 
+
+@shared_task
+def dbackup_task():
+
+    call_command('dbackup')

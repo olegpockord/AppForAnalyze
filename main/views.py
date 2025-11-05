@@ -1,13 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
 
 from main.models import Artical, ArticalCiteData, ArticalCiteInformation, ArticalDate
+
+from main.tasks import dbackup_task
 from main.utils import fetch_openalex
 
-
-
-from common.mixins import GraphMixin, CitiationMixin, CacheMixin 
+from common.mixins import CitiationMixin, GraphMixin
 
 def test(request):
 
@@ -35,8 +35,8 @@ class IndexView(TemplateView):
         return TemplateResponse(request, self.template_name, context)
 
 
-class SearchView(TemplateView, GraphMixin, CitiationMixin, CacheMixin):
-    template_name = "search2.html"
+class SearchView(TemplateView, CitiationMixin, GraphMixin):
+    template_name = "search.html"
 
     context_object_name = "information"
 
@@ -46,24 +46,24 @@ class SearchView(TemplateView, GraphMixin, CitiationMixin, CacheMixin):
 
         query = self.request.GET.get('q').lower()
  
-        Artical_set = Artical.objects.get(doi=str(query))
+        Artical_set = Artical.objects.filter(doi=str(query)).first()
+        
         
         if not Artical_set:
             fetch_openalex(str(query))
-            Artical_set = Artical.objects.get(doi=str(query))
+            Artical_set = get_object_or_404(Artical, doi=str(query))
 
         pk = Artical_set.pk
 
         cite_data_set = ArticalCiteData.objects.select_related("artical").get(artical_id = pk)
-
         citing_data_set = ArticalCiteInformation.objects.select_related("artical").get(artical_id = pk)
-
         date_set = ArticalDate.objects.select_related("artical").get(artical_id = pk)
 
         graph = self.graph_create(cite_data_set)
 
         cite_data = self.create_cite_data(Artical_set, cite_data_set, citing_data_set, date_set)
 
+        dbackup_task.delay()
 
         context["artical"] = Artical_set
         context["author_info"] = citing_data_set
@@ -73,14 +73,6 @@ class SearchView(TemplateView, GraphMixin, CitiationMixin, CacheMixin):
         context["graph"] = graph
         context["gost"] = cite_data["GOST"]
         context["mla"] = cite_data["MLA"]
-
-        # Data_sets = Artical_set.prefetch_related(
-        #     "articalcitedata_set",
-        #     "articaldate_set",
-        #     "articalciteinformation_set")
-        
-        # context["articals"] = self.set_get_cache(f"prefetchcache-{query}", Data_sets, 60 * 1)
-
         
         return context
 
