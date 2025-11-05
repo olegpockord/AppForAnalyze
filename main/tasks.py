@@ -62,21 +62,17 @@ def single_artical_update(self, artical_pk):
             reference_count = data["referenced_works_count"]
             reference_by_count = int(data["cited_by_count"])
 
-            ArticalCiteData.objects.update_or_create(
-                artical = artical,
+            ArticalCiteData.objects.filter(artical=artical).update(
                 raw = data,
-                defaults={
-                    'reference_count': reference_count,
-                    'reference_by_count': reference_by_count
-                }
+                reference_count = reference_count,
+                reference_by_count = reference_by_count,
             )
 
-            ArticalDate.objects.update_or_create(
-                artical = artical,
-                defaults= {'date_of_last_update': timezone.now()}
+            ArticalDate.objects.update(
+                date_of_last_update = timezone.now()
             )
 
-        else:
+        elif source == "crossref":
             url = f"https://api.crossref.org/works/{doi}"
             response = requests.get(url, timeout=10)
 
@@ -85,18 +81,14 @@ def single_artical_update(self, artical_pk):
             reference_count = int(data["reference-count"])
             reference_by_count = int(data["is-referenced-by-count"])
 
-            ArticalCiteData.objects.update_or_create(
-                artical = artical,
+            ArticalCiteData.objects.filter(artical=artical).update(
                 raw = data,
-                defaults={
-                    'reference_count': reference_count,
-                    'reference_by_count': reference_by_count
-                }
+                reference_count = reference_count,
+                reference_by_count = reference_by_count,
             )
 
-            ArticalDate.objects.update_or_create(
-                artical = artical,
-                defaults= {'date_of_last_update': timezone.now()}
+            ArticalDate.objects.update(
+                date_of_last_update = timezone.now()
             )
 
         cache.delete(lock_key)

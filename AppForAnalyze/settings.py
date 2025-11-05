@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'debug_toolbar', # Для дебага, потом убрать
 
     "main",
+    "onearticle"
 ]
 
 MIDDLEWARE = [
@@ -120,9 +121,9 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'main.tasks.dbackup_task',
         'schedule': crontab(hour=23, minute=0), # Каждый день в 23:00
     },
-    'weekly-article-update': {
-        "task": 'main.tasks.periodic_schedule_task',
-        "schedule": crontab(hour=3, minute=0, day_of_week='sun'),
+    'weekly_article_update': {
+        'task': 'main.tasks.periodic_schedule_task',
+        'schedule': crontab(hour=3, minute=0, day_of_week='sun'),
     },
 }
 

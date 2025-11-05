@@ -20,7 +20,8 @@ from AppForAnalyze.settings import DEBUG
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls', namespace='main'))
+    path('', include('main.urls', namespace='main')),
+    path('search/', include('onearticle.urls', namespace='onearticle'))
 ]
 
 # Для дебаг панели, потом удалить
