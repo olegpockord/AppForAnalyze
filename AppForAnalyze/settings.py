@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'debug_toolbar', # Для дебага, потом убрать
 
     "main",
-    "onearticle"
+    "onearticle",
+    "modules",
 ]
 
 MIDDLEWARE = [
@@ -118,11 +119,11 @@ CELERY_TIMEZONE = 'Europe/Moscow'
 
 CELERY_BEAT_SCHEDULE = {
     'backup_database': {
-        'task': 'main.tasks.dbackup_task',
+        'task': 'modules.tasks.dbackup_task',
         'schedule': crontab(hour=23, minute=0), # Каждый день в 23:00
     },
     'weekly_article_update': {
-        'task': 'main.tasks.periodic_schedule_task',
+        'task': 'modules.tasks.periodic_schedule_task',
         'schedule': crontab(hour=3, minute=0, day_of_week='sun'),
     },
 }

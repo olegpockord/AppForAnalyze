@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 
 from main.models import Artical, ArticalCiteData, ArticalCiteInformation, ArticalDate
 
-from main.utils import fetch_openalex
+from modules.utils import fetch_openalex
 
 from common.mixins import CitiationMixin, GraphMixin
 

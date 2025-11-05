@@ -1,20 +1,16 @@
 from django.utils import timezone
-from datetime import timedelta
-
-from main.models import Artical, ArticalCiteData, ArticalDate
 from django.core.cache import cache
-
 from django.core.management import call_command
 
+from main.models import Artical, ArticalCiteData, ArticalDate
+
 import requests
-import time
+from datetime import timedelta
 from celery import shared_task
 from celery.utils.log import get_task_logger, logging
 
 logger = get_task_logger(__name__)
 LOG = logging.getLogger(__name__)
-
-
 
 @shared_task
 def periodic_schedule_task():
