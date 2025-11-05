@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import environ
+from celery.schedules import crontab
 
 env = environ.Env()
 
@@ -113,6 +114,17 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Moscow'
+
+CELERY_BEAT_SCHEDULE = {
+    'backup_database': {
+        'task': 'main.tasks.dbackup_task',
+        'schedule': crontab(hour=23, minute=0), # Каждый день в 23:00
+    },
+    'weekly-article-update': {
+        "task": 'main.tasks.periodic_schedule_task',
+        "schedule": crontab(hour=3, minute=0, day_of_week='sun'),
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

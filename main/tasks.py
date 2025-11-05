@@ -1,74 +1,116 @@
 from django.utils import timezone
 from datetime import timedelta
 
-from main.models import Artical, ArticalCiteData, ArticalCiteInformation, ArticalDate
+from main.models import Artical, ArticalCiteData, ArticalDate
+from django.core.cache import cache
+
 from django.core.management import call_command
 
 import requests
+import time
 from celery import shared_task
+from celery.utils.log import get_task_logger, logging
+
+logger = get_task_logger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 
-def check_test_update(query):
-    ...
-    pk = query.pk
-    doi = query.doi
-    
+@shared_task
+def periodic_schedule_task():
 
-    source = ArticalCiteData.objects.select_related("artical").get(artical_id = pk).source
+    now = timezone.now()
+    threshold = now - timedelta(days=3)
+    three_days_date = threshold.date()
 
-    if source == "openalex":
-        url = f"https://api.openalex.org/works?filter=doi:{doi}"
-        response = requests.get(url, timeout=10)
-        data = response.json()["results"][0]
+    queryset_of_articals = ArticalDate.objects.filter(date_of_last_update__lte=three_days_date)
+    if not queryset_of_articals:
+        return {'status': 'No articals available to update'}
 
-        reference_count = data["referenced_works_count"]
-        reference_by_count = int(data["cited_by_count"])
+    for article in queryset_of_articals:
+        try:
+            single_artical_update.delay(article.artical_id)
+        except Exception as exc:
+            LOG.exception("Failed to schedule update_single_article for %s: %s", article.artical_id, exc)
 
-        ArticalCiteData.objects.update_or_create(
-            artical = pk,
-            raw = data,
-            defaults={
-                'reference_count': reference_count,
-                'reference_by_count': reference_by_count
-            }
-        )
+    LOG.info("Scheduled %d articles for update", len(queryset_of_articals))
 
-        ArticalDate.objects.update_or_create(artical=pk, date_of_last_update = timezone.now())
+@shared_task(bind=True, max_retries=3, default_retry_delay=30)
+def single_artical_update(self, artical_pk):
 
-    else:
-        url = f"https://api.crossref.org/works/{doi}"
-        response = requests.get(url, timeout=10)
+    lock_key = f'update_article_lock:{artical_pk}'
 
-        data = response.json()["message"]
+    got_lock = cache.add(lock_key, '1', timeout=60 * 3)
 
-        reference_count = int(data["reference-count"])
-        reference_by_count = int(data["is-referenced-by-count"])
-
-        ArticalCiteData.objects.update_or_create(
-            artical = pk,
-            raw = data,
-            defaults={
-                'reference_count': reference_count,
-                'reference_by_count': reference_by_count
-            }
-        )
-
-        ArticalDate.objects.update_or_create(
-            artical = pk,
-            defaults= {'date_of_last_update': timezone.now()}
-        )
+    if not got_lock:
+        LOG.info("Article %s is already being processed by another worker", artical_pk)
+        return {'status': 'locked'}
 
 
-    # now = timezone.now()
-    # threshold = now - timedelta(days=3)
-    # date1 = threshold.date()
-    # # timezone.localtime() Это мое локально точное время
+    try:
+        artical = Artical.objects.get(pk=int(artical_pk))
+        doi = artical.doi
+        
 
-    # check_dates = ArticalDate.objects.filter(date_of_last_update__lte=date1)
-    # for i in check_dates:
-    #     print(i.date_of_last_update)
+        source = ArticalCiteData.objects.select_related("artical").get(artical_id = int(artical_pk)).source
 
+        if source == "openalex":
+            url = f"https://api.openalex.org/works?filter=doi:{doi}"
+            response = requests.get(url, timeout=10)
+            data = response.json()["results"][0]
+
+            reference_count = data["referenced_works_count"]
+            reference_by_count = int(data["cited_by_count"])
+
+            ArticalCiteData.objects.update_or_create(
+                artical = artical,
+                raw = data,
+                defaults={
+                    'reference_count': reference_count,
+                    'reference_by_count': reference_by_count
+                }
+            )
+
+            ArticalDate.objects.update_or_create(
+                artical = artical,
+                defaults= {'date_of_last_update': timezone.now()}
+            )
+
+        else:
+            url = f"https://api.crossref.org/works/{doi}"
+            response = requests.get(url, timeout=10)
+
+            data = response.json()["message"]
+
+            reference_count = int(data["reference-count"])
+            reference_by_count = int(data["is-referenced-by-count"])
+
+            ArticalCiteData.objects.update_or_create(
+                artical = artical,
+                raw = data,
+                defaults={
+                    'reference_count': reference_count,
+                    'reference_by_count': reference_by_count
+                }
+            )
+
+            ArticalDate.objects.update_or_create(
+                artical = artical,
+                defaults= {'date_of_last_update': timezone.now()}
+            )
+
+        cache.delete(lock_key)
+        LOG.info("Updated article %s (doi=%s)", artical_pk, doi)
+    except Exception as exc:
+        LOG.exception("Network error while updating article %s", artical_pk)
+
+        try:
+            raise self.retry(exc=exc)
+        except Exception:
+            return {'status': 'error', 'error': str(exc)}
+    finally:
+        if got_lock:
+            cache.delete(lock_key)
 
 @shared_task
 def dbackup_task():

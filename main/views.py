@@ -4,7 +4,7 @@ from django.template.response import TemplateResponse
 
 from main.models import Artical, ArticalCiteData, ArticalCiteInformation, ArticalDate
 
-from main.tasks import dbackup_task
+
 from main.utils import fetch_openalex
 
 from common.mixins import CitiationMixin, GraphMixin
@@ -59,11 +59,12 @@ class SearchView(TemplateView, CitiationMixin, GraphMixin):
         citing_data_set = ArticalCiteInformation.objects.select_related("artical").get(artical_id = pk)
         date_set = ArticalDate.objects.select_related("artical").get(artical_id = pk)
 
+
+
         graph = self.graph_create(cite_data_set)
 
         cite_data = self.create_cite_data(Artical_set, cite_data_set, citing_data_set, date_set)
 
-        dbackup_task.delay()
 
         context["artical"] = Artical_set
         context["author_info"] = citing_data_set
