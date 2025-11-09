@@ -51,7 +51,7 @@ class ArticalDate(models.Model):
 class ArticalCiteInformation(models.Model):
     artical = models.ForeignKey(to=Artical, on_delete=models.CASCADE,  null=True, verbose_name="Статья")
     journal_name = models.CharField(max_length=100, blank=False, null=False, verbose_name="Имя журнала")
-    pages = models.CharField(max_length=30, blank=False, null=False, verbose_name="Страницы")
+    pages = models.CharField(max_length=30, blank=True, null=True, verbose_name="Страницы")
     volume = models.CharField(max_length=20, blank=True, null=True, verbose_name="Том")
     author = models.CharField(max_length=50, blank=False, null=False, verbose_name="Автор") # Потом сделать флаг, где авторов больше 1, щас пока их всегда больше 1
     issue = models.CharField(max_length=20, blank=True, null=True, verbose_name="Проблема")

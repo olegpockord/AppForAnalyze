@@ -1,0 +1,80 @@
+volumes:
+  pgdata:
+  static:
+
+services:
+
+  django:
+    build:
+      context: .
+    ports:
+      - '8000:8000'
+    container_name: django
+    env_file:
+      - ./.env.dev
+    volumes:
+      - ./:/AppForAnalyze
+      - static:/AppForAnalyze/static
+    depends_on:
+      - postgres
+      - redis
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py runserver 0.0.0.0:8000"
+
+  nginx:
+    container_name: nginx
+    working_dir: /AppForAnalyze
+    image: nginx:stable-alpine
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - static:/AppForAnalyze/static
+      - ./docker/nginx/:/etc/nginx/conf.d:ro
+    links:
+      - django
+    depends_on:
+      - django
+
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    restart: always
+    env_file:
+      - ./.env.dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+  
+  redis:
+    image: redis:alpine
+    container_name: redis
+    env_file:
+      - ./.env.dev
+    expose:
+      - 6379
+    volumes:
+      - ./docker/redis/data:/data
+  
+  celery-worker:
+    build: .
+    container_name: celery-worker
+    restart: always
+    env_file:
+      - ./.env.dev
+    volumes:
+      - ./:/AppForAnalyze
+    command: celery -A AppForAnalyze worker --loglevel=info --logfile=./docker/logs/celery-worker.log
+    depends_on:
+      - redis
+  
+  celery-beat:
+      build: .
+      container_name: celery-beat
+      env_file:
+          - ./.env.dev
+      depends_on: 
+          - redis
+      command: celery -A AppForAnalyze beat --loglevel=info --logfile=./docker/logs/celery-beat.log
+      volumes:
+          - ./:/AppForAnalyze
