@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from AppForAnalyze.settings import DEBUG
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls', namespace='main')),
     path('search/', include('onearticle.urls', namespace='onearticle'))
 ]
+
+if DEBUG:
+    urlpatterns +=[path("__debug__/", include("debug_toolbar.urls")),]
 

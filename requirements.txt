@@ -9,4 +9,4 @@ psycopg2-binary==2.9.10
 python-dateutil==2.9.0.post0
 redis
 requests==2.32.5
-
+gunicorn

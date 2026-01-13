@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}
+{{ name }}
+{% endblock  %}
+
+{% block content %}
+<div class="container min-vh-10 d-flex align-items-center justify-content-center py-5">
+    <div class="row w-100 justify-content-center">
+        
+        {% for number in "123456789" %}
+        <div class="col-lg-4 col-md-8 col-sm-10 mb-4">
+            
+            <div class="card shadow-lg h-10">
+                <a href="#" class="text-decoration-none">
+                <div class="card-header text-white">
+                    Название статьи {{number}}
+                </div>
+                </a>
+                <div class="card-body position-relative pb-0">
+                    <h5 class="card-title mb-4">Иванов Иван</h5>
+                    <p><i class="fas fa-calendar icon"></i> <strong>Год публикации:</strong></p>
+                    <p><i class="fas fa-cogs icon"></i> <strong>DOI:</strong></p>
+                    <p><i class="fas fa-bookmark  icon"></i> <strong>Сколько цитировалась</strong></p>
+                </div>
+                <div class="card-footer text-muted">
+                Последнее обновление: 1.12.2022
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock  %}

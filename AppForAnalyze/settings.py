@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    "main",
-    "onearticle",
-    "modules",
+    "debug_toolbar",
+
+    'main',
+    'onearticle',
+    'modules',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
 ROOT_URLCONF = 'AppForAnalyze.urls'
@@ -114,14 +118,14 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Moscow'
 
 CELERY_BEAT_SCHEDULE = {
-    'backup_database': {
-        'task': 'modules.tasks.dbackup_task',
-        'schedule': crontab(hour=23, minute=0), # Каждый день в 23:00
-    },
-    'weekly_article_update': {
-        'task': 'modules.tasks.periodic_schedule_task',
-        'schedule': crontab(hour=3, minute=0, day_of_week='sun'),
-    },
+    # 'backup_database': {
+    #     'task': 'modules.tasks.dbackup_task',
+    #     'schedule': crontab(hour=23, minute=0), # Каждый день в 23:00
+    # },
+    # 'weekly_article_update': {
+    #     'task': 'modules.tasks.periodic_schedule_task',
+    #     'schedule': crontab(hour=3, minute=0, day_of_week='sun'),
+    # },
 }
 
 # Password validation

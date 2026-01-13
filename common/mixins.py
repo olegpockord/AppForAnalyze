@@ -19,7 +19,7 @@ class GraphMixin:
             citiation_by_years = json["counts_by_year"]
 
             quantity_of_citiations = len(citiation_by_years)
-
+            print(quantity_of_citiations)
             years = [citiation_by_years[i]['year'] for i in range(quantity_of_citiations)]
             citiations = [citiation_by_years[i]['cited_by_count'] for i in range(quantity_of_citiations)]
 
@@ -102,7 +102,7 @@ class CitiationMixin:
         empty_string = ""
 
         gost_cite = f"{author_gost} {title} //{journal}. — {date.year}. {check_volume_gost if volume else empty_string} {chr(8470)+chr(46)+chr(32)+issue if issue else empty_string} —C. {pages}"
-        mla_cite = f"{author_mla} {chr(34)+title+chr(34)} {journal} {volume+chr(46) if volume else empty_string}{issue} {chr(40)+str(date.year)+chr(41)}: {pages}"
+        mla_cite = f"{author_mla} {chr(34)+title+chr(34)} {journal} {volume if volume else empty_string}{chr(46) + issue if issue else empty_string} {chr(40)+str(date.year)+chr(41)}: {pages}"
 
         cite_data_set = {
             "GOST": gost_cite,

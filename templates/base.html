@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static "bootstrap/bootstrap.min.css" %}">
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <title># - {% block page_title %}{% endblock  %}</title>
+    <title>fscienceanalyze - {% block page_title %}{% endblock  %}</title>
 </head>
 
 
@@ -23,7 +23,7 @@
             <i class="fas fa-home"></i>
         </a>
     
-        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" value="">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" {% if request.GET.q %}value="{{ request.GET.q }}{% endif %}">
         <button class="btn btn-outline-success text-blue" type="submit">Поиск</button>
     </div>
 

@@ -43,7 +43,7 @@ def parse_openalex(response):
                 doi = (data["doi"][16::]).lower(),
                 mag = safety_data["mag"],
                 pubmed = safety_data["pubmed"][32::] if safety_data["pubmed"] else None,
-                issn = safety_data["isbn"],
+                issn = safety_data["issn"],
                 isbn = safety_data["isbn"],
             )
 

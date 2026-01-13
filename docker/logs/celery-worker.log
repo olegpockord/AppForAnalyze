@@ -332,3 +332,21 @@ django.core.management.base.CommandError: Unable to serialize database: could no
 [2025-11-16 21:09:58,758: INFO/MainProcess] mingle: searching for neighbors
 [2025-11-16 21:09:59,766: INFO/MainProcess] mingle: all alone
 [2025-11-16 21:09:59,876: INFO/MainProcess] celery@0d0cdb67e191 ready.
+[2025-12-28 13:53:24,238: ERROR/MainProcess] consumer: Cannot connect to redis://redis:6379/0: Error -2 connecting to redis:6379. Name or service not known..
+Trying again in 2.00 seconds... (1/100)
+
+[2025-12-28 13:53:29,533: ERROR/MainProcess] consumer: Cannot connect to redis://redis:6379/0: Error -2 connecting to redis:6379. Name or service not known..
+Trying again in 4.00 seconds... (2/100)
+
+[2025-12-28 13:53:36,892: ERROR/MainProcess] consumer: Cannot connect to redis://redis:6379/0: Error -2 connecting to redis:6379. Name or service not known..
+Trying again in 6.00 seconds... (3/100)
+
+[2025-12-28 13:53:46,237: ERROR/MainProcess] consumer: Cannot connect to redis://redis:6379/0: Error -2 connecting to redis:6379. Name or service not known..
+Trying again in 8.00 seconds... (4/100)
+
+[2025-12-28 13:53:57,568: ERROR/MainProcess] consumer: Cannot connect to redis://redis:6379/0: Error -2 connecting to redis:6379. Name or service not known..
+Trying again in 10.00 seconds... (5/100)
+
+[2025-12-28 13:54:10,915: ERROR/MainProcess] consumer: Cannot connect to redis://redis:6379/0: Error -2 connecting to redis:6379. Name or service not known..
+Trying again in 12.00 seconds... (6/100)
+
