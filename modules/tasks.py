@@ -38,57 +38,57 @@ def single_artical_update(self, artical_pk):
 
     got_lock = cache.add(lock_key, '1', timeout=60 * 3)
 
-    if not got_lock:
-        LOG.info("Article %s is already being processed by another worker", artical_pk)
-        return {'status': 'locked'}
+    # if not got_lock:
+    #     LOG.info("Article %s is already being processed by another worker", artical_pk)
+    #     return {'status': 'locked'}
 
 
     try:
-        artical = Artical.objects.get(pk=int(artical_pk))
-        doi = artical.doi
+        # artical = Artical.objects.get(pk=int(artical_pk))
+        # doi = artical.doi
         
 
-        source = ArticalCiteData.objects.select_related("artical").get(artical_id = int(artical_pk)).source
+        # source = ArticalCiteData.objects.select_related("artical").get(artical_id = int(artical_pk)).source
 
-        if source == "openalex":
-            url = f"https://api.openalex.org/works?filter=doi:{doi}"
-            response = requests.get(url, timeout=10)
-            data = response.json()["results"][0]
+        # if source == "openalex":
+        #     url = f"https://api.openalex.org/works?filter=doi:{doi}"
+        #     response = requests.get(url, timeout=10)
+        #     data = response.json()["results"][0]
 
-            reference_count = data["referenced_works_count"]
-            reference_by_count = int(data["cited_by_count"])
+        #     reference_count = data["referenced_works_count"]
+        #     reference_by_count = int(data["cited_by_count"])
 
-            ArticalCiteData.objects.filter(artical=artical).update(
-                raw = data,
-                reference_count = reference_count,
-                reference_by_count = reference_by_count,
-            )
+        #     ArticalCiteData.objects.filter(artical=artical).update(
+        #         raw = data,
+        #         reference_count = reference_count,
+        #         reference_by_count = reference_by_count,
+        #     )
 
-            ArticalDate.objects.update(
-                date_of_last_update = timezone.now()
-            )
+        #     ArticalDate.objects.update(
+        #         date_of_last_update = timezone.now()
+        #     )
 
-        elif source == "crossref":
-            url = f"https://api.crossref.org/works/{doi}"
-            response = requests.get(url, timeout=10)
+        # elif source == "crossref":
+        #     url = f"https://api.crossref.org/works/{doi}"
+        #     response = requests.get(url, timeout=10)
 
-            data = response.json()["message"]
+        #     data = response.json()["message"]
 
-            reference_count = int(data["reference-count"])
-            reference_by_count = int(data["is-referenced-by-count"])
+        #     reference_count = int(data["reference-count"])
+        #     reference_by_count = int(data["is-referenced-by-count"])
 
-            ArticalCiteData.objects.filter(artical=artical).update(
-                raw = data,
-                reference_count = reference_count,
-                reference_by_count = reference_by_count,
-            )
+        #     ArticalCiteData.objects.filter(artical=artical).update(
+        #         raw = data,
+        #         reference_count = reference_count,
+        #         reference_by_count = reference_by_count,
+        #     )
 
-            ArticalDate.objects.update(
-                date_of_last_update = timezone.now()
-            )
+        #     ArticalDate.objects.update(
+        #         date_of_last_update = timezone.now()
+        #     )
 
         cache.delete(lock_key)
-        LOG.info("Updated article %s (doi=%s)", artical_pk, doi)
+        # LOG.info("Updated article %s (doi=%s)", artical_pk, doi)
     except Exception as exc:
         LOG.exception("Network error while updating article %s", artical_pk)
 
