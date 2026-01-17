@@ -9,58 +9,55 @@ import matplotlib.pyplot as plt
 
 class GraphMixin:
 
-    def graph_create(self, cite_data_set):
-        a = 2
-        # pk = cite_data_set.pk
+    def graph_create(self, article_data_set):
 
-        # source = cite_data_set.source
-        # json = cite_data_set.raw
+        pk = article_data_set.pk
 
-        # if source == "openalex":
-        #     citiation_by_years = json["counts_by_year"]
+        citing_per_year_set = article_data_set.citing_per_year
 
-        #     quantity_of_citiations = len(citiation_by_years)
-        #     print(quantity_of_citiations)
-        #     years = [citiation_by_years[i]['year'] for i in range(quantity_of_citiations)]
-        #     citiations = [citiation_by_years[i]['cited_by_count'] for i in range(quantity_of_citiations)]
+        source = article_data_set.source
 
-        #     return self.graph_visual(years, citiations, pk)
-        # else:
-        #     return None
+        if source == "openalex":
+            years = [i.year for i in citing_per_year_set]
+            citiations = [i.citiation for i in citing_per_year_set]
+
+            return self.graph_visual(years, citiations, pk)
+        else:
+            return None
 
 
         
 
     def graph_visual(self, years, citiations, primary_key):
-        # cache_key = f"gpaphNo-{primary_key}"
+        cache_key = f"gpaphNo-{primary_key}"
 
-        # data = cache.get(cache_key)
-        # if data:
-        #     return data
+        data = cache.get(cache_key)
+        if data:
+            return data
 
         matplotlib.use('agg')
-        # buf = io.BytesIO()
+        buf = io.BytesIO()
 
-        # plt.figure(figsize=(7,4))
-        # plt.plot(years, citiations, marker='o', markersize=6, markerfacecolor="red")
+        plt.figure(figsize=(7,4))
+        plt.plot(years, citiations, marker='o', markersize=6, markerfacecolor="red")
 
-        # for i, (xi, yi) in enumerate(zip(years, citiations)):
-        #     plt.annotate(f'({yi})', (xi, yi),
-        #                 xytext=(-15, 5), textcoords='offset points')
+        for i, (xi, yi) in enumerate(zip(years, citiations)):
+            plt.annotate(f'({yi})', (xi, yi),
+                        xytext=(-15, 5), textcoords='offset points')
 
-        # plt.grid(True)
-        # plt.xlabel("Years")
-        # plt.ylabel("Citations")
-        # plt.xlim(years[-1] - 1, years[0] + 1)
+        plt.grid(True)
+        plt.xlabel("Years")
+        plt.ylabel("Citations")
+        plt.xlim(years[-1] - 1, years[0] + 1)
 
-        # plt.savefig(buf, format='png', dpi=100)
-        # plt.close()
-        # buf.seek(0)
-        # b64 = base64.b64encode(buf.getvalue()).decode('ascii')
-        # cache.set(cache_key, b64, 600)
+        plt.savefig(buf, format='png', dpi=100)
+        plt.close()
+        buf.seek(0)
+        b64 = base64.b64encode(buf.getvalue()).decode('ascii')
+        cache.set(cache_key, b64, 600)
 
 
-        # return b64
+        return b64
     
 class CitiationMixin:
     def create_cite_data(self, artical_set, cite_data_set, citing_data_set, date_set):

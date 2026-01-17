@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.db.models import Q, OuterRef, Subquery
+from django.db.models import Q, OuterRef, Subquery, Prefetch
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
 
@@ -91,18 +91,21 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
     slug_url_kwarg = 'pk'
     context_object_name = "article"
 
-    def get_query_set(self):
+    def get_queryset(self):
 
         query_set =  Artical.objects.prefetch_related(
-            'articalciteinformation_set',
-            'articaldate_set',
-            'articalcitedata_set',
-            'articlemainauthor_set',
-            'articleciteperyear_set',
+            Prefetch('articalciteinformation_set', to_attr="articalciteinformation_1"),
+            Prefetch('articaldate_set', to_attr="articaldate_1"),
+            Prefetch('articalcitedata_set', to_attr="articalcitedata_1"),
+            Prefetch('articlemainauthor_set', to_attr="articlemainauthor_1"),
+            Prefetch('articleciteperyear_set', 
+                     queryset=ArticleCitePerYear.objects.all(),
+                     to_attr='citing_per_year'),
             'articleotherauthor_set',
-        ).get(pk = self.kwargs.get(self.slug_url_kwarg))
+        )
 
         return query_set
+        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -110,10 +113,15 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
 
         article = context["article"]
 
-        context["artical_cite_information"] = article.articalciteinformation_set.first()
-        context["artical_date"] = article.articaldate_set.first()
-        context["article_main_author"] = article.articlemainauthor_set.first()
-        context["artical_cite_data"] = article.articalcitedata_set.first()
+        context["artical_cite_information"] = article.articalciteinformation_1[0]
+        context["artical_date"] = article.articaldate_1[0]
+        context["article_main_author"] = article.articlemainauthor_1[0]
+        context["artical_cite_data"] = article.articalcitedata_1[0]
+
+
+        graph = self.graph_create(article)
+
+        context["graph"] = graph
 
         return context
     
@@ -155,3 +163,29 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
         #         Q(title__icontains = query) |
         #         Q(articlemainauthor__main_initials__icontains = query)
         #     )
+
+    # def get_query_set(self): # Not correct name, but .first doesnt make new queries
+
+    #     query_set =  Artical.objects.prefetch_related(
+    #         Prefetch('articalciteinformation_set', to_attr="articalciteinformation_1"),
+    #         Prefetch('articaldate_set', to_attr="articaldate_1"),
+    #         Prefetch('articalcitedata_set', to_attr="articalcitedata_1"),
+    #         Prefetch('articlemainauthor_set', to_attr="articlemainauthor_1"),
+    #         Prefetch('articleciteperyear_set', 
+    #                  queryset=ArticleCitePerYear.objects.all(),
+    #                  to_attr='citing_per_year'),
+    #         'articleotherauthor_set',
+    #     )
+
+    #     query_set =  Artical.objects.prefetch_related(
+    #         'articalciteinformation_set',
+    #         'articaldate_set',
+    #         'articalcitedata_set',
+    #         'articlemainauthor_set',
+    #         Prefetch('articleciteperyear_set', 
+    #                  queryset=ArticleCitePerYear.objects.all(),
+    #                  to_attr='citing_per_year'),
+    #         'articleotherauthor_set',
+    #     ).filter(pk = self.kwargs.get(self.slug_url_kwarg))
+
+    #     return query_set
