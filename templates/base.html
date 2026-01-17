@@ -15,15 +15,19 @@
 
 
 <body>
-    <form class="d-flex flex-column" role="search" action="{% url 'onearticle:search'%}" method="get">
+    <form class="d-flex flex-column" role="search" action="{% url 'catalog:catalog_all'%}" method="get">
     
     
     <div class="d-flex mb-2">
         <a href="{% url 'main:index' %}" class="btn btn-outline-secondary me-2">
             <i class="fas fa-home"></i>
         </a>
+        <a href="{% url 'catalog:catalog_all' %}" class="btn btn-outline-secondary me-2">
+            <i class="fas fa-book-open"></i>
+        </a>
     
         <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" {% if request.GET.q %}value="{{ request.GET.q }}{% endif %}">
+        {% if request.resolver_match.route|slice:":8" != 'catalog/' %}<input type="hidden" name="scope" value="internal">{% endif %}
         <button class="btn btn-outline-success text-blue" type="submit">Поиск</button>
     </div>
 

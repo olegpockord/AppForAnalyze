@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'main',
     'onearticle',
     'modules',
+    'catalog',
 ]
 
 MIDDLEWARE = [

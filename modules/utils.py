@@ -1,19 +1,23 @@
 import requests
+import re
 from datetime import datetime
+from bs4 import BeautifulSoup
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
 
 from django.db import transaction
 from django.http import Http404
 
-
+###### Супер не оптимально. В дальнейшем исправить
 def parse_openalex(response):
     raw_json = response["results"]
     for num, x in enumerate(raw_json):
         element = raw_json[num]
 
-        if element.get("ids").get("doi"):
+        if element.get("ids").get("doi") and element.get("authorships"):
             title = element.get("title")
+            title = BeautifulSoup(title, "html.parser").get_text()
+            if len(title) > 298: continue
             ids = element.get("ids")
             doi = ids.get("doi")[16:].lower()
             mag = ids.get("mag")
@@ -161,6 +165,75 @@ def fetch_crossref(doi):
     if r.status_code == 200:
         return parse_crossref(r.json())
     return None
+
+def detect_pattern_type(query):
+    doi_pattern = r'^10\.'
+    mag_pattern = r'\bmag*'
+    pmid_pattern = r'\bpmid*'
+
+    addition = ''
+    detected = "search="
+    if re.match(doi_pattern, query):
+        detected = "filter=doi:"
+    elif re.match(mag_pattern, query):
+        detected = "filter=mag:"
+    elif re.match(pmid_pattern, query):
+        detected = "filter=pmid:"
+
+
+    return detected
+
+
+def search_type(query):
+
+
+    pattern = detect_pattern_type(query)
+    addition = ''
+
+    if pattern == "search=":
+        return None
+    
+    query = query.lower()
+    pattern_kwargs = {f"{pattern[7:-1]}": query}
+    article = Artical.objects.filter(**pattern_kwargs).first() 
+
+    if article:
+        return article.pk
+        
+    fetch_openalex(pattern, query, addition)
+
+    return Artical.objects.filter(**pattern_kwargs).first().pk 
+# param_for_api = self.request.GET.get("scope")
+
+        
+#         if query:
+#             query_type = detect_pattern_type(query)
+#             addition = ''
+
+#             if query_type !=  "search=":
+#                 query = query.lower()
+#                 filter_kwargs = {f"{query_type[7:-1]}": query}
+
+#                 if not Artical.objects.filter(**filter_kwargs).first():          
+#                     fetch_openalex(query_type, query, addition)
+#                 return redirect(
+#                     reverse("catalog:work_detail", kwargs={'pk': Artical.objects.get(**filter_kwargs).pk})
+#                 )
+            
+#             addition = "&per-page=50" 
+#             query = query.replace(' ', '+')   
+
+#             if param_for_api:
+#                 print(f"{type} и {addition}")
+#                 fetch_openalex(query_type, query, addition)
+
+#             query_set = query_set.filter(
+#                 Q(title__icontains = query) |
+#                 Q(articlemainauthor__main_initials__icontains = query)
+#             )
+
+
+
 
 
 

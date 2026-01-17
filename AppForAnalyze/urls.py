@@ -21,7 +21,8 @@ from AppForAnalyze.settings import DEBUG
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls', namespace='main')),
-    path('search/', include('onearticle.urls', namespace='onearticle'))
+    path('search/', include('onearticle.urls', namespace='onearticle')),
+    path('catalog/', include('catalog.urls', namespace='catalog')),
 ]
 
 if DEBUG:

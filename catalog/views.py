@@ -1,0 +1,157 @@
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import ListView, DetailView
+from django.template.response import TemplateResponse
+from django.urls import reverse
+from django.db.models import Q, OuterRef, Subquery
+
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
+
+from modules.utils import fetch_openalex, search_type
+
+from common.mixins import CitiationMixin, GraphMixin
+
+
+class CatalogView(ListView):
+    model = Artical
+    template_name = "catalog.html"
+    context_object_name = "articles"
+
+    def get_queryset(self):
+        query_set =  Artical.objects.all()
+
+        query_set = query_set.annotate(
+            main_author_initials=Subquery(
+            ArticleMainAuthor.objects
+            .filter(article=OuterRef('pk'))
+            .values('main_initials')[:1]
+            ),
+            publish_date=Subquery(
+            ArticalDate.objects
+            .filter(article=OuterRef('pk'))
+            .values('date_of_artical')[:1]
+            ),
+            update_date = Subquery(
+            ArticalDate.objects
+            .filter(article=OuterRef('pk'))
+            .values('date_of_last_update')[:1]
+            ),
+            cite_count=Subquery(
+            ArticalCiteData.objects
+            .filter(article=OuterRef('pk'))
+            .values('reference_count')[:1]
+            ),
+            )
+        
+        query = self.request.GET.get('q')
+        param_for_api = self.request.GET.get("scope")
+
+        if query:
+        
+            if param_for_api:
+                fetch_openalex("search=", query, optional="&per-page=50")
+
+            query_set = query_set.filter(
+            Q(title__icontains=query) |
+            Q(articlemainauthor__main_initials__icontains=query)
+            )
+        
+        filtering = True # Заглушка для фильтрации
+        if filtering:
+            ...
+
+        return query_set
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["name"] = "catalog"   
+
+        return context
+    
+    def get(self, request, *args, **kwargs):
+
+        query = self.request.GET.get('q')
+        print(self.request.get_full_path_info)
+
+        if query:
+            qs = search_type(query)
+
+            if qs:
+                return redirect(
+                    reverse("catalog:work_detail", kwargs={'pk': qs})
+                )
+
+        return super().get(request, *args, **kwargs)
+
+
+    
+class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
+    model = Artical
+    template_name = "work_detail.html"
+    slug_field = 'pk'
+    slug_url_kwarg = 'pk'
+    context_object_name = "article"
+
+    def get_query_set(self):
+
+        query_set =  Artical.objects.prefetch_related(
+            'articalciteinformation_set',
+            'articaldate_set',
+            'articalcitedata_set',
+            'articlemainauthor_set',
+            'articleciteperyear_set',
+            'articleotherauthor_set',
+        ).get(pk = self.kwargs.get(self.slug_url_kwarg))
+
+        return query_set
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["name"] = "Статья"
+
+        article = context["article"]
+
+        context["artical_cite_information"] = article.articalciteinformation_set.first()
+        context["artical_date"] = article.articaldate_set.first()
+        context["article_main_author"] = article.articlemainauthor_set.first()
+        context["artical_cite_data"] = article.articalcitedata_set.first()
+
+        return context
+    
+
+
+
+
+
+
+
+
+
+# query = self.request.GET.get('q')
+        # param_for_api = self.request.GET.get("scope")
+
+        
+        # if query:
+        #     query_type = search_type(query)
+        #     addition = ''
+
+        #     if query_type !=  "search=":
+        #         query = query.lower()
+        #         filter_kwargs = {f"{query_type[7:-1]}": query}
+
+        #         if not Artical.objects.filter(**filter_kwargs).first():          
+        #             fetch_openalex(query_type, query, addition)
+        #         return redirect(
+        #             reverse("catalog:work_detail", kwargs={'pk': Artical.objects.get(**filter_kwargs).pk})
+        #         )
+            
+        #     addition = "&per-page=50" 
+        #     query = query.replace(' ', '+')   
+
+        #     if param_for_api:
+        #         print(f"{type} и {addition}")
+        #         fetch_openalex(query_type, query, addition)
+
+        #     query_set = query_set.filter(
+        #         Q(title__icontains = query) |
+        #         Q(articlemainauthor__main_initials__icontains = query)
+        #     )

@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Artical(models.Model):
-    title = models.CharField(max_length=150, blank=False, verbose_name="Название")
+    title = models.CharField(max_length=300, blank=False, verbose_name="Название")
     doi = models.CharField(unique=True, max_length=100, blank=False, null=False, verbose_name="DOI")
     mag = models.CharField(unique=True, max_length=50, blank=True, null=True, verbose_name="MircoSoftAG")
     pubmed = models.CharField(unique=True, max_length=100, blank=True, null=True, verbose_name="PubMedId")
@@ -22,7 +22,7 @@ class Artical(models.Model):
 
 class ArticalCiteInformation(models.Model):
     article = models.ForeignKey(to=Artical, on_delete=models.CASCADE,  null=True, verbose_name="Статья")
-    journal_name = models.CharField(max_length=100, blank=True, null=True, verbose_name="Имя журнала")
+    journal_name = models.CharField(max_length=200, blank=True, null=True, verbose_name="Имя журнала")
     pages = models.CharField(max_length=30, blank=True, null=True, verbose_name="Страницы")
     volume = models.CharField(max_length=20, blank=True, null=True, verbose_name="Том")
     issue = models.CharField(max_length=20, blank=True, null=True, verbose_name="Проблема")
