@@ -168,19 +168,18 @@ def fetch_crossref(doi):
 
 def detect_pattern_type(query):
     doi_pattern = r'^10\.'
-    mag_pattern = r'\bmag*'
-    pmid_pattern = r'\bpmid*'
+    mag_pattern = r'^mag\d'
+    pmid_pattern = r'^pubmed\d'
 
-    addition = ''
     detected = "search="
     if re.match(doi_pattern, query):
         detected = "filter=doi:"
+
     elif re.match(mag_pattern, query):
         detected = "filter=mag:"
+
     elif re.match(pmid_pattern, query):
         detected = "filter=pmid:"
-
-
     return detected
 
 
@@ -194,7 +193,14 @@ def search_type(query):
         return None
     
     query = query.lower()
+
+    if pattern != "filter=doi:":
+        first_num_include = re.compile(r'\d')
+        first_include_index = re.search(first_num_include, query)
+        query = query[first_include_index.start():]
+
     pattern_kwargs = {f"{pattern[7:-1]}": query}
+    print(pattern_kwargs)
     article = Artical.objects.filter(**pattern_kwargs).first() 
 
     if article:
@@ -203,6 +209,8 @@ def search_type(query):
     fetch_openalex(pattern, query, addition)
 
     return Artical.objects.filter(**pattern_kwargs).first().pk 
+
+
 # param_for_api = self.request.GET.get("scope")
 
         

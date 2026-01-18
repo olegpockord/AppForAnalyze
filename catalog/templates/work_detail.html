@@ -19,7 +19,9 @@
                     <p><i class="fas fa-book icon"></i> <strong>Журнал:</strong> {{ artical_cite_information.journal_name }}</p>
                     <p><i class="fas fa-calendar icon"></i> <strong>Год публикации:</strong> {{ artical_date.date_of_artical }}</p>
                     <p><i class="fas fa-cogs icon"></i> <strong>DOI:</strong> {{ article.doi }}</p>
+                    {% if article.issn %}
                     <p><i class="fas fa-cogs icon"></i> <strong>ISSN:</strong> {{ article.issn }}</p>
+                    {% endif %}
                     {% if  article.isbn %}
                     <p><i class="fas fa-cogs icon"></i> <strong>ISBN:</strong> {{ article.isbn }}</p>
                     {% endif %}

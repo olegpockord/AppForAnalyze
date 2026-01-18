@@ -6,7 +6,7 @@ class Artical(models.Model):
     title = models.CharField(max_length=300, blank=False, verbose_name="Название")
     doi = models.CharField(unique=True, max_length=100, blank=False, null=False, verbose_name="DOI")
     mag = models.CharField(unique=True, max_length=50, blank=True, null=True, verbose_name="MircoSoftAG")
-    pubmed = models.CharField(unique=True, max_length=100, blank=True, null=True, verbose_name="PubMedId")
+    pmid = models.CharField(unique=True, max_length=100, blank=True, null=True, verbose_name="PubMedId")
     issn = models.CharField(max_length=50, blank=True, null=True, verbose_name="ISSN")
     isbn = models.CharField(max_length=50, blank=True, null=True, verbose_name="ISBN")
     source = models.CharField(max_length=20, blank=False, null=True, verbose_name="Источник")
