@@ -70,7 +70,6 @@ class CatalogView(ListView):
     def get(self, request, *args, **kwargs):
 
         query = self.request.GET.get('q')
-        print(self.request.get_full_path_info)
 
         if query:
             qs = search_type(query)
@@ -101,7 +100,9 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
             Prefetch('articleciteperyear_set', 
                      queryset=ArticleCitePerYear.objects.all(),
                      to_attr='citing_per_year'),
-            'articleotherauthor_set',
+            Prefetch('articleotherauthor_set',
+                     queryset=ArticleOtherAuthor.objects.all(),
+                     to_attr="other_authors"),
         )
 
         return query_set
@@ -121,7 +122,13 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
 
         graph = self.graph_create(article)
 
+        cite_types = self.create_cite_data(article, context["artical_date"], context["article_main_author"], context["artical_cite_information"])
+
         context["graph"] = graph
+        context["gost"] = cite_types["GOST"]
+        context["mla"] = cite_types["MLA"]
+
+
 
         return context
     
