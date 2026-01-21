@@ -5,6 +5,10 @@ from django.core.cache import cache
 import io, base64
 import matplotlib
 import matplotlib.pyplot as plt
+from nameparser import HumanName
+from nameparser.config import CONSTANTS
+import copy
+
 
 
 class GraphMixin:
@@ -61,21 +65,192 @@ class GraphMixin:
     
 class CitiationMixin:
 
-    def author_parser(self, main_author, other_authors, sourse):
+    C = copy.deepcopy(CONSTANTS)
+
+    def extended_constants(self):
+
+        prefixes = [
+            # Arabic / Semitic:
+            "al", "al-", "al'", "al shaikh", "al-sheikh", "ibn", "bin", "bint", "ben",
+            "abu", "abu-", "ibn al", "bint al", "ibn al-",
+
+            # Urdu / Persian / South Asian connectors and common multiword forms:
+            "ur", "ur-", "ur ", "ullah", "ulla", "khan", "khawaja", "khwaja", "zada",
+            "zada-", "ullah-", "ulla-", "bhai",
+
+            # South/SE Asian honorific connectors (often part of family-name clusters):
+            "bai", "begum", "bibi", "rao", "shah", "ahmed", "singh",  # NOTE: 'singh' often IS a surname but seen as connector in some records
+
+            # Romance / Iberian / Latin:
+            "de", "del", "de la", "de las", "de los", "dos", "das", "do", "da", "di",
+            "della", "della", "d'", "d’", "du", "des", "de le",
+
+            # Spanish multiword particles:
+            "y", "y de", "y del",
+
+            # Dutch / Flemish / Afrikaans:
+            "van", "van de", "van der", "van den", "van 't", "vander", "van het",
+
+            # Germanic / Austrian / Swiss:
+            "von", "zu", "zum", "zur", "vom", "von der", "von den", "freiherr", "freifrau",
+
+            # French:
+            "le", "la", "du", "des", "de la",
+
+            # Celtic / Gaelic:
+            "mac", "mc", "o'", "o’", "fitz",
+
+            # Italian:
+            "della", "del", "d'", "de'",
+
+            # Portuguese / Brazilian:
+            "da", "das", "dos", "do", "dos santos", "dos Reis",
+
+            # Malay / Indonesian / SE Asia:
+            "bin", "binti", "bte", "bte.", "binti-", "bin-",
+
+            # Other multiword/rare but encountered in metadata:
+            "af", "al-qahtani", "al qasimi", "al farsi", "al-farsi", "de la cruz", "de la fuente",
+            "van de venen", "van den berg", "van berg"
+        ]
+
+        for p in set([s.strip().lower() for s in prefixes if s and not s.isspace()]):
+            self.C.prefixes.add(p)
         
+        suffix_not_acronyms = [
+        "jr", "sr", "ii", "iii", "iv", "v", "esq", "qc", "kc", "ret"
+        ]
+        for s in suffix_not_acronyms:
+            self.C.suffix_not_acronyms.add(s)
+        
+        cap_exceptions = {
+        # Romance / Dutch / Germanic
+        "de": "de",
+        "del": "del",
+        "de la": "de la",
+        "de los": "de los",
+        "van": "van",
+        "van der": "van der",
+        "van den": "van den",
+        "van 't": "van 't",
+        "von": "von",
+        "zu": "zu",
+        "le": "le",
+        "la": "la",
+        "du": "du",
+        "dos": "dos",
+        "da": "da",
+        "der": "der",
+        # Arabic / South Asian
+        "al": "al",
+        "al-": "al-",
+        "ibn": "ibn",
+        "bin": "bin",
+        "binti": "binti",
+        "ur": "ur",
+        "ullah": "ullah",
+        # Celtic / Gaelic
+        "mac": "mac",
+        "mc": "mc",
+        "o'": "o'",
+        }
+        self.C.capitalization_exceptions.update(cap_exceptions)
+
+        return self.C
+    
+    def to_mla_cite(self, human_initials, reversed = False):
+        #MLA type -> Last, first middle. or Last, first.
+
+        last_name = human_initials.last
+        first_name = human_initials.first
+        middle_name = human_initials.middle
+
+        if middle_name:
+            full_mla_name = f"{last_name}, {first_name} {middle_name}."
+
+        else:
+            full_mla_name = f"{last_name}, {first_name.rstrip('.')}."
+
+
+        if reversed:
+            if middle_name:
+                full_mla_name = f"{middle_name} {first_name} {last_name}"
+            else:
+                full_mla_name = f"{first_name} {last_name}"
+
+        return full_mla_name
+
+
+
+    def to_gost_cite(self, human_initials):
+        #GOST type -> Last first[0]. middle[0]. or Last first[0].
+        
+        last_name = human_initials.last
+        first_name = human_initials.first
+        middle_name = human_initials.middle
+
+        if middle_name:
+            full_gost_name = f"{last_name} {first_name[0]}. {human_initials.middle[0]}."
+        else:
+            full_gost_name = f"{last_name} {first_name[0]}."
+
+        return full_gost_name
+
+
+    def author_parser(self, main_author, other_authors):
+        C = self.extended_constants()
+
+
         other_authors_len = len(other_authors)
 
-        main_author = main_author.split()
+        author_initials = HumanName(main_author, constants=C)
 
-        if sourse == "openalex":
-            main_author = main_author[::-1]
+        main_author_gost_name = self.to_gost_cite(author_initials)
+        main_author_mla_name = self.to_mla_cite(author_initials)
 
-            other_authors = [i.split()[::-1] for i in other_authors] # Проверить
+        prepared_main_author_mla_name = main_author_mla_name[:-1] if main_author_mla_name.endswith("..") else main_author_mla_name.rstrip('.') # ".." if middle name present
+
+        if other_authors_len == 0:
+            return {
+                "mla": f"{prepared_main_author_mla_name.rstrip('.')}.",
+                "gost": main_author_gost_name,
+            }
+        
+        if other_authors_len > 2:
+            return {
+                "mla": f"{prepared_main_author_mla_name}, et al.",
+                "gost": f"{main_author_gost_name} et al.",
+            }
+
+        other_mla_citing = []
+        main_author_mla_name = ""
+
+        for x in other_authors:
+            author_initials = HumanName(x, constants=C)
+            other_author_gost_name = self.to_gost_cite(author_initials)
+            main_author_gost_name = f"{main_author_gost_name}, {other_author_gost_name}"
+            other_author_mla_name = self.to_mla_cite(author_initials, reversed=True)
+            other_mla_citing.insert(0, other_author_mla_name)
+
+        main_author_mla_name = f"{prepared_main_author_mla_name}, and {other_mla_citing[0]}."
+
+        if len(other_mla_citing) > 1:
+            main_author_mla_name = f"{prepared_main_author_mla_name}, {other_mla_citing[1]}, and {other_mla_citing[0]}."
+        
+        return {
+            "mla": main_author_mla_name,
+            "gost": main_author_gost_name,
+        }
+
+            
+
+        
+        
 
 
     def create_cite_data(self, artical_info, artical_date_info, artical_main_other, article_data_for_cite):
         title = artical_info.title
-        source = artical_info.source
+
 
         date = artical_date_info.date_of_artical
         
@@ -87,39 +262,26 @@ class CitiationMixin:
         main_author = artical_main_other.main_initials
 
         other_authors = artical_info.other_authors
-
         other_authors = [i.other_initials for i in other_authors]
 
-        other_authors_len = len(other_authors)
+        authors = self.author_parser(main_author, other_authors)
 
-        authors = self.author_parser(main_author, other_authors, source)
+        author_gost = authors["gost"]
+        author_mla = authors["mla"]
 
-
-        if other_authors_len > 2:
-            ... # Если их больше двух, то в цитировании они будут et. al.
-
-        if other_authors_len == 0:
-            ... # Если их нету, то и прибавлять нечего, будет влиять на запятую в конце основного автора в конце инициалов
+        # main_author_len = len(main_author)
 
 
-        main_author_len = len(main_author)
+        # author_gost = f"{main_author[0]} {main_author[1][0:1]}. et. al."
+        # author_mla = f"{main_author[0]}, {main_author[1]}, et. al."
 
-        if source == "openalex":
-            main_author = main_author[::-1]
+        # if main_author_len == 3:
+        #     author_gost = f"{main_author[0]} {main_author[1][0:1]}. {main_author[2]} et. al."
+        #     author_mla = f"{main_author[0]}, {main_author[1]} {main_author[2]}, et. al."
 
-            if main_author_len == 3:
-                main_author[1], main_author[2] = main_author[2], main_author[1]
-
-        author_gost = f"{main_author[0]} {main_author[1][0:1]}. et. al."
-        author_mla = f"{main_author[0]}, {main_author[1]}, et. al."
-
-        if main_author_len == 3:
-            author_gost = f"{main_author[0]} {main_author[1][0:1]}. {main_author[2]} et. al."
-            author_mla = f"{main_author[0]}, {main_author[1]} {main_author[2]}, et. al."
-
-        elif main_author_len == 4:
-            author_gost = f"{main_author[0].capitalize()} {main_author[1].capitalize()} {main_author[2]} {main_author[3][0:1]}. et. al."
-            author_mla = f"{main_author[0].capitalize()} {main_author[1].capitalize()} {main_author[2]}, {main_author[3]}, et. al."
+        # elif main_author_len == 4:
+        #     author_gost = f"{main_author[0].capitalize()} {main_author[1].capitalize()} {main_author[2]} {main_author[3][0:1]}. et. al."
+        #     author_mla = f"{main_author[0].capitalize()} {main_author[1].capitalize()} {main_author[2]}, {main_author[3]}, et. al."
 
         cite_data_set = {}
 

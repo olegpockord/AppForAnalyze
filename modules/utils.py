@@ -35,7 +35,7 @@ def parse_openalex(response):
                 title = title,
                 doi = doi,
                 mag = mag,
-                pubmed = pmid,
+                pmid = pmid,
                 issn = issn,
                 isbn = isbn,
                 source = "openalex",
@@ -136,7 +136,7 @@ def parse_crossref(response):
     for i, some_author in enumerate(authorship):
         first_name = some_author.get("given")
         last_name = some_author.get("family")
-        author = f"{last_name} {first_name}"
+        author = f"{first_name} {last_name}"
 
         if i == 0:
             first_author = author # После этого уже можно добавлять главного автора

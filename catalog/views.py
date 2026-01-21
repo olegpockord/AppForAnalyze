@@ -42,7 +42,7 @@ class CatalogView(ListView):
             ),
             )
         
-        query = self.request.GET.get('q')
+        query = self.request.GET.get('q') # Доделать чтобы передавались плюсы
         param_for_api = self.request.GET.get("scope")
 
         if query:
@@ -70,6 +70,7 @@ class CatalogView(ListView):
     def get(self, request, *args, **kwargs):
 
         query = self.request.GET.get('q')
+        print(query)
 
         if query:
             qs = search_type(query)
