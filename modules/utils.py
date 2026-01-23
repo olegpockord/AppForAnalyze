@@ -188,11 +188,12 @@ def search_type(query):
 
     pattern = detect_pattern_type(query)
     addition = ''
+    print(pattern)
 
     if pattern == "search=":
         return None
     
-    query = query.lower()
+    query = query.lower().strip()
 
     if pattern != "filter=doi:":
         first_num_include = re.compile(r'\d')

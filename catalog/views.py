@@ -46,6 +46,8 @@ class CatalogView(ListView):
         param_for_api = self.request.GET.get("scope")
 
         if query:
+
+            query = query.strip().replace(' ', '+')
         
             if param_for_api:
                 fetch_openalex("search=", query, optional="&per-page=50")

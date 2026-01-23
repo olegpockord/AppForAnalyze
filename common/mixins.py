@@ -21,7 +21,7 @@ class GraphMixin:
 
         source = article_data_set.source
 
-        if source == "openalex":
+        if source == "openalex" and citing_per_year_set:
             years = [i.year for i in citing_per_year_set]
             citiations = [i.citiation for i in citing_per_year_set]
 
@@ -159,7 +159,7 @@ class CitiationMixin:
         return self.C
     
     def to_mla_cite(self, human_initials, reversed = False):
-        #MLA type -> Last, first middle. or Last, first.
+        #MLA like type -> Last, first middle. or Last, first.
 
         last_name = human_initials.last
         first_name = human_initials.first
@@ -183,7 +183,7 @@ class CitiationMixin:
 
 
     def to_gost_cite(self, human_initials):
-        #GOST type -> Last first[0]. middle[0]. or Last first[0].
+        #GOST like type -> Last first[0]. middle[0]. or Last first[0].
         
         last_name = human_initials.last
         first_name = human_initials.first
@@ -269,27 +269,12 @@ class CitiationMixin:
         author_gost = authors["gost"]
         author_mla = authors["mla"]
 
-        # main_author_len = len(main_author)
-
-
-        # author_gost = f"{main_author[0]} {main_author[1][0:1]}. et. al."
-        # author_mla = f"{main_author[0]}, {main_author[1]}, et. al."
-
-        # if main_author_len == 3:
-        #     author_gost = f"{main_author[0]} {main_author[1][0:1]}. {main_author[2]} et. al."
-        #     author_mla = f"{main_author[0]}, {main_author[1]} {main_author[2]}, et. al."
-
-        # elif main_author_len == 4:
-        #     author_gost = f"{main_author[0].capitalize()} {main_author[1].capitalize()} {main_author[2]} {main_author[3][0:1]}. et. al."
-        #     author_mla = f"{main_author[0].capitalize()} {main_author[1].capitalize()} {main_author[2]}, {main_author[3]}, et. al."
-
         cite_data_set = {}
 
-        check_volume_gost = f"— T.{volume}.—"
-        empty_string = ""
+        check_volume_gost = f"— T.{volume}."
 
-        gost_cite = f"{author_gost} {title} //{journal}. — {date.year}. {check_volume_gost if volume else empty_string} {chr(8470)+chr(46)+chr(32)+issue if issue else empty_string} —C. {pages}"
-        mla_cite = f"{author_mla} {chr(34)+title+chr(34)} {journal} {volume if volume else empty_string}{chr(46) + issue if issue else empty_string} {chr(40)+str(date.year)+chr(41)}: {pages}"
+        gost_cite = f"{author_gost} {title} //{journal if journal else 'No information found about journal'}. — {date.year}. {check_volume_gost if volume else ''} {'—№. '+issue if issue else ''} —C. {pages}"
+        mla_cite = f"{author_mla} {chr(34)+title+chr(34)} {journal if journal else 'No information found about journal'} {volume if volume else ''}{'.' + issue if issue else ''} {chr(40)+str(date.year)+chr(41)}: {pages}"
 
         cite_data_set = {
             "GOST": gost_cite,
