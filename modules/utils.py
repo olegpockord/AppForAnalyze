@@ -30,7 +30,7 @@ def new_parse_open_alex(response):
 
     for elem_num in range(n):
         element = raw_json[elem_num]
-        if element.get("ids").get("doi") and element.get("authorships"):
+        if element.get("ids").get("doi") and element.get("authorships") and element.get("title"):
             title = element.get("title")
 
             if "<" in title:
@@ -67,7 +67,8 @@ def new_parse_open_alex(response):
 
     created_articles = Artical.objects.filter(doi__in = [i.doi for i in articles_to_create])
     articles_by_doi = {i.doi: i for i in created_articles}
-    elements_with_doi = set(created_articles.values_list('doi', flat=True))
+    # elements_with_doi = set(created_articles.values_list('doi', flat=True))
+    elements_with_doi = {i.doi for i in articles_by_doi.values()}
 
     for elem_num in range(n):
         element = raw_json[elem_num]
