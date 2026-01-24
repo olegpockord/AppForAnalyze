@@ -28,6 +28,11 @@
     
         <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" {% if request.GET.q %}value="{{ request.GET.q }}{% endif %}">
         {% if request.resolver_match.route|slice:":8" != 'catalog/' %}<input type="hidden" name="scope" value="internal">{% endif %}
+        {% if request.path == '/catalog/' %}
+        <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#filterModal">
+            <i class="fas fa-sliders-h"></i>
+        </button>
+        {% endif %}
         <button class="btn btn-outline-success text-blue" type="submit">Поиск</button>
     </div>
 

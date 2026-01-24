@@ -16,6 +16,13 @@ class CatalogView(ListView):
     template_name = "catalog.html"
     context_object_name = "articles"
 
+    SORT_MAPPING = {
+        "default": "pk",
+        "latest": "-publish_date",
+        "mostcited": "-cite_count",
+        "uplouddate": "-update_date",
+    }
+
     def get_queryset(self):
         query_set =  Artical.objects.all()
 
@@ -42,8 +49,9 @@ class CatalogView(ListView):
             ),
             )
         
-        query = self.request.GET.get('q') # Доделать чтобы передавались плюсы
+        query = self.request.GET.get('q')
         param_for_api = self.request.GET.get("scope")
+
 
         if query:
 
@@ -57,22 +65,27 @@ class CatalogView(ListView):
             Q(articlemainauthor__main_initials__icontains=query)
             )
         
-        filtering = True # Заглушка для фильтрации
-        if filtering:
-            ...
+
 
         return query_set
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["name"] = "catalog"   
+        context["name"] = "catalog"
+
+        sort_param = self.request.GET.get("sort")
+
+        if sort_param:
+            param = self.SORT_MAPPING.get(sort_param, 'pk')
+            context.update({
+                "articles": context["articles"].order_by(param)
+            })   
 
         return context
     
     def get(self, request, *args, **kwargs):
 
         query = self.request.GET.get('q')
-        print(query)
 
         if query:
             qs = search_type(query)
@@ -122,7 +135,6 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
         context["article_main_author"] = article.articlemainauthor_1[0]
         context["artical_cite_data"] = article.articalcitedata_1[0]
 
-
         graph = self.graph_create(article)
 
         cite_types = self.create_cite_data(article, context["artical_date"], context["article_main_author"], context["artical_cite_information"])
@@ -130,7 +142,6 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
         context["graph"] = graph
         context["gost"] = cite_types["GOST"]
         context["mla"] = cite_types["MLA"]
-
 
 
         return context

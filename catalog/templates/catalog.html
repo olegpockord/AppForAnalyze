@@ -32,4 +32,50 @@
         {% endfor %}
     </div>
 </div>
+
+<div class="modal fade" id="filterModal" tabindex="1" aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="filterModalLabel">Сортировка статей</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="d-flex flex-column" role="sort" action="{% url 'catalog:catalog_all'%}" method="get">
+      {% for key, value in request.GET.items %}
+        {% if key != "sort" %}
+        <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endif %}
+      {% endfor %}
+      <div class="modal-body">
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="sort" value="default" id="chkDef"
+                    {% if not request.GET.sort or request.GET.sort == 'default'%}checked{% endif %}>
+                <label class="form-check-label" for="chkDef">По умолчанию</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="sort" value="latest" id="chkLatest"
+                    {% if request.GET.sort == 'latest'%}checked{% endif %}>
+                <label class="form-check-label" for="chkLatest">Самые последние</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="sort" value="mostcited" id="chkCite"
+                    {% if request.GET.sort == 'mostcited'%}checked{% endif %}>    
+                <label class="form-check-label" for="chkCite">Самые цитируемые</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="sort" value="uplouddate" id="chkYear"
+                    {% if request.GET.sort == 'uplouddate'%}checked{% endif %}>  
+                <label class="form-check-label" for="chkYear">Добавленные недавно</label>
+            </div>
+            <div class="mt-auto d-flex justify-content-end pt-3">
+                <button type="submit" class="btn btn-primary">
+                Применить
+                </button>
+            </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock  %}
