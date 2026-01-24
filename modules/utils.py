@@ -8,8 +8,176 @@ from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInform
 from django.db import transaction
 from django.http import Http404
 
+def new_parse_open_alex(response):
+    articles_to_create = []
+    articles_cite_informaion_to_create = []
+    articles_date_to_create = []
+    articles_cite_data_to_create = []
+    articles_citing_per_years_to_create = []
+    main_authors_to_create = []
+    other_authors_to_create = []
+
+    raw_json = response["results"]
+    print(raw_json)
+
+    exists_doi = set(Artical.objects.filter(doi__in=[
+       element.get("ids").get("doi")[16:].lower() for element in raw_json 
+       if element.get("ids").get("doi")
+    ]).values_list('doi', flat=True))
+
+    n = len(raw_json)
+
+
+    for elem_num in range(n):
+        element = raw_json[elem_num]
+        if element.get("ids").get("doi") and element.get("authorships"):
+            title = element.get("title")
+
+            if "<" in title:
+                title = BeautifulSoup(title, "html.parser").get_text()
+            if len(title) > 298:
+                continue
+
+            ids = element.get("ids")
+            doi = ids.get("doi")[16:].lower()
+
+            if doi in exists_doi:
+                continue
+
+            mag = ids.get("mag")
+            pmid = ids.get("pmid")[32:] if ids.get("pmid") else None
+
+            source_of_elem = element.get("primary_location").get("source")
+            issn_list = source_of_elem.get("issn") if source_of_elem else None
+            issn = issn_list[0] if issn_list and len(issn_list) >= 1 else None
+            isbn = issn_list[1] if issn_list and len(issn_list) > 1 else None
+
+            article = Artical(
+                title = title,
+                doi = doi,
+                mag = mag,
+                pmid = pmid,
+                issn = issn,
+                isbn = isbn,
+                source = "openalex"
+            )
+            articles_to_create.append(article)
+
+    Artical.objects.bulk_create(articles_to_create)
+
+    created_articles = Artical.objects.filter(doi__in = [i.doi for i in articles_to_create])
+    articles_by_doi = {i.doi: i for i in created_articles}
+    elements_with_doi = set(created_articles.values_list('doi', flat=True))
+
+    for elem_num in range(n):
+        element = raw_json[elem_num]
+        if element.get("ids").get("doi") and element.get("ids").get("doi")[16:].lower() in elements_with_doi:
+
+            doi = element.get("ids").get("doi")[16:].lower()
+            article = articles_by_doi.get(doi)
+
+            biblio = element.get("biblio")
+            journal_name = source_of_elem.get("display_name") if source_of_elem else None
+            first_page = biblio.get("first_page")
+            last_page = biblio.get("last_page")
+            volume = biblio.get("volume")
+            issue = biblio.get("issue")
+
+            article_cite_information = ArticalCiteInformation(
+                article = article,
+                journal_name = journal_name,
+                pages = f"{first_page}-{last_page}",
+                volume = volume,
+                issue = issue
+            )
+
+            articles_cite_informaion_to_create.append(article_cite_information)
+
+            date_of_artical = datetime.strptime(element.get("publication_date"), "%Y-%m-%d").date()
+
+            artical_date = ArticalDate(
+                article = article,
+                date_of_artical = date_of_artical,
+            )
+
+            articles_date_to_create.append(artical_date)
+
+            cited_by_count = int(element.get("cited_by_count"))
+            reference_in_work = int(element.get("referenced_works_count"))
+
+            artical_cite_data = ArticalCiteData(
+                article = article,
+                reference_count = cited_by_count,
+                reference_in_work = reference_in_work
+            )
+
+            articles_cite_data_to_create.append(artical_cite_data)
+
+            citing_by_years = element.get("counts_by_year")
+
+            for citing in citing_by_years:
+                year = int(citing['year'])
+                citiation = int(citing['cited_by_count'])
+
+                article_cite_per_year = ArticleCitePerYear(
+                    article = article,
+                    year = year,
+                    citiation = citiation,
+                )
+                articles_citing_per_years_to_create.append(article_cite_per_year)
+            
+
+            authorships = element.get("authorships")
+
+            for i, some_author in enumerate(authorships):
+                author = some_author.get("author").get("display_name")
+
+                if author.find('.', 0, 3) == 1 and author[2] != ' ': # Helps with "A.A. Last" problem -> A. A. Last
+                    author = f"{author[:2]} {author[2:]}"
+
+                if i == 0:
+                    first_author = author
+
+                    article_main_author = ArticleMainAuthor(
+                        article = article,
+                        main_initials = first_author,
+                    )
+
+                    main_authors_to_create.append(article_main_author)
+                
+                else:
+                    other_author = author
+
+                    article_other_author = ArticleOtherAuthor(
+                        article = article,
+                        other_initials = other_author,
+                    )
+
+                    other_authors_to_create.append(article_other_author)
+
+                if i >= 3: break
+
+    print(articles_to_create)
+    print(articles_cite_informaion_to_create)
+    print(articles_date_to_create)
+    print(articles_cite_data_to_create)
+    print(articles_citing_per_years_to_create)
+    print(main_authors_to_create)
+    print(other_authors_to_create)
+
+    with transaction.atomic():
+        ArticalCiteInformation.objects.bulk_create(articles_cite_informaion_to_create)
+        ArticalDate.objects.bulk_create(articles_date_to_create)
+        ArticalCiteData.objects.bulk_create(articles_cite_data_to_create)
+        ArticleCitePerYear.objects.bulk_create(articles_citing_per_years_to_create)
+        ArticleMainAuthor.objects.bulk_create(main_authors_to_create)
+        ArticleOtherAuthor.objects.bulk_create(other_authors_to_create)
+
+
+
 ###### Супер не оптимально. В дальнейшем исправить
 def parse_openalex(response):
+    new_parse_open_alex(response)
     raw_json = response["results"]
     for num, x in enumerate(raw_json):
         element = raw_json[num]
@@ -151,7 +319,7 @@ def fetch_openalex(type, query, optional):
 
     r = requests.get(url, timeout=10)
     if r.status_code == 200 and len(r.json()["results"]) != 0:
-        return parse_openalex(r.json())
+        return new_parse_open_alex(r.json())
     elif type == "doi":
         return fetch_crossref(query)
     else:
@@ -188,7 +356,8 @@ def search_type(query):
 
     pattern = detect_pattern_type(query)
     addition = ''
-    print(pattern)
+
+
 
     if pattern == "search=":
         return None

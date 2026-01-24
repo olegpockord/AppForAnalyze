@@ -53,6 +53,7 @@ class ArticleOtherAuthorInline(admin.TabularInline):
 @admin.register(Artical)
 class ArticalAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "title",
         "doi",
     )
