@@ -18,7 +18,6 @@ def new_parse_open_alex(response):
     other_authors_to_create = []
 
     raw_json = response["results"]
-    print(raw_json)
 
     exists_doi = set(Artical.objects.filter(doi__in=[
        element.get("ids").get("doi")[16:].lower() for element in raw_json 
@@ -67,7 +66,6 @@ def new_parse_open_alex(response):
 
     created_articles = Artical.objects.filter(doi__in = [i.doi for i in articles_to_create])
     articles_by_doi = {i.doi: i for i in created_articles}
-    # elements_with_doi = set(created_articles.values_list('doi', flat=True))
     elements_with_doi = {i.doi for i in articles_by_doi.values()}
 
     for elem_num in range(n):
@@ -158,14 +156,6 @@ def new_parse_open_alex(response):
 
                 if i >= 3: break
 
-    print(articles_to_create)
-    print(articles_cite_informaion_to_create)
-    print(articles_date_to_create)
-    print(articles_cite_data_to_create)
-    print(articles_citing_per_years_to_create)
-    print(main_authors_to_create)
-    print(other_authors_to_create)
-
     with transaction.atomic():
         ArticalCiteInformation.objects.bulk_create(articles_cite_informaion_to_create)
         ArticalDate.objects.bulk_create(articles_date_to_create)
@@ -175,143 +165,89 @@ def new_parse_open_alex(response):
         ArticleOtherAuthor.objects.bulk_create(other_authors_to_create)
 
 
+def new_parse_crossref(response):
+    other_authors_to_create = []   
 
-###### Супер не оптимально. В дальнейшем исправить
-def parse_openalex(response):
-    new_parse_open_alex(response)
-    raw_json = response["results"]
-    for num, x in enumerate(raw_json):
-        element = raw_json[num]
+    element = response["message"]
+    
+    if element.get("author"):
+        title = element.get("title")[0]
+        doi = element.get("DOI").lower()
+        issn_list = element.get("ISSN")
+        issn = issn_list[0] if issn_list and len(issn_list) >= 1 else None
+        isbn = issn_list[1] if issn_list and len(issn_list) > 1 else None
 
-        if element.get("ids").get("doi") and element.get("authorships"):
-            title = element.get("title")
-            title = BeautifulSoup(title, "html.parser").get_text()
-            if len(title) > 298: continue
-            ids = element.get("ids")
-            doi = ids.get("doi")[16:].lower()
-            mag = ids.get("mag")
-            pmid = ids.get("pmid")[32:] if ids.get("pmid") else None
-
-            if Artical.objects.filter(doi=doi).exists(): # Временная заглушка, мб добавить дата обновления < 3 или что-то еще
-                continue
-
-            source_of_elem = element.get("primary_location").get("source")
-            issn_list = source_of_elem.get("issn") if source_of_elem else None
-            issn = issn_list[0] if issn_list and len(issn_list) >= 1 else None
-            isbn = issn_list[1] if issn_list and len(issn_list) > 1 else None
-
-            article = Artical.objects.create(
+        article = Artical(
                 title = title,
                 doi = doi,
-                mag = mag,
-                pmid = pmid,
                 issn = issn,
                 isbn = isbn,
-                source = "openalex",
+                source = "crossref"
             )
+        Artical.objects.create(article)
 
-            biblio = element.get("biblio")
-            journal_name = source_of_elem.get("display_name") if source_of_elem else None
-            first_page = biblio.get("first_page")
-            last_page = biblio.get("last_page")
-            volume = biblio.get("volume")
-            issue = biblio.get("issue")
+        journal_name = element.get("container-title")[0] if element.get("container-title") else None
+        pages = element.get("page")
+        volume = element.get("volume")
+        issue = element.get("issue")
 
-            article_cite_information = ArticalCiteInformation.objects.create(
+        article_cite_information = ArticalCiteInformation(
                 article = article,
                 journal_name = journal_name,
-                pages = f"{first_page}-{last_page}",
+                pages = pages,
                 volume = volume,
-                issue = issue,
+                issue = issue
             )
 
-            date_of_artical = datetime.strptime(element.get("publication_date"), "%Y-%m-%d").date()
+        timestamp = int(element['created']['timestamp']) // 1000
+        date_of_artical = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
 
-            artical_date = ArticalDate.objects.create(
+        artical_date = ArticalDate(
                 article = article,
                 date_of_artical = date_of_artical,
             )
+        
+        cited_by_count = int(element.get("is-referenced-by-count"))
+        reference_in_work = int(element.get("reference-count"))
 
-            cited_by_count = int(element.get("cited_by_count"))
-            reference_in_work = int(element.get("referenced_works_count"))
-
-            artical_cite_data = ArticalCiteData.objects.create(
+        artical_cite_data = ArticalCiteData(
                 article = article,
                 reference_count = cited_by_count,
-                reference_in_work = reference_in_work,
+                reference_in_work = reference_in_work
             )
+        
+        authorship = element.get("author")
 
-            citing_by_years = element.get("counts_by_year")
-
-            for citing in citing_by_years:
-                year = int(citing['year'])
-                citiation = int(citing['cited_by_count'])
-
-                article_cite_per_year = ArticleCitePerYear.objects.create(
-                    article = article,
-                    year = year,
-                    citiation = citiation,
-                )
-
-            authorships = element.get("authorships")
-
-            for i, some_author in enumerate(authorships):
-                author = some_author.get("author").get("display_name")
-
-                if author.find('.', 0, 3) == 1 and author[2] != ' ': # Helps with "A.A. Last" problem -> A. A. Last
-                    author = f"{author[:2]} {author[2:]}"
+        for i, some_author in enumerate(authorship):
+                first_name = some_author.get("given")
+                last_name = some_author.get("family")
+                author = f"{first_name} {last_name}"
 
                 if i == 0:
-                    first_author = author  # В этих условиях делаем их добавление
+                    first_author = author
 
-                    article_main_author = ArticleMainAuthor.objects.create(
+                    article_main_author = ArticleMainAuthor(
                         article = article,
                         main_initials = first_author,
                     )
-                
+
                 else:
                     other_author = author
 
-                    article_other_author = ArticleOtherAuthor.objects.create(
+                    article_other_author = ArticleOtherAuthor(
                         article = article,
                         other_initials = other_author,
                     )
 
-                if i >= 3: break
+                    other_authors_to_create.append(article_other_author)
+                if i>=3: break
 
-
-def parse_crossref(response):
-    element = response["message"]
-
-    title = element.get("title")[0]
-    doi = element.get("DOI").lower()
-    issn_list = element.get("ISSN")
-    issn = issn_list[0] if issn_list and len(issn_list) >= 1 else None
-    isbn = issn_list[1] if issn_list and len(issn_list) > 1 else None
-
-    journal_name = element.get("container-title")[0] if element.get("container-title") else None
-    pages = element.get("page")
-    volume = element.get("volume")
-    issue = element.get("issue")
-
-    timestamp = int(element['created']['timestamp']) // 1000
-    date_of_artical = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
-
-    reference_count = int(element.get("is-referenced-by-count"))
-    reference_in_work = int(element.get("reference-count"))
-
-    authorship = element.get("author")
-
-    for i, some_author in enumerate(authorship):
-        first_name = some_author.get("given")
-        last_name = some_author.get("family")
-        author = f"{first_name} {last_name}"
-
-        if i == 0:
-            first_author = author # После этого уже можно добавлять главного автора
-        else:
-            other_author = author # А вот уже для дополнительных авторов
-        if i>=3: break
+    with transaction.atomic():
+        ArticalCiteInformation.objects.create(article_cite_information)
+        ArticalDate.objects.create(artical_date)
+        ArticalCiteData.objects.create(artical_cite_data)
+        ArticleMainAuthor.objects.create(article_main_author)
+        ArticleOtherAuthor.objects.bulk_create(other_authors_to_create)
 
 
 def fetch_openalex(type, query, optional):
@@ -332,8 +268,9 @@ def fetch_crossref(doi):
     url = f"https://api.crossref.org/works/{doi}"
     r = requests.get(url, timeout=10)
     if r.status_code == 200:
-        return parse_crossref(r.json())
+        return new_parse_crossref(r.json())
     return None
+
 
 def detect_pattern_type(query):
     doi_pattern = r'^10\.'
@@ -354,11 +291,8 @@ def detect_pattern_type(query):
 
 def search_type(query):
 
-
     pattern = detect_pattern_type(query)
     addition = ''
-
-
 
     if pattern == "search=":
         return None
@@ -382,40 +316,140 @@ def search_type(query):
     return Artical.objects.filter(**pattern_kwargs).first().pk 
 
 
-# param_for_api = self.request.GET.get("scope")
+# def parse_openalex(response):
+#     new_parse_open_alex(response)
+#     raw_json = response["results"]
+#     for num, x in enumerate(raw_json):
+#         element = raw_json[num]
 
-        
-#         if query:
-#             query_type = detect_pattern_type(query)
-#             addition = ''
+#         if element.get("ids").get("doi") and element.get("authorships"):
+#             title = element.get("title")
+#             title = BeautifulSoup(title, "html.parser").get_text()
+#             if len(title) > 298: continue
+#             ids = element.get("ids")
+#             doi = ids.get("doi")[16:].lower()
+#             mag = ids.get("mag")
+#             pmid = ids.get("pmid")[32:] if ids.get("pmid") else None
 
-#             if query_type !=  "search=":
-#                 query = query.lower()
-#                 filter_kwargs = {f"{query_type[7:-1]}": query}
+#             if Artical.objects.filter(doi=doi).exists(): # Временная заглушка, мб добавить дата обновления < 3 или что-то еще
+#                 continue
 
-#                 if not Artical.objects.filter(**filter_kwargs).first():          
-#                     fetch_openalex(query_type, query, addition)
-#                 return redirect(
-#                     reverse("catalog:work_detail", kwargs={'pk': Artical.objects.get(**filter_kwargs).pk})
-#                 )
-            
-#             addition = "&per-page=50" 
-#             query = query.replace(' ', '+')   
+#             source_of_elem = element.get("primary_location").get("source")
+#             issn_list = source_of_elem.get("issn") if source_of_elem else None
+#             issn = issn_list[0] if issn_list and len(issn_list) >= 1 else None
+#             isbn = issn_list[1] if issn_list and len(issn_list) > 1 else None
 
-#             if param_for_api:
-#                 print(f"{type} и {addition}")
-#                 fetch_openalex(query_type, query, addition)
-
-#             query_set = query_set.filter(
-#                 Q(title__icontains = query) |
-#                 Q(articlemainauthor__main_initials__icontains = query)
+#             article = Artical.objects.create(
+#                 title = title,
+#                 doi = doi,
+#                 mag = mag,
+#                 pmid = pmid,
+#                 issn = issn,
+#                 isbn = isbn,
+#                 source = "openalex",
 #             )
 
+#             biblio = element.get("biblio")
+#             journal_name = source_of_elem.get("display_name") if source_of_elem else None
+#             first_page = biblio.get("first_page")
+#             last_page = biblio.get("last_page")
+#             volume = biblio.get("volume")
+#             issue = biblio.get("issue")
 
+#             article_cite_information = ArticalCiteInformation.objects.create(
+#                 article = article,
+#                 journal_name = journal_name,
+#                 pages = f"{first_page}-{last_page}",
+#                 volume = volume,
+#                 issue = issue,
+#             )
 
+#             date_of_artical = datetime.strptime(element.get("publication_date"), "%Y-%m-%d").date()
 
+#             artical_date = ArticalDate.objects.create(
+#                 article = article,
+#                 date_of_artical = date_of_artical,
+#             )
 
+#             cited_by_count = int(element.get("cited_by_count"))
+#             reference_in_work = int(element.get("referenced_works_count"))
 
+#             artical_cite_data = ArticalCiteData.objects.create(
+#                 article = article,
+#                 reference_count = cited_by_count,
+#                 reference_in_work = reference_in_work,
+#             )
+
+#             citing_by_years = element.get("counts_by_year")
+
+#             for citing in citing_by_years:
+#                 year = int(citing['year'])
+#                 citiation = int(citing['cited_by_count'])
+
+#                 article_cite_per_year = ArticleCitePerYear.objects.create(
+#                     article = article,
+#                     year = year,
+#                     citiation = citiation,
+#                 )
+
+#             authorships = element.get("authorships")
+
+#             for i, some_author in enumerate(authorships):
+#                 author = some_author.get("author").get("display_name")
+
+#                 if author.find('.', 0, 3) == 1 and author[2] != ' ': # Helps with "A.A. Last" problem -> A. A. Last
+#                     author = f"{author[:2]} {author[2:]}"
+
+#                 if i == 0:
+#                     first_author = author  # В этих условиях делаем их добавление
+
+#                     article_main_author = ArticleMainAuthor.objects.create(
+#                         article = article,
+#                         main_initials = first_author,
+#                     )
+                
+#                 else:
+#                     other_author = author
+
+#                     article_other_author = ArticleOtherAuthor.objects.create(
+#                         article = article,
+#                         other_initials = other_author,
+#                     )
+
+#                 if i >= 3: break
+
+# def parse_crossref(response):
+#     element = response["message"]
+
+#     title = element.get("title")[0]
+#     doi = element.get("DOI").lower()
+#     issn_list = element.get("ISSN")
+#     issn = issn_list[0] if issn_list and len(issn_list) >= 1 else None
+#     isbn = issn_list[1] if issn_list and len(issn_list) > 1 else None
+
+#     journal_name = element.get("container-title")[0] if element.get("container-title") else None
+#     pages = element.get("page")
+#     volume = element.get("volume")
+#     issue = element.get("issue")
+
+#     timestamp = int(element['created']['timestamp']) // 1000
+#     date_of_artical = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
+
+#     reference_count = int(element.get("is-referenced-by-count"))
+#     reference_in_work = int(element.get("reference-count"))
+
+#     authorship = element.get("author")
+
+#     for i, some_author in enumerate(authorship):
+#         first_name = some_author.get("given")
+#         last_name = some_author.get("family")
+#         author = f"{first_name} {last_name}"
+
+#         if i == 0:
+#             first_author = author
+#         else:
+#             other_author = author
+#         if i>=3: break
 
 
 # def parse_openalex(response):
@@ -530,4 +564,3 @@ def search_type(query):
 #         "isbn": isbn,
 #         "volume": volume,
 #     }
-
