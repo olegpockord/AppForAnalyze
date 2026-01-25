@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
+{% load articles_tags %}
 
 {% block page_title %}
 {{ name }}
 {% endblock  %}
 
+<!-- Article blocks -->
 {% block content %}
+
 <div class="container min-vh-10 d-flex align-items-center justify-content-center py-5">
     <div class="row w-100 justify-content-center">
         
@@ -33,6 +36,8 @@
     </div>
 </div>
 
+<!-- Sorting UI -->
+
 <div class="modal fade" id="filterModal" tabindex="1" aria-labelledby="filterModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg">
@@ -42,8 +47,8 @@
       </div>
       <form class="d-flex flex-column" role="sort" action="{% url 'catalog:catalog_all'%}" method="get">
       {% for key, value in request.GET.items %}
-        {% if key != "sort" %}
-        <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% if key != "sort" and key != "p" %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
         {% endif %}
       {% endfor %}
       <div class="modal-body">
@@ -77,5 +82,31 @@
     </div>
   </div>
 </div>
+
+<!-- Paginator -->
+
+{% get_proper_elided_page_range paginator page_obj.number as page_range %}
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center my-4">
+        <div class="custom-shadow d-flex">
+            <li class="page-item {% if not page_obj.has_previous %} disabled{% endif %}">
+              <a class="page-link" href="{% if page_obj.has_previous %}?{% change_params p=page_obj.previous_page_number %}{% else %} # {% endif %} ">
+              <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+            </li>
+
+            {% for page in page_range%}
+            <li class="page-item {% if page_obj.number == page %} active {% endif %}">
+                <a class="page-link" href="{% if page|is_num %}?{% change_params p=page%}{% else %}#{% endif %}">{{page}}</a></li>
+            {% endfor %}
+
+            <li class="page-item {% if not page_obj.has_next %} disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}?{% change_params p=page_obj.next_page_number %}{% else %} # {% endif %} ">
+                <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+              </li>
+        </div>
+    </ul>
+</nav>
 
 {% endblock  %}

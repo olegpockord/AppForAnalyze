@@ -15,6 +15,8 @@ class CatalogView(ListView):
     model = Artical
     template_name = "catalog.html"
     context_object_name = "articles"
+    paginate_by = 15
+    page_kwarg = 'p'
 
     SORT_MAPPING = {
         "default": "pk",
@@ -65,21 +67,17 @@ class CatalogView(ListView):
             Q(articlemainauthor__main_initials__icontains=query)
             )
         
+        sort_param = self.request.GET.get("sort")
 
+        param = self.SORT_MAPPING.get(sort_param, 'pk')
+           
+        query_set = query_set.order_by(param, 'pk')
 
         return query_set
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["name"] = "catalog"
-
-        sort_param = self.request.GET.get("sort")
-
-        if sort_param:
-            param = self.SORT_MAPPING.get(sort_param, 'pk')
-            context.update({
-                "articles": context["articles"].order_by(param)
-            })   
+        context["name"] = "catalog" 
 
         return context
     
