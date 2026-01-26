@@ -79,7 +79,7 @@ class CitiationMixin:
             "zada-", "ullah-", "ulla-", "bhai",
 
             # South/SE Asian honorific connectors (often part of family-name clusters):
-            "bai", "begum", "bibi", "rao", "shah", "ahmed", "singh",  # NOTE: 'singh' often IS a surname but seen as connector in some records
+            "bai", "begum", "bibi", "rao", "shah", "ahmed", "singh",
 
             # Romance / Iberian / Latin:
             "de", "del", "de la", "de las", "de los", "dos", "das", "do", "da", "di",
@@ -120,6 +120,7 @@ class CitiationMixin:
         suffix_not_acronyms = [
         "jr", "sr", "ii", "iii", "iv", "v", "esq", "qc", "kc", "ret"
         ]
+        
         for s in suffix_not_acronyms:
             self.C.suffix_not_acronyms.add(s)
         
@@ -243,14 +244,14 @@ class CitiationMixin:
         }
 
             
-
-        
-        
-
-
     def create_cite_data(self, artical_info, artical_date_info, artical_main_other, article_data_for_cite):
-        title = artical_info.title
+        cache_key = f"citeNo-{artical_info.pk}"
 
+        data = cache.get(cache_key)
+        if data:
+            return data
+        
+        title = artical_info.title
 
         date = artical_date_info.date_of_artical
         
@@ -280,6 +281,8 @@ class CitiationMixin:
             "GOST": gost_cite,
             "MLA": mla_cite,
         }
+
+        cache.set(cache_key, cite_data_set, 600)
 
         return cite_data_set
     

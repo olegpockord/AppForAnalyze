@@ -68,7 +68,6 @@ class CatalogView(ListView):
             )
         
         sort_param = self.request.GET.get("sort")
-
         param = self.SORT_MAPPING.get(sort_param, 'pk')
            
         query_set = query_set.order_by(param, 'pk')
