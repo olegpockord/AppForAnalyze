@@ -47,7 +47,7 @@
       </div>
       <form class="d-flex flex-column" role="sort" action="{% url 'catalog:catalog_all'%}" method="get">
       {% for key, value in request.GET.items %}
-        {% if key != "sort" and key != "p" %}
+        {% if key != "sort" and key != "p" and key != "scope" %}
             <input type="hidden" name="{{ key }}" value="{{ value }}">
         {% endif %}
       {% endfor %}
@@ -98,7 +98,7 @@
 
             {% for page in page_range%}
             <li class="page-item {% if page_obj.number == page %} active {% endif %}">
-                <a class="page-link" href="{% if page|is_num %}?{% change_params p=page%}{% else %}#{% endif %}">{{page}}</a></li>
+                <a class="page-link" href="{% if page|is_num %}?{% change_params p=page %}{% else %}#{% endif %}">{{page}}</a></li>
             {% endfor %}
 
             <li class="page-item {% if not page_obj.has_next %} disabled{% endif %}">
