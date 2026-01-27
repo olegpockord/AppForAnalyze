@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.core.cache import cache
 from django.core.management import call_command
 
-from main.models import Artical, ArticalCiteData, ArticalDate
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear
 
 import requests
 from datetime import timedelta
@@ -25,72 +25,95 @@ def periodic_schedule_task():
 
     for article in queryset_of_articals:
         try:
-            single_artical_update.delay(article.artical_id)
+            single_artical_update.delay(article.artice_id)
         except Exception as exc:
-            LOG.exception("Failed to schedule update_single_article for %s: %s", article.artical_id, exc)
+            LOG.exception(f"Failed to schedule update_single_article for {article.artice_id}: {exc}")
 
     LOG.info("Scheduled %d articles for update", len(queryset_of_articals))
 
 @shared_task(bind=True, max_retries=3, default_retry_delay=30)
-def single_artical_update(self, artical_pk):
+def single_artical_update(self, article_pk):
 
-    lock_key = f'update_article_lock:{artical_pk}'
+    lock_key = f'update_article_lock:{article_pk}'
 
     got_lock = cache.add(lock_key, '1', timeout=60 * 3)
 
-    # if not got_lock:
-    #     LOG.info("Article %s is already being processed by another worker", artical_pk)
-    #     return {'status': 'locked'}
+    if not got_lock:
+        LOG.info(f"Article {article_pk} is already being processed by another worker")
+        return {'status': 'locked'}
 
 
     try:
-        # artical = Artical.objects.get(pk=int(artical_pk))
-        # doi = artical.doi
-        
+        article = Artical.objects.get(pk=int(article_pk))
+        doi = article.doi
 
-        # source = ArticalCiteData.objects.select_related("artical").get(artical_id = int(artical_pk)).source
+        source = article.source
 
-        # if source == "openalex":
-        #     url = f"https://api.openalex.org/works?filter=doi:{doi}"
-        #     response = requests.get(url, timeout=10)
-        #     data = response.json()["results"][0]
+        if source == "openalex":
+            url = f"https://api.openalex.org/works?filter=doi:{doi}"
+            response = requests.get(url, timeout=10)
+            data = response.json()["results"][0]
 
-        #     reference_count = data["referenced_works_count"]
-        #     reference_by_count = int(data["cited_by_count"])
+            cited_by_count = int(data.get("is-referenced-by-count"))
+            reference_in_work = int(data.get("reference-count"))
 
-        #     ArticalCiteData.objects.filter(artical=artical).update(
-        #         raw = data,
-        #         reference_count = reference_count,
-        #         reference_by_count = reference_by_count,
-        #     )
+            ArticalCiteData.objects.get(article=article).update(
+                reference_count = cited_by_count,
+                reference_in_work = reference_in_work,
+            )
 
-        #     ArticalDate.objects.update(
-        #         date_of_last_update = timezone.now()
-        #     )
+            ArticalDate.objects.get(article=article).update(
+                date_of_last_update = timezone.now()
+            )
 
-        # elif source == "crossref":
-        #     url = f"https://api.crossref.org/works/{doi}"
-        #     response = requests.get(url, timeout=10)
+            exist = {i.year: i
+                     for i in ArticleCitePerYear.objects.filter(article=article)}
+            to_update = []
+            to_create = []
+            
+            citing_by_years = i.get("counts_by_year")
 
-        #     data = response.json()["message"]
+            if citing_by_years:
+                for i in citing_by_years:
 
-        #     reference_count = int(data["reference-count"])
-        #     reference_by_count = int(data["is-referenced-by-count"])
+                    if i['year'] in exist:
+                        elem = exist[int(i['year'])]
+                        elem.citiation = int(i['cited_by_count'])
+                        to_update.append(elem)
+                    else:
+                        article_cite_per_year = ArticleCitePerYear(
+                            article = article,
+                            year = int(i['year']),
+                            citiation = int(i['cited_by_count']),
+                        )
+                        to_create.append(article_cite_per_year)
+                
+                ArticleCitePerYear.objects.bulk_create(to_create)
+                ArticleCitePerYear.objects.bulk_update(to_update, ["citation"])
 
-        #     ArticalCiteData.objects.filter(artical=artical).update(
-        #         raw = data,
-        #         reference_count = reference_count,
-        #         reference_by_count = reference_by_count,
-        #     )
 
-        #     ArticalDate.objects.update(
-        #         date_of_last_update = timezone.now()
-        #     )
+        elif source == "crossref":
+            url = f"https://api.crossref.org/works/{doi}"
+            response = requests.get(url, timeout=10)
+
+            data = response.json()["message"]
+
+            cited_by_count = int(data.get("is-referenced-by-count"))
+            reference_in_work = int(data.get("reference-count"))
+
+            ArticalCiteData.objects.get(article=article).update(
+                reference_count = cited_by_count,
+                reference_in_work = reference_in_work,
+            )
+
+            ArticalDate.objects.get(article=article).update(
+                date_of_last_update = timezone.now()
+            )
 
         cache.delete(lock_key)
-        # LOG.info("Updated article %s (doi=%s)", artical_pk, doi)
+        LOG.info(f"Updated article №{article_pk} (doi={doi})")
     except Exception as exc:
-        LOG.exception("Network error while updating article %s", artical_pk)
+        LOG.exception(f"Network error while updating article {article_pk}")
 
         try:
             raise self.retry(exc=exc)
