@@ -18,12 +18,12 @@
                     <h5 class="card-title mb-4">{{ article_main_author.main_initials }}</h5>
                     <p><i class="fas fa-book icon"></i> <strong>Журнал:</strong> {{ artical_cite_information.journal_name }}</p>
                     <p><i class="fas fa-calendar icon"></i> <strong>Дата публикации:</strong> {{ artical_date.date_of_artical }}</p>
-                    <p><i class="fas fa-cogs icon"></i> <a class="text-decoration-none" href="https://doi.org/{{ article.doi }}"><strong>DOI:</strong></a> {{ article.doi }}</p>
+                    <p><i class="fas fa-cogs icon"></i> <a class="text-decoration-none" target="_blank" href="https://doi.org/{{ article.doi }}"><strong>DOI:</strong></a> {{ article.doi }}</p>
                     {% if article.mag %}
                     <p><i class="fas fa-cogs icon"></i> <strong>MAG:</strong> {{ article.mag }}</p> 
                     {% endif %}
                     {% if article.pmid %}
-                    <p><i class="fas fa-cogs icon"></i> <a class="text-decoration-none" href="https://pubmed.ncbi.nlm.nih.gov/{{ article.pmid }}"><strong>PubMed:</strong></a> {{ article.pmid }}</p>
+                    <p><i class="fas fa-cogs icon"></i> <a class="text-decoration-none" target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/{{ article.pmid }}"><strong>PubMed:</strong></a> {{ article.pmid }}</p>
                     {% endif %}
                     {% if article.issn %}
                     <p><i class="fas fa-cogs icon"></i> <strong>ISSN:</strong> {{ article.issn }}</p>

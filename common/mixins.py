@@ -33,11 +33,11 @@ class GraphMixin:
         
 
     def graph_visual(self, years, citiations, primary_key):
-        cache_key = f"gpaphNo-{primary_key}"
+        # cache_key = f"gpaphNo-{primary_key}"
 
-        data = cache.get(cache_key)
-        if data:
-            return data
+        # data = cache.get(cache_key)
+        # if data:
+        #     return data
 
         matplotlib.use('agg')
         buf = io.BytesIO()
@@ -58,7 +58,7 @@ class GraphMixin:
         plt.close()
         buf.seek(0)
         b64 = base64.b64encode(buf.getvalue()).decode('ascii')
-        cache.set(cache_key, b64, 600)
+        # cache.set(cache_key, b64, 600)
 
 
         return b64
@@ -120,7 +120,7 @@ class CitiationMixin:
         suffix_not_acronyms = [
         "jr", "sr", "ii", "iii", "iv", "v", "esq", "qc", "kc", "ret"
         ]
-        
+
         for s in suffix_not_acronyms:
             self.C.suffix_not_acronyms.add(s)
         
@@ -245,11 +245,11 @@ class CitiationMixin:
 
             
     def create_cite_data(self, artical_info, artical_date_info, artical_main_other, article_data_for_cite):
-        cache_key = f"citeNo-{artical_info.pk}"
+        # cache_key = f"citeNo-{artical_info.pk}"
 
-        data = cache.get(cache_key)
-        if data:
-            return data
+        # data = cache.get(cache_key)
+        # if data:
+        #     return data
         
         title = artical_info.title
 
@@ -282,20 +282,20 @@ class CitiationMixin:
             "MLA": mla_cite,
         }
 
-        cache.set(cache_key, cite_data_set, 600)
+        # cache.set(cache_key, cite_data_set, 600)
 
         return cite_data_set
     
 
-class CacheMixin:
-    def set_get_cache(self, cache_name, query, cache_time):
-        data = cache.get(cache_name)
+# class CacheMixin:
+#     def set_get_cache(self, cache_name, query, cache_time):
+#         data = cache.get(cache_name)
 
-        if not data:
-            data = query
-            cache.set(cache_name, data, cache_time)
+#         if not data:
+#             data = query
+#             cache.set(cache_name, data, cache_time)
 
-        return data
+#         return data
     
 
 

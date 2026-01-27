@@ -275,7 +275,7 @@ def fetch_crossref(doi):
 def detect_pattern_type(query):
     doi_pattern = r'^10\.'
     mag_pattern = r'^mag\d'
-    pmid_pattern = r'^pubmed\d'
+    pmid_pattern = r'^pmid\d'
 
     detected = "search="
     if re.match(doi_pattern, query):
@@ -305,7 +305,6 @@ def search_type(query):
         query = query[first_include_index.start():]
 
     pattern_kwargs = {f"{pattern[7:-1]}": query}
-    print(pattern_kwargs)
     article = Artical.objects.filter(**pattern_kwargs).first() 
 
     if article:

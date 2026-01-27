@@ -3,6 +3,8 @@ from django.views.generic import ListView, DetailView
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.db.models import Q, OuterRef, Subquery, Prefetch
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
 
@@ -95,7 +97,7 @@ class CatalogView(ListView):
         return super().get(request, *args, **kwargs)
 
 
-    
+@method_decorator(cache_page(60 * 15), name="dispatch")    
 class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
     model = Artical
     template_name = "work_detail.html"
