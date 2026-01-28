@@ -24,6 +24,11 @@ def new_parse_open_alex(response):
        if element.get("ids").get("doi")
     ]).values_list('doi', flat=True))
 
+    exists_mag = set(Artical.objects.filter(doi__in=[
+       element.get("ids").get("mag")[16:].lower() for element in raw_json 
+       if element.get("ids").get("mag")
+    ]).values_list('mag', flat=True))
+
     n = len(raw_json)
 
 
@@ -39,11 +44,12 @@ def new_parse_open_alex(response):
 
             ids = element.get("ids")
             doi = ids.get("doi")[16:].lower()
+            mag = ids.get("mag")
 
-            if doi in exists_doi:
+            if doi in exists_doi or mag in exists_mag:
                 continue
 
-            mag = ids.get("mag")
+            
             pmid = ids.get("pmid")[32:] if ids.get("pmid") else None
 
             source_of_elem = element.get("primary_location").get("source")

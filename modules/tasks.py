@@ -23,11 +23,11 @@ def periodic_schedule_task():
     if not queryset_of_articals:
         return {'status': 'No articals available to update'}
 
-    for article in queryset_of_articals:
+    for i in queryset_of_articals:
         try:
-            single_artical_update.delay(article.artice_id)
+            single_artical_update.delay(i.article.pk)
         except Exception as exc:
-            LOG.exception(f"Failed to schedule update_single_article for {article.artice_id}: {exc}")
+            LOG.exception(f"Failed to schedule update_single_article for {i.article.pk}: {exc}")
 
     LOG.info("Scheduled %d articles for update", len(queryset_of_articals))
 
@@ -42,27 +42,49 @@ def single_artical_update(self, article_pk):
         LOG.info(f"Article {article_pk} is already being processed by another worker")
         return {'status': 'locked'}
 
-
+    print(f"{article_pk} - это айди для дои")
     try:
         article = Artical.objects.get(pk=int(article_pk))
         doi = article.doi
 
         source = article.source
-
+        # TODO made separate funtcitons to this
         if source == "openalex":
-            url = f"https://api.openalex.org/works?filter=doi:{doi}"
+            url = f"https://api.openalex.org/works?filter=doi:{doi}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,counts_by_year,authorships&mailto=oleg222200005555@gmail.com"
             response = requests.get(url, timeout=10)
-            data = response.json()["results"][0]
+            if len(response.json()["results"]) > 0:
+                data = response.json()["results"][0]
+            else:
+                LOG.info(f"Article with doi - {doi} is no longer in openalex, url swapped to mag search")
+                mag = article.mag
+                if mag:
+                    url = f"https://api.openalex.org/works?filter=mag:{mag}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,counts_by_year,authorships&mailto=oleg222200005555@gmail.com"
+                    response = requests.get(url, timeout=10)
+                    if len(response.json()["results"]) > 0:
+                        data = response.json()["results"][0]
+                        Artical.objects.filter(mag=mag).update(
+                            doi = data.get("ids").get("doi")[16:].lower()
+                        )
+                    else:
+                        LOG.info(f"Article №{article_pk} with {doi}  was deleted")
+                        article.delete()
+                        cache.delete(lock_key)
+                        return {'status': 'No articals available to update'}
+                else:
+                    LOG.info(f"Article №{article_pk} with {doi}  was deleted")
+                    article.delete()
+                    cache.delete(lock_key)
+                    return {'status': 'No articals available to update'}
 
-            cited_by_count = int(data.get("is-referenced-by-count"))
-            reference_in_work = int(data.get("reference-count"))
+            cited_by_count = int(data.get("cited_by_count"))
+            reference_in_work = int(data.get("referenced_works_count"))
 
-            ArticalCiteData.objects.get(article=article).update(
+            ArticalCiteData.objects.filter(article=article).update(
                 reference_count = cited_by_count,
                 reference_in_work = reference_in_work,
             )
 
-            ArticalDate.objects.get(article=article).update(
+            ArticalDate.objects.filter(article=article).update(
                 date_of_last_update = timezone.now()
             )
 
@@ -71,7 +93,7 @@ def single_artical_update(self, article_pk):
             to_update = []
             to_create = []
             
-            citing_by_years = i.get("counts_by_year")
+            citing_by_years = data.get("counts_by_year")
 
             if citing_by_years:
                 for i in citing_by_years:
@@ -89,7 +111,7 @@ def single_artical_update(self, article_pk):
                         to_create.append(article_cite_per_year)
                 
                 ArticleCitePerYear.objects.bulk_create(to_create)
-                ArticleCitePerYear.objects.bulk_update(to_update, ["citation"])
+                ArticleCitePerYear.objects.bulk_update(to_update, ["citiation"])
 
 
         elif source == "crossref":
