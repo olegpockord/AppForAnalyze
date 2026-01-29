@@ -8,6 +8,8 @@ from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInform
 from django.db import transaction
 from django.http import Http404
 
+
+
 def new_parse_open_alex(response):
     articles_to_create = []
     articles_cite_informaion_to_create = []
@@ -319,6 +321,7 @@ def search_type(query):
     fetch_openalex(pattern, query, addition)
 
     return Artical.objects.filter(**pattern_kwargs).first().pk 
+
 
 
 # def parse_openalex(response):

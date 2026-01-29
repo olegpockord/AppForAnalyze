@@ -10,12 +10,10 @@ from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInform
 from modules.tasks import periodic_schedule_task
 from modules.utils import fetch_openalex, search_type
 
-from common.mixins import CitiationMixin, GraphMixin
+from common.mixins import CitiationMixin, GraphMixin, SearchMixin
 
-from datetime import timedelta
-from django.utils import timezone
 
-class CatalogView(ListView):
+class CatalogView(ListView, SearchMixin):
     model = Artical
     template_name = "catalog.html"
     context_object_name = "articles"
@@ -66,10 +64,8 @@ class CatalogView(ListView):
             if param_for_api:
                 fetch_openalex("search=", query, optional="&per-page=50")
 
-            query_set = query_set.filter(
-            Q(title__icontains=query) |
-            Q(articlemainauthor__main_initials__icontains=query)
-            )
+            query_set = self.q_search(query, query_set)
+
         
         sort_param = self.request.GET.get("sort")
         param = self.SORT_MAPPING.get(sort_param, 'pk')
@@ -157,7 +153,10 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
 
 
 
-
+# query_set = query_set.filter(
+# Q(title__icontains=query) |
+# Q(articlemainauthor__main_initials__icontains=query)
+# )
 
 # query = self.request.GET.get('q')
         # param_for_api = self.request.GET.get("scope")
