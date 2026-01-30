@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
 
-from modules.tasks import periodic_schedule_task
+from modules.tasks import periodic_update_task
 from modules.utils import fetch_openalex, search_type
 
 from common.mixins import CitiationMixin, GraphMixin, SearchMixin
@@ -78,7 +78,6 @@ class CatalogView(ListView, SearchMixin):
         context = super().get_context_data(**kwargs)
         context["name"] = "catalog" 
 
-
         return context
     
     def get(self, request, *args, **kwargs):
@@ -135,7 +134,7 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
 
         graph = self.graph_create(article)
 
-        # periodic_schedule_task.delay() ### Тест
+        # periodic_update_task.delay() ### Тест
 
         cite_types = self.create_cite_data(article, context["artical_date"], context["article_main_author"], context["artical_cite_information"])
 

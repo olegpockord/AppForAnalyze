@@ -33,7 +33,6 @@ class SearchMixin:
         vector = SearchVector("title", weight='A') + SearchVector("main_author_initials", weight='B')
         query = SearchQuery(query, search_type='phrase')
     
-
         result = (
                 qs.annotate(rank=SearchRank(vector, query))
                 .filter(rank__gte=0.05)
@@ -55,30 +54,26 @@ class SearchMixin:
 class GraphMixin:
 
     def graph_create(self, article_data_set):
-
-        pk = article_data_set.pk
-
         citing_per_year_set = article_data_set.citing_per_year
 
         source = article_data_set.source
 
         if source == "openalex" and citing_per_year_set:
-            years = [i.year for i in citing_per_year_set]
-            citiations = [i.citiation for i in citing_per_year_set]
 
-            return self.graph_visual(years, citiations, pk)
+            year_citiations_map = {i.year: i.citiation
+                                   for i in citing_per_year_set}
+
+            return self.graph_visual(dict(sorted(year_citiations_map.items(), reverse=True)))
         else:
             return None
 
 
         
 
-    def graph_visual(self, years, citiations, primary_key):
-        # cache_key = f"gpaphNo-{primary_key}"
+    def graph_visual(self, years_citiations_dict):
 
-        # data = cache.get(cache_key)
-        # if data:
-        #     return data
+        years = [year for year in years_citiations_dict.keys()]
+        citiations = [citiations for citiations in years_citiations_dict.values()]
 
         matplotlib.use('agg')
         buf = io.BytesIO()
@@ -99,7 +94,7 @@ class GraphMixin:
         plt.close()
         buf.seek(0)
         b64 = base64.b64encode(buf.getvalue()).decode('ascii')
-        # cache.set(cache_key, b64, 600)
+
 
 
         return b64
@@ -241,7 +236,6 @@ class CitiationMixin:
 
     def author_parser(self, main_author, other_authors):
         C = self.extended_constants()
-
 
         other_authors_len = len(other_authors)
 
