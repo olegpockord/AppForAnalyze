@@ -17,7 +17,7 @@
         {% for article in articles %}
         <div class="col-lg-4 col-md-8 col-sm-10 mb-4">
             
-            <div class="card shadow-lg h-10">
+            <div class="card rounded-4 overflow-hidden shadow-lg h-10">
                 <a href="{% url "catalog:work_detail" article.pk %}" class="text-decoration-none">
                 <div class="card-header text-white">
                     {{ article.title }}
@@ -33,6 +33,7 @@
                 Последнее обновление: {{article.update_date}}
                 </div>
             </div>
+            
         </div>
         {% endfor %}
     </div>

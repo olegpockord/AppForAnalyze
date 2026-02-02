@@ -124,7 +124,7 @@ CELERY_BEAT_SCHEDULE = {
     #     'schedule': crontab(hour=23, minute=0), # Каждый день в 23:00
     # },
     # 'weekly_article_update': {
-    #     'task': 'modules.tasks.periodic_schedule_task',
+    #     'task': 'modules.tasks.periodic_update_task',
     #     'schedule': crontab(hour=3, minute=0, day_of_week='sun'),
     # },
 }

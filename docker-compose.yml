@@ -21,6 +21,7 @@ services:
       - redis
     command: sh -c "python manage.py makemigrations &&
                     python manage.py migrate &&
+                    python manage.py collectstatic &&
                     gunicorn --workers=4 --reload --max-requests=1000 AppForAnalyze.wsgi -b 0.0.0.0:8000"
 
   nginx:
@@ -57,6 +58,8 @@ services:
       - 6379
     volumes:
       - ./docker/redis/data:/data
+    depends_on:
+      - postgres
   
   celery-worker:
     build: .

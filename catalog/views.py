@@ -1,13 +1,12 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
-from django.db.models import Q, OuterRef, Subquery, Prefetch
+from django.db.models import OuterRef, Subquery, Prefetch
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
 
-from modules.tasks import periodic_update_task
 from modules.utils import fetch_openalex, search_type
 
 from common.mixins import CitiationMixin, GraphMixin, SearchMixin
@@ -133,8 +132,6 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
         context["artical_cite_data"] = article.articalcitedata_1[0]
 
         graph = self.graph_create(article)
-
-        # periodic_update_task.delay() ### Тест
 
         cite_types = self.create_cite_data(article, context["artical_date"], context["article_main_author"], context["artical_cite_information"])
 

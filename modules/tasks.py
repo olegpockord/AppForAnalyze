@@ -17,7 +17,7 @@ LOG = logging.getLogger(__name__)
 def periodic_update_task():
 
     now = timezone.now()
-    threshold = now - timedelta(days=2)
+    threshold = now - timedelta(days=3)
     three_days_date = threshold.date()
 
     queryset_of_articals = ArticalDate.objects.filter(date_of_last_update__lte=three_days_date)
@@ -45,10 +45,6 @@ def single_artical_update(self, article_pk):
 
     try:
         article = Artical.objects.get(pk=int(article_pk))
-
-        if not article:
-            LOG.exception(f"Article with pk - {article_pk} not found")
-            return {'status': 'deleted'}
 
         source = article.source
 
