@@ -313,14 +313,21 @@ def search_type(query):
         query = query[first_include_index.start():]
 
     pattern_kwargs = {f"{pattern[7:-1]}": query}
-    article = Artical.objects.filter(**pattern_kwargs).first() 
+    article = Artical.objects.filter(**pattern_kwargs).first()
+
 
     if article:
         return article.pk
         
     fetch_openalex(pattern, query, addition)
 
-    return Artical.objects.filter(**pattern_kwargs).first().pk 
+
+    try:
+        res = Artical.objects.filter(**pattern_kwargs).first().pk
+    except AttributeError:
+        raise Http404
+
+    return  res
 
 
 
