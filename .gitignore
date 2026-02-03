@@ -4,6 +4,7 @@ venv/
 .pylintrc
 __pycache__/
 .fixtures
+staticfiles/
 
 .env*
 celerybeat-schedule*

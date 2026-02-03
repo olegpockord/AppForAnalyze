@@ -12,17 +12,18 @@ services:
       - '8000:8000'
     container_name: django
     env_file:
-      - ./.env.prod
+      - ./.env.dev
     volumes:
       - ./:/AppForAnalyze
-      - static:/AppForAnalyze/static
+      - static:/AppForAnalyze/staticfiles
     depends_on:
       - postgres
       - redis
-    command: sh -c "python manage.py makemigrations &&
+    command: sh -c "python manage.py collectstatic --noinput &&
+                    python manage.py makemigrations &&
                     python manage.py migrate &&
-                    python manage.py collectstatic &&
-                    gunicorn --workers=4 --reload --max-requests=1000 AppForAnalyze.wsgi -b 0.0.0.0:8000"
+                    python manage.py runserver 0.0.0.0:8000"
+                    # gunicorn --workers=4 --reload --max-requests=1000 AppForAnalyze.wsgi -b 0.0.0.0:8000"
 
   nginx:
     container_name: nginx
@@ -45,7 +46,7 @@ services:
     container_name: postgres
     restart: always
     env_file:
-      - ./.env.prod
+      - ./.env.dev
     volumes:
       - pgdata:/var/lib/postgresql/data/
   
@@ -53,7 +54,7 @@ services:
     image: redis:alpine
     container_name: redis
     env_file:
-      - ./.env.prod
+      - ./.env.dev
     expose:
       - 6379
     volumes:
@@ -66,7 +67,7 @@ services:
     container_name: celery-worker
     restart: always
     env_file:
-      - ./.env.prod
+      - ./.env.dev
     volumes:
       - ./:/AppForAnalyze
     command: celery -A AppForAnalyze worker --loglevel=info --logfile=./docker/logs/celery-worker.log
@@ -77,7 +78,7 @@ services:
       build: .
       container_name: celery-beat
       env_file:
-          - ./.env.prod
+          - ./.env.dev
       depends_on: 
           - redis
       command: celery -A AppForAnalyze beat --loglevel=info --logfile=./docker/logs/celery-beat.log

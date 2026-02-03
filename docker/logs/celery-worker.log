@@ -350,3 +350,195 @@ Trying again in 10.00 seconds... (5/100)
 [2025-12-28 13:54:10,915: ERROR/MainProcess] consumer: Cannot connect to redis://redis:6379/0: Error -2 connecting to redis:6379. Name or service not known..
 Trying again in 12.00 seconds... (6/100)
 
+[2026-02-03 12:49:41,098: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 12:49:41,102: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 12:49:42,112: INFO/MainProcess] mingle: all alone
+[2026-02-03 12:49:42,126: INFO/MainProcess] celery@4475e82dcb93 ready.
+[2026-02-03 12:49:42,129: INFO/MainProcess] Task modules.tasks.dbackup_task[062c2edb-6f8a-4260-b7c2-ed2862a577cb] received
+[2026-02-03 12:49:42,131: INFO/MainProcess] Task modules.tasks.periodic_update_task[981156fe-2a0f-4003-9e62-0cc252be6d5e] received
+[2026-02-03 12:49:42,158: ERROR/ForkPoolWorker-8] Task modules.tasks.periodic_update_task[981156fe-2a0f-4003-9e62-0cc252be6d5e] raised unexpected: ProgrammingError('column ArticalDate.article_id does not exist\nLINE 1: SELECT "ArticalDate"."id", "ArticalDate"."article_id", "Arti...\n                                   ^\nHINT:  Perhaps you meant to reference the column "ArticalDate.artical_id".\n')
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column ArticalDate.article_id does not exist
+LINE 1: SELECT "ArticalDate"."id", "ArticalDate"."article_id", "Arti...
+                                   ^
+HINT:  Perhaps you meant to reference the column "ArticalDate.artical_id".
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/celery/app/trace.py", line 453, in trace_task
+    R = retval = fun(*args, **kwargs)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/celery/app/trace.py", line 736, in __protected_call__
+    return self.run(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/AppForAnalyze/modules/tasks.py", line 24, in periodic_update_task
+    if not queryset_of_articals:
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/models/query.py", line 398, in __bool__
+    self._fetch_all()
+  File "/usr/local/lib/python3.12/site-packages/django/db/models/query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column ArticalDate.article_id does not exist
+LINE 1: SELECT "ArticalDate"."id", "ArticalDate"."article_id", "Arti...
+                                   ^
+HINT:  Perhaps you meant to reference the column "ArticalDate.artical_id".
+
+[2026-02-03 12:49:42,169: WARNING/ForkPoolWorker-7] Writing dump to database-2026-02-03-12-49-42.json (utf-8)...
+[2026-02-03 12:49:42,266: ERROR/ForkPoolWorker-7] Task modules.tasks.dbackup_task[062c2edb-6f8a-4260-b7c2-ed2862a577cb] raised unexpected: CommandError('Unable to serialize database: cursor "_django_curs_139782452087680_sync_5" does not exist\n')
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column Artical.pmid does not exist
+LINE 1: ...tical"."title", "Artical"."doi", "Artical"."mag", "Artical"....
+                                                             ^
+HINT:  Perhaps you meant to reference the column "Artical.id".
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/usr/local/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column Artical.pmid does not exist
+LINE 1: ...tical"."title", "Artical"."doi", "Artical"."mag", "Artical"....
+                                                             ^
+HINT:  Perhaps you meant to reference the column "Artical.id".
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/django/core/management/commands/dumpdata.py", line 269, in handle
+    serializers.serialize(
+  File "/usr/local/lib/python3.12/site-packages/django/core/serializers/__init__.py", line 134, in serialize
+    s.serialize(queryset, **options)
+  File "/usr/local/lib/python3.12/site-packages/django/core/serializers/base.py", line 109, in serialize
+    for count, obj in enumerate(queryset, start=1):
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/core/management/commands/dumpdata.py", line 226, in get_objects
+    yield from queryset.iterator(chunk_size=chunk_size)
+  File "/usr/local/lib/python3.12/site-packages/django/db/models/query.py", line 502, in _iterator
+    yield from iterable
+  File "/usr/local/lib/python3.12/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1626, in execute_sql
+    cursor.close()
+psycopg2.errors.InvalidCursorName: cursor "_django_curs_139782452087680_sync_5" does not exist
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/celery/app/trace.py", line 453, in trace_task
+    R = retval = fun(*args, **kwargs)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/celery/app/trace.py", line 736, in __protected_call__
+    return self.run(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/AppForAnalyze/modules/tasks.py", line 81, in dbackup_task
+    call_command('dbackup')
+  File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 194, in call_command
+    return command.execute(*args, **defaults)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 460, in execute
+    output = self.handle(*args, **options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/AppForAnalyze/main/management/commands/dbackup.py", line 12, in handle
+    call_command(
+  File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 194, in call_command
+    return command.execute(*args, **defaults)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 460, in execute
+    output = self.handle(*args, **options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/django/core/management/commands/dumpdata.py", line 285, in handle
+    raise CommandError("Unable to serialize database: %s" % e)
+django.core.management.base.CommandError: Unable to serialize database: cursor "_django_curs_139782452087680_sync_5" does not exist
+
+[2026-02-03 12:54:02,181: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 12:54:02,185: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 12:54:03,194: INFO/MainProcess] mingle: all alone
+[2026-02-03 12:54:03,208: INFO/MainProcess] celery@ac88cd5a3863 ready.
+[2026-02-03 13:02:20,927: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 13:02:20,931: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 13:02:21,941: INFO/MainProcess] mingle: all alone
+[2026-02-03 13:02:21,954: INFO/MainProcess] celery@f29519cfbe40 ready.
+[2026-02-03 13:04:54,990: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 13:04:54,994: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 13:04:56,004: INFO/MainProcess] mingle: all alone
+[2026-02-03 13:04:56,018: INFO/MainProcess] celery@c9f2622a6c71 ready.
+[2026-02-03 13:05:39,009: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 13:05:39,014: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 13:05:40,024: INFO/MainProcess] mingle: all alone
+[2026-02-03 13:05:40,038: INFO/MainProcess] celery@3481d1536f56 ready.
+[2026-02-03 13:12:31,001: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 13:12:31,005: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 13:12:32,015: INFO/MainProcess] mingle: all alone
+[2026-02-03 13:12:32,030: INFO/MainProcess] celery@27e4234b6b7c ready.
+[2026-02-03 13:58:58,483: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 13:58:58,490: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 13:58:59,501: INFO/MainProcess] mingle: all alone
+[2026-02-03 13:58:59,515: INFO/MainProcess] celery@03260e83e081 ready.
+[2026-02-03 13:59:35,278: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 13:59:35,282: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 13:59:36,292: INFO/MainProcess] mingle: all alone
+[2026-02-03 13:59:36,307: INFO/MainProcess] celery@f52e0d05e08e ready.
+[2026-02-03 14:09:47,585: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 14:09:47,590: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 14:09:48,600: INFO/MainProcess] mingle: all alone
+[2026-02-03 14:09:48,614: INFO/MainProcess] celery@e4945c2875a7 ready.
+[2026-02-03 14:11:59,034: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 14:11:59,039: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 14:12:00,050: INFO/MainProcess] mingle: all alone
+[2026-02-03 14:12:00,068: INFO/MainProcess] celery@3387df4eb722 ready.
+[2026-02-03 14:14:36,771: INFO/MainProcess] Connected to redis://redis:6379/0
+[2026-02-03 14:14:36,775: INFO/MainProcess] mingle: searching for neighbors
+[2026-02-03 14:14:37,785: INFO/MainProcess] mingle: all alone
+[2026-02-03 14:14:37,800: INFO/MainProcess] celery@2bbb70430c73 ready.
