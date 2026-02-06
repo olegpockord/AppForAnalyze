@@ -5,7 +5,7 @@ from django.db.models import OuterRef, Subquery, Prefetch
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
 
 from modules.utils import fetch_openalex, search_type
 
@@ -141,71 +141,3 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
 
 
         return context
-    
-
-
-
-
-
-
-
-# query_set = query_set.filter(
-# Q(title__icontains=query) |
-# Q(articlemainauthor__main_initials__icontains=query)
-# )
-
-# query = self.request.GET.get('q')
-        # param_for_api = self.request.GET.get("scope")
-
-        
-        # if query:
-        #     query_type = search_type(query)
-        #     addition = ''
-
-        #     if query_type !=  "search=":
-        #         query = query.lower()
-        #         filter_kwargs = {f"{query_type[7:-1]}": query}
-
-        #         if not Artical.objects.filter(**filter_kwargs).first():          
-        #             fetch_openalex(query_type, query, addition)
-        #         return redirect(
-        #             reverse("catalog:work_detail", kwargs={'pk': Artical.objects.get(**filter_kwargs).pk})
-        #         )
-            
-        #     addition = "&per-page=50" 
-        #     query = query.replace(' ', '+')   
-
-        #     if param_for_api:
-        #         print(f"{type} и {addition}")
-        #         fetch_openalex(query_type, query, addition)
-
-        #     query_set = query_set.filter(
-        #         Q(title__icontains = query) |
-        #         Q(articlemainauthor__main_initials__icontains = query)
-        #     )
-
-    # def get_query_set(self): # Not correct name, but .first doesnt make new queries
-
-    #     query_set =  Artical.objects.prefetch_related(
-    #         Prefetch('articalciteinformation_set', to_attr="articalciteinformation_1"),
-    #         Prefetch('articaldate_set', to_attr="articaldate_1"),
-    #         Prefetch('articalcitedata_set', to_attr="articalcitedata_1"),
-    #         Prefetch('articlemainauthor_set', to_attr="articlemainauthor_1"),
-    #         Prefetch('articleciteperyear_set', 
-    #                  queryset=ArticleCitePerYear.objects.all(),
-    #                  to_attr='citing_per_year'),
-    #         'articleotherauthor_set',
-    #     )
-
-    #     query_set =  Artical.objects.prefetch_related(
-    #         'articalciteinformation_set',
-    #         'articaldate_set',
-    #         'articalcitedata_set',
-    #         'articlemainauthor_set',
-    #         Prefetch('articleciteperyear_set', 
-    #                  queryset=ArticleCitePerYear.objects.all(),
-    #                  to_attr='citing_per_year'),
-    #         'articleotherauthor_set',
-    #     ).filter(pk = self.kwargs.get(self.slug_url_kwarg))
-
-    #     return query_set

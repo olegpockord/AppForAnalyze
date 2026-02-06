@@ -23,7 +23,6 @@ services:
                     python manage.py makemigrations &&
                     python manage.py migrate &&
                     python manage.py runserver 0.0.0.0:8000"
-                    # gunicorn --workers=4 --reload --max-requests=1000 AppForAnalyze.wsgi -b 0.0.0.0:8000"
 
   nginx:
     container_name: nginx
@@ -32,10 +31,10 @@ services:
     restart: always
     ports:
       - "80:80"
-      - "443:443"
+      # - "443:443"
     volumes:
       - static:/AppForAnalyze/static
-      - ./docker/nginx/:/etc/nginx/conf.d:ro
+      - ./docker/nginx/dev/:/etc/nginx/conf.d:ro
     links:
       - django
     depends_on:
@@ -84,14 +83,3 @@ services:
       command: celery -A AppForAnalyze beat --loglevel=info --logfile=./docker/logs/celery-beat.log
       volumes:
           - ./:/AppForAnalyze
-
-
-  certbot:
-      image: certbot/certbot
-      container_name: certbot
-      volumes:
-          - ./docker/certbot/conf:/etc/letsencrypt:rw
-          - ./docker/certbot/www:/var/www/certbot:rw
-#      command: certonly --webroot --webroot-path=/var/www/certbot/ --email oleg222200005555@gmail.com --agree-tos --no-eff-email -d fscienceanalyze.ru -d www.fscienceanalyze.ru && 2
-      depends_on:
-        - nginx

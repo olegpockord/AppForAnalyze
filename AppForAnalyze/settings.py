@@ -117,7 +117,7 @@ CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_BEAT_SCHEDULE = {
     'backup_database': {
         'task': 'modules.tasks.dbackup_task',
-        'schedule': crontab(hour=23, minute=0), # Каждый день в 23:00
+        'schedule': crontab(hour=23, minute=0), # Every day in 11:00pm
     },
     'weekly_article_update': {
         'task': 'modules.tasks.periodic_update_task',

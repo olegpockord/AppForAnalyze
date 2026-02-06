@@ -1,0 +1,5348 @@
+[
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": [
+            "admin",
+            "logentry"
+        ],
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": [
+            "admin",
+            "logentry"
+        ],
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": [
+            "admin",
+            "logentry"
+        ],
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view log entry",
+        "content_type": [
+            "admin",
+            "logentry"
+        ],
+        "codename": "view_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add permission",
+        "content_type": [
+            "auth",
+            "permission"
+        ],
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change permission",
+        "content_type": [
+            "auth",
+            "permission"
+        ],
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": [
+            "auth",
+            "permission"
+        ],
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view permission",
+        "content_type": [
+            "auth",
+            "permission"
+        ],
+        "codename": "view_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add group",
+        "content_type": [
+            "auth",
+            "group"
+        ],
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change group",
+        "content_type": [
+            "auth",
+            "group"
+        ],
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete group",
+        "content_type": [
+            "auth",
+            "group"
+        ],
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view group",
+        "content_type": [
+            "auth",
+            "group"
+        ],
+        "codename": "view_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add user",
+        "content_type": [
+            "auth",
+            "user"
+        ],
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change user",
+        "content_type": [
+            "auth",
+            "user"
+        ],
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete user",
+        "content_type": [
+            "auth",
+            "user"
+        ],
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view user",
+        "content_type": [
+            "auth",
+            "user"
+        ],
+        "codename": "view_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add content type",
+        "content_type": [
+            "contenttypes",
+            "contenttype"
+        ],
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change content type",
+        "content_type": [
+            "contenttypes",
+            "contenttype"
+        ],
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": [
+            "contenttypes",
+            "contenttype"
+        ],
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view content type",
+        "content_type": [
+            "contenttypes",
+            "contenttype"
+        ],
+        "codename": "view_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add session",
+        "content_type": [
+            "sessions",
+            "session"
+        ],
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change session",
+        "content_type": [
+            "sessions",
+            "session"
+        ],
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete session",
+        "content_type": [
+            "sessions",
+            "session"
+        ],
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view session",
+        "content_type": [
+            "sessions",
+            "session"
+        ],
+        "codename": "view_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add Статья",
+        "content_type": [
+            "main",
+            "artical"
+        ],
+        "codename": "add_artical"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change Статья",
+        "content_type": [
+            "main",
+            "artical"
+        ],
+        "codename": "change_artical"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete Статья",
+        "content_type": [
+            "main",
+            "artical"
+        ],
+        "codename": "delete_artical"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view Статья",
+        "content_type": [
+            "main",
+            "artical"
+        ],
+        "codename": "view_artical"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add Информация о цитировании статьи",
+        "content_type": [
+            "main",
+            "articalcitedata"
+        ],
+        "codename": "add_articalcitedata"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change Информация о цитировании статьи",
+        "content_type": [
+            "main",
+            "articalcitedata"
+        ],
+        "codename": "change_articalcitedata"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete Информация о цитировании статьи",
+        "content_type": [
+            "main",
+            "articalcitedata"
+        ],
+        "codename": "delete_articalcitedata"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view Информация о цитировании статьи",
+        "content_type": [
+            "main",
+            "articalcitedata"
+        ],
+        "codename": "view_articalcitedata"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add Информация о дате статьи",
+        "content_type": [
+            "main",
+            "articaldate"
+        ],
+        "codename": "add_articaldate"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change Информация о дате статьи",
+        "content_type": [
+            "main",
+            "articaldate"
+        ],
+        "codename": "change_articaldate"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete Информация о дате статьи",
+        "content_type": [
+            "main",
+            "articaldate"
+        ],
+        "codename": "delete_articaldate"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view Информация о дате статьи",
+        "content_type": [
+            "main",
+            "articaldate"
+        ],
+        "codename": "view_articaldate"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add Информация для цитирования статьи",
+        "content_type": [
+            "main",
+            "articalciteinformation"
+        ],
+        "codename": "add_articalciteinformation"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change Информация для цитирования статьи",
+        "content_type": [
+            "main",
+            "articalciteinformation"
+        ],
+        "codename": "change_articalciteinformation"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete Информация для цитирования статьи",
+        "content_type": [
+            "main",
+            "articalciteinformation"
+        ],
+        "codename": "delete_articalciteinformation"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view Информация для цитирования статьи",
+        "content_type": [
+            "main",
+            "articalciteinformation"
+        ],
+        "codename": "view_articalciteinformation"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add Информация о цитировании за год",
+        "content_type": [
+            "main",
+            "articleciteperyear"
+        ],
+        "codename": "add_articleciteperyear"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change Информация о цитировании за год",
+        "content_type": [
+            "main",
+            "articleciteperyear"
+        ],
+        "codename": "change_articleciteperyear"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete Информация о цитировании за год",
+        "content_type": [
+            "main",
+            "articleciteperyear"
+        ],
+        "codename": "delete_articleciteperyear"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view Информация о цитировании за год",
+        "content_type": [
+            "main",
+            "articleciteperyear"
+        ],
+        "codename": "view_articleciteperyear"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add Инициалы основного автора",
+        "content_type": [
+            "main",
+            "articlemainauthor"
+        ],
+        "codename": "add_articlemainauthor"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change Инициалы основного автора",
+        "content_type": [
+            "main",
+            "articlemainauthor"
+        ],
+        "codename": "change_articlemainauthor"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete Инициалы основного автора",
+        "content_type": [
+            "main",
+            "articlemainauthor"
+        ],
+        "codename": "delete_articlemainauthor"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view Инициалы основного автора",
+        "content_type": [
+            "main",
+            "articlemainauthor"
+        ],
+        "codename": "view_articlemainauthor"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can add Инициалы дополнительно автора",
+        "content_type": [
+            "main",
+            "articleotherauthor"
+        ],
+        "codename": "add_articleotherauthor"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can change Инициалы дополнительно автора",
+        "content_type": [
+            "main",
+            "articleotherauthor"
+        ],
+        "codename": "change_articleotherauthor"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can delete Инициалы дополнительно автора",
+        "content_type": [
+            "main",
+            "articleotherauthor"
+        ],
+        "codename": "delete_articleotherauthor"
+    }
+},
+{
+    "model": "auth.permission",
+    "fields": {
+        "name": "Can view Инициалы дополнительно автора",
+        "content_type": [
+            "main",
+            "articleotherauthor"
+        ],
+        "codename": "view_articleotherauthor"
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$L1hj9KaKDV1OC9iNqKZkB5$jzcgPCCvIem3hquj683ipxxROtxzilDHvufAdtrpzWM=",
+        "last_login": "2026-02-03T10:16:28.501Z",
+        "is_superuser": true,
+        "username": "root",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-02-03T10:16:11.007Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "ehr0w9ui2rck8cnv4vb1zwq6831st6sn",
+    "fields": {
+        "session_data": ".eJxVjEEOgjAQRe_StWlKaafo0j1naGY6M4IaSCisjHdXEha6_e-9_zIZt3XIW5Ulj2wupjGn342wPGTaAd9xus22zNO6jGR3xR602n5meV4P9-9gwDp864RUxHVBPYGm4AsAYIxK0UskLi14wdQ6bjQosTAk7CD54NzZderN-wP9oTgx:1vnDSO:jhYXYV_MuaSre6TB0fP9pLH-N67tzEwe4w70yeHl6lY",
+        "expire_date": "2026-02-17T10:16:28.507Z"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 5,
+    "fields": {
+        "title": "Array programming with NumPy",
+        "doi": "10.1038/s41586-020-2649-2",
+        "mag": "3035965352",
+        "pmid": "32939066",
+        "issn": "0028-0836",
+        "isbn": "1476-4687",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 6,
+    "fields": {
+        "title": "The NumPy Array: A Structure for Efficient Numerical Computation",
+        "doi": "10.1109/mcse.2011.37",
+        "mag": "2146292423",
+        "pmid": null,
+        "issn": "1521-9615",
+        "isbn": "1558-366X",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 7,
+    "fields": {
+        "title": "Legate NumPy",
+        "doi": "10.1145/3295500.3356175",
+        "mag": "2984884442",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 8,
+    "fields": {
+        "title": "The atomic simulation environment—a Python library for working with atoms",
+        "doi": "10.1088/1361-648x/aa680e",
+        "mag": "2601081289",
+        "pmid": "28323250",
+        "issn": "0953-8984",
+        "isbn": "1361-648X",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 9,
+    "fields": {
+        "title": "MDAnalysis: A toolkit for the analysis of molecular dynamics simulations",
+        "doi": "10.1002/jcc.21787",
+        "mag": "2170711116",
+        "pmid": "21500218",
+        "issn": "0192-8651",
+        "isbn": "1096-987X",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 10,
+    "fields": {
+        "title": "PROCESSING OCEANOGRAPHIC DATA BY PYTHON LIBRARIES NUMPY, SCIPY AND PANDAS",
+        "doi": "10.3153/ar19009",
+        "mag": "2940304639",
+        "pmid": null,
+        "issn": "2618-6365",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 11,
+    "fields": {
+        "title": "GSAS-II: the genesis of a modern open-source all purpose crystallography software package",
+        "doi": "10.1107/s0021889813003531",
+        "mag": "1967485833",
+        "pmid": null,
+        "issn": "0021-8898",
+        "isbn": "1600-5767",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 12,
+    "fields": {
+        "title": "MEG and EEG data analysis with MNE-Python",
+        "doi": "10.3389/fnins.2013.00267",
+        "mag": "2169918686",
+        "pmid": "24431986",
+        "issn": "1662-453X",
+        "isbn": "1662-4548",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 13,
+    "fields": {
+        "title": "Combination of NumPy, SciPy and Matplotlib/Pylab -a good alternative methodology to MATLAB - A Comparative analysis",
+        "doi": "10.1109/iciict1.2019.8741475",
+        "mag": "2952596784",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 14,
+    "fields": {
+        "title": "NumPy",
+        "doi": "10.1007/978-1-4842-4470-8_10",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 15,
+    "fields": {
+        "title": "Windrose: A Python Matplotlib, Numpy library to manage wind and pollution data, draw windrose",
+        "doi": "10.21105/joss.00268",
+        "mag": "2890417937",
+        "pmid": null,
+        "issn": "2475-9066",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 16,
+    "fields": {
+        "title": "Extensions for Scientists: NumPy, SciPy, Matplotlib, Pandas",
+        "doi": "10.1007/978-3-658-33552-6_9",
+        "mag": null,
+        "pmid": null,
+        "issn": "2197-6708",
+        "isbn": "2197-6716",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 17,
+    "fields": {
+        "title": "AIR CANVAS APPLICATION USING OPENCV AND NUMPY IN PYTHON",
+        "doi": "10.5281/zenodo.6569593",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 18,
+    "fields": {
+        "title": "NumPy and Matplotlib",
+        "doi": "10.1016/b978-0-12-812253-2.00005-4",
+        "mag": "2767197447",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 19,
+    "fields": {
+        "title": "Transparent GPU Execution of NumPy Applications",
+        "doi": "10.1109/ipdpsw.2014.114",
+        "mag": "2019918933",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 20,
+    "fields": {
+        "title": "Dask: Parallel Computation with Blocked algorithms and Task Scheduling",
+        "doi": "10.25080/majora-7b98e3ed-013",
+        "mag": "2527672088",
+        "pmid": null,
+        "issn": "2575-9752",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 21,
+    "fields": {
+        "title": "SciPy 1.0: fundamental algorithms for scientific computing in Python",
+        "doi": "10.1038/s41592-019-0686-2",
+        "mag": "3003257820",
+        "pmid": "32015543",
+        "issn": "1548-7091",
+        "isbn": "1548-7105",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 22,
+    "fields": {
+        "title": "A full-fledged micromagnetic code in fewer than 70 lines of NumPy",
+        "doi": "10.1016/j.jmmm.2015.03.081",
+        "mag": "1973662194",
+        "pmid": null,
+        "issn": "0304-8853",
+        "isbn": "1873-4766",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 23,
+    "fields": {
+        "title": "Using the Global Arrays Toolkit to Reimplement NumPy for Distributed Computation",
+        "doi": "10.25080/majora-ebaa42b7-004",
+        "mag": "2154075138",
+        "pmid": null,
+        "issn": "2575-9752",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 24,
+    "fields": {
+        "title": "Crowdsourcing Scientific Software Documentation: A Case Study of the NumPy Documentation Project",
+        "doi": "10.1109/mcse.2014.93",
+        "mag": "2151668576",
+        "pmid": null,
+        "issn": "1521-9615",
+        "isbn": "1558-366X",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 25,
+    "fields": {
+        "title": "Imbalanced-learn: A Python Toolbox to Tackle the Curse of Imbalanced Datasets in Machine Learning",
+        "doi": "10.48550/arxiv.1609.06570",
+        "mag": "2521200999",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 26,
+    "fields": {
+        "title": "NumPy and SciPy",
+        "doi": "10.1007/978-1-4842-7223-7_11",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 27,
+    "fields": {
+        "title": "Introduction to NumPy",
+        "doi": "10.1007/978-3-031-43725-0_4",
+        "mag": null,
+        "pmid": null,
+        "issn": "2690-0300",
+        "isbn": "2690-0327",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 28,
+    "fields": {
+        "title": "Real Time Object Recognition Using OpenCV and Numpy in Python",
+        "doi": "10.1109/icidca56705.2023.10099584",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 29,
+    "fields": {
+        "title": "ClPy: A NumPy-Compatible Library Accelerated with OpenCL",
+        "doi": "10.1109/ipdpsw.2019.00159",
+        "mag": "2965032576",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 30,
+    "fields": {
+        "title": "NumPy",
+        "doi": "10.1017/9781108120241.006",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 31,
+    "fields": {
+        "title": "Numpy",
+        "doi": "10.1007/978-3-030-68952-0_4",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 32,
+    "fields": {
+        "title": "Data Visualization with NumPy and Matplotlib",
+        "doi": "10.1007/978-1-4842-6455-3_5",
+        "mag": "3094401634",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 33,
+    "fields": {
+        "title": "PyCPD: Pure NumPy Implementation of the Coherent PointDrift Algorithm",
+        "doi": "10.21105/joss.04681",
+        "mag": null,
+        "pmid": null,
+        "issn": "2475-9066",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 34,
+    "fields": {
+        "title": "The NumPy Library",
+        "doi": "10.1007/978-1-4842-9532-8_3",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 35,
+    "fields": {
+        "title": "Performance of MPI Codes Written in Python with NumPy and mpi4py",
+        "doi": "10.1109/pyhpc.2016.010",
+        "mag": "2743622945",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 36,
+    "fields": {
+        "title": "Getting Started with NumPy",
+        "doi": "10.1007/978-1-4842-7921-2_2",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 37,
+    "fields": {
+        "title": "Imagedata: A Python library to handle medical imagedata in NumPy array subclass Series",
+        "doi": "10.21105/joss.04133",
+        "mag": null,
+        "pmid": null,
+        "issn": "2475-9066",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 38,
+    "fields": {
+        "title": "SciPy and NumPy",
+        "doi": "10.1007/978-1-4842-4113-4_9",
+        "mag": "2904693238",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 39,
+    "fields": {
+        "title": "mmappickle: Python 3 module to store memory-mapped numpy array in pickle format",
+        "doi": "10.21105/joss.00651",
+        "mag": "2809385573",
+        "pmid": null,
+        "issn": "2475-9066",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 40,
+    "fields": {
+        "title": "Theano: A CPU and GPU Math Compiler in Python",
+        "doi": "10.25080/majora-92bf1922-003",
+        "mag": "2152175008",
+        "pmid": null,
+        "issn": "2575-9752",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 41,
+    "fields": {
+        "title": "Analysis and Visualization of Multi-Scale Astrophysical Simulations Using Python and NumPy",
+        "doi": "10.25080/gcte1526",
+        "mag": "194379667",
+        "pmid": null,
+        "issn": "2575-9752",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 42,
+    "fields": {
+        "title": "NumPy",
+        "doi": "10.3139/9783446441514.031",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 43,
+    "fields": {
+        "title": "Fast Python: NumPy and Cython",
+        "doi": "10.1007/978-3-319-55682-6_3",
+        "mag": "2741188292",
+        "pmid": null,
+        "issn": "2193-8571",
+        "isbn": "2193-858X",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 44,
+    "fields": {
+        "title": "The NumPy Library",
+        "doi": "10.1007/978-1-4842-3913-1_3",
+        "mag": null,
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 4,
+    "fields": {
+        "article": 5,
+        "journal_name": "Apress eBooks",
+        "pages": "357-362",
+        "volume": "585",
+        "issue": "7825"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 5,
+    "fields": {
+        "article": 6,
+        "journal_name": "Apress eBooks",
+        "pages": "22-30",
+        "volume": "13",
+        "issue": "2"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 6,
+    "fields": {
+        "article": 7,
+        "journal_name": "Apress eBooks",
+        "pages": "1-23",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 7,
+    "fields": {
+        "article": 8,
+        "journal_name": "Apress eBooks",
+        "pages": "273002-273002",
+        "volume": "29",
+        "issue": "27"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 8,
+    "fields": {
+        "article": 9,
+        "journal_name": "Apress eBooks",
+        "pages": "2319-2327",
+        "volume": "32",
+        "issue": "10"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 9,
+    "fields": {
+        "article": 10,
+        "journal_name": "Apress eBooks",
+        "pages": "73-91",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 10,
+    "fields": {
+        "article": 11,
+        "journal_name": "Apress eBooks",
+        "pages": "544-549",
+        "volume": "46",
+        "issue": "2"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 11,
+    "fields": {
+        "article": 12,
+        "journal_name": "Apress eBooks",
+        "pages": "267-267",
+        "volume": "7",
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 12,
+    "fields": {
+        "article": 13,
+        "journal_name": "Apress eBooks",
+        "pages": "1-5",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 13,
+    "fields": {
+        "article": 14,
+        "journal_name": "Apress eBooks",
+        "pages": "91-113",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 14,
+    "fields": {
+        "article": 15,
+        "journal_name": "Apress eBooks",
+        "pages": "268-268",
+        "volume": "3",
+        "issue": "29"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 15,
+    "fields": {
+        "article": 16,
+        "journal_name": "Apress eBooks",
+        "pages": "45-53",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 16,
+    "fields": {
+        "article": 17,
+        "journal_name": "Apress eBooks",
+        "pages": "None-None",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 17,
+    "fields": {
+        "article": 18,
+        "journal_name": "Apress eBooks",
+        "pages": "53-74",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 18,
+    "fields": {
+        "article": 19,
+        "journal_name": "Apress eBooks",
+        "pages": "1002-1010",
+        "volume": "96",
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 19,
+    "fields": {
+        "article": 20,
+        "journal_name": "Apress eBooks",
+        "pages": "126-132",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 20,
+    "fields": {
+        "article": 21,
+        "journal_name": "Apress eBooks",
+        "pages": "261-272",
+        "volume": "17",
+        "issue": "3"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 21,
+    "fields": {
+        "article": 22,
+        "journal_name": "Apress eBooks",
+        "pages": "13-18",
+        "volume": "387",
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 22,
+    "fields": {
+        "article": 23,
+        "journal_name": "Apress eBooks",
+        "pages": "29-35",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 23,
+    "fields": {
+        "article": 24,
+        "journal_name": "Apress eBooks",
+        "pages": "28-36",
+        "volume": "17",
+        "issue": "1"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 24,
+    "fields": {
+        "article": 25,
+        "journal_name": "Apress eBooks",
+        "pages": "None-None",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 25,
+    "fields": {
+        "article": 26,
+        "journal_name": "Apress eBooks",
+        "pages": "335-492",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 26,
+    "fields": {
+        "article": 27,
+        "journal_name": "Apress eBooks",
+        "pages": "127-159",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 27,
+    "fields": {
+        "article": 28,
+        "journal_name": "Apress eBooks",
+        "pages": "421-426",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 28,
+    "fields": {
+        "article": 29,
+        "journal_name": "Apress eBooks",
+        "pages": "933-940",
+        "volume": "5",
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 29,
+    "fields": {
+        "article": 30,
+        "journal_name": "Apress eBooks",
+        "pages": "55-81",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 30,
+    "fields": {
+        "article": 31,
+        "journal_name": "Apress eBooks",
+        "pages": "103-126",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 31,
+    "fields": {
+        "article": 32,
+        "journal_name": "Apress eBooks",
+        "pages": "57-79",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 32,
+    "fields": {
+        "article": 33,
+        "journal_name": "Apress eBooks",
+        "pages": "4681-4681",
+        "volume": "7",
+        "issue": "80"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 33,
+    "fields": {
+        "article": 34,
+        "journal_name": "Apress eBooks",
+        "pages": "45-72",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 34,
+    "fields": {
+        "article": 35,
+        "journal_name": "Apress eBooks",
+        "pages": "45-51",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 35,
+    "fields": {
+        "article": 36,
+        "journal_name": "Apress eBooks",
+        "pages": "23-30",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 36,
+    "fields": {
+        "article": 37,
+        "journal_name": "Apress eBooks",
+        "pages": "4133-4133",
+        "volume": "7",
+        "issue": "73"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 37,
+    "fields": {
+        "article": 38,
+        "journal_name": "Apress eBooks",
+        "pages": "177-200",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 38,
+    "fields": {
+        "article": 39,
+        "journal_name": "Apress eBooks",
+        "pages": "651-651",
+        "volume": "3",
+        "issue": "26"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 39,
+    "fields": {
+        "article": 40,
+        "journal_name": "Apress eBooks",
+        "pages": "18-24",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 40,
+    "fields": {
+        "article": 41,
+        "journal_name": "Apress eBooks",
+        "pages": "46-50",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 41,
+    "fields": {
+        "article": 42,
+        "journal_name": "Apress eBooks",
+        "pages": "377-398",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 42,
+    "fields": {
+        "article": 43,
+        "journal_name": "Apress eBooks",
+        "pages": "35-60",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 43,
+    "fields": {
+        "article": 44,
+        "journal_name": "Apress eBooks",
+        "pages": "49-85",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 4,
+    "fields": {
+        "article": 5,
+        "date_of_artical": "2020-09-16",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 5,
+    "fields": {
+        "article": 6,
+        "date_of_artical": "2011-03-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 6,
+    "fields": {
+        "article": 7,
+        "date_of_artical": "2019-11-07",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 7,
+    "fields": {
+        "article": 8,
+        "date_of_artical": "2017-03-21",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 8,
+    "fields": {
+        "article": 9,
+        "date_of_artical": "2011-04-15",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 9,
+    "fields": {
+        "article": 10,
+        "date_of_artical": "2019-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 10,
+    "fields": {
+        "article": 11,
+        "date_of_artical": "2013-03-13",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 11,
+    "fields": {
+        "article": 12,
+        "date_of_artical": "2013-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 12,
+    "fields": {
+        "article": 13,
+        "date_of_artical": "2019-04-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 13,
+    "fields": {
+        "article": 14,
+        "date_of_artical": "2019-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 14,
+    "fields": {
+        "article": 15,
+        "date_of_artical": "2018-09-04",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 15,
+    "fields": {
+        "article": 16,
+        "date_of_artical": "2021-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 16,
+    "fields": {
+        "article": 17,
+        "date_of_artical": "2022-05-21",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 17,
+    "fields": {
+        "article": 18,
+        "date_of_artical": "2017-11-29",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 18,
+    "fields": {
+        "article": 19,
+        "date_of_artical": "2014-05-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 19,
+    "fields": {
+        "article": 20,
+        "date_of_artical": "2015-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 20,
+    "fields": {
+        "article": 21,
+        "date_of_artical": "2020-02-03",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 21,
+    "fields": {
+        "article": 22,
+        "date_of_artical": "2015-04-02",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 22,
+    "fields": {
+        "article": 23,
+        "date_of_artical": "2011-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 23,
+    "fields": {
+        "article": 24,
+        "date_of_artical": "2014-08-15",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 24,
+    "fields": {
+        "article": 25,
+        "date_of_artical": "2016-09-21",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 25,
+    "fields": {
+        "article": 26,
+        "date_of_artical": "2022-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 26,
+    "fields": {
+        "article": 27,
+        "date_of_artical": "2024-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 27,
+    "fields": {
+        "article": 28,
+        "date_of_artical": "2023-03-14",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 28,
+    "fields": {
+        "article": 29,
+        "date_of_artical": "2019-05-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 29,
+    "fields": {
+        "article": 30,
+        "date_of_artical": "2017-10-12",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 30,
+    "fields": {
+        "article": 31,
+        "date_of_artical": "2021-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 31,
+    "fields": {
+        "article": 32,
+        "date_of_artical": "2020-10-24",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 32,
+    "fields": {
+        "article": 33,
+        "date_of_artical": "2022-12-15",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 33,
+    "fields": {
+        "article": 34,
+        "date_of_artical": "2023-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 34,
+    "fields": {
+        "article": 35,
+        "date_of_artical": "2016-11-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 35,
+    "fields": {
+        "article": 36,
+        "date_of_artical": "2022-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 36,
+    "fields": {
+        "article": 37,
+        "date_of_artical": "2022-05-25",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 37,
+    "fields": {
+        "article": 38,
+        "date_of_artical": "2018-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 38,
+    "fields": {
+        "article": 39,
+        "date_of_artical": "2018-06-18",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 39,
+    "fields": {
+        "article": 40,
+        "date_of_artical": "2010-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 40,
+    "fields": {
+        "article": 41,
+        "date_of_artical": "2008-06-28",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 41,
+    "fields": {
+        "article": 42,
+        "date_of_artical": "2014-10-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 42,
+    "fields": {
+        "article": 43,
+        "date_of_artical": "2017-08-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 43,
+    "fields": {
+        "article": 44,
+        "date_of_artical": "2018-01-01",
+        "date_of_last_update": "2026-02-03",
+        "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 4,
+    "fields": {
+        "article": 5,
+        "reference_count": 19901,
+        "reference_in_work": 41
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 5,
+    "fields": {
+        "article": 6,
+        "reference_count": 10664,
+        "reference_in_work": 1
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 6,
+    "fields": {
+        "article": 7,
+        "reference_count": 46,
+        "reference_in_work": 20
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 7,
+    "fields": {
+        "article": 8,
+        "reference_count": 4276,
+        "reference_in_work": 148
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 8,
+    "fields": {
+        "article": 9,
+        "reference_count": 4116,
+        "reference_in_work": 24
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 9,
+    "fields": {
+        "article": 10,
+        "reference_count": 69,
+        "reference_in_work": 29
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 10,
+    "fields": {
+        "article": 11,
+        "reference_count": 5436,
+        "reference_in_work": 11
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 11,
+    "fields": {
+        "article": 12,
+        "reference_count": 3693,
+        "reference_in_work": 53
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 12,
+    "fields": {
+        "article": 13,
+        "reference_count": 34,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 13,
+    "fields": {
+        "article": 14,
+        "reference_count": 10,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 14,
+    "fields": {
+        "article": 15,
+        "reference_count": 33,
+        "reference_in_work": 8
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 15,
+    "fields": {
+        "article": 16,
+        "reference_count": 19,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 16,
+    "fields": {
+        "article": 17,
+        "reference_count": 24,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 17,
+    "fields": {
+        "article": 18,
+        "reference_count": 7,
+        "reference_in_work": 3
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 18,
+    "fields": {
+        "article": 19,
+        "reference_count": 10,
+        "reference_in_work": 22
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 19,
+    "fields": {
+        "article": 20,
+        "reference_count": 762,
+        "reference_in_work": 17
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 20,
+    "fields": {
+        "article": 21,
+        "reference_count": 34473,
+        "reference_in_work": 70
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 21,
+    "fields": {
+        "article": 22,
+        "reference_count": 15,
+        "reference_in_work": 15
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 22,
+    "fields": {
+        "article": 23,
+        "reference_count": 13,
+        "reference_in_work": 22
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 23,
+    "fields": {
+        "article": 24,
+        "reference_count": 15,
+        "reference_in_work": 13
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 24,
+    "fields": {
+        "article": 25,
+        "reference_count": 1560,
+        "reference_in_work": 13
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 25,
+    "fields": {
+        "article": 26,
+        "reference_count": 5,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 26,
+    "fields": {
+        "article": 27,
+        "reference_count": 5,
+        "reference_in_work": 2
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 27,
+    "fields": {
+        "article": 28,
+        "reference_count": 13,
+        "reference_in_work": 15
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 28,
+    "fields": {
+        "article": 29,
+        "reference_count": 8,
+        "reference_in_work": 41
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 29,
+    "fields": {
+        "article": 30,
+        "reference_count": 4,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 30,
+    "fields": {
+        "article": 31,
+        "reference_count": 3,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 31,
+    "fields": {
+        "article": 32,
+        "reference_count": 5,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 32,
+    "fields": {
+        "article": 33,
+        "reference_count": 10,
+        "reference_in_work": 7
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 33,
+    "fields": {
+        "article": 34,
+        "reference_count": 3,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 34,
+    "fields": {
+        "article": 35,
+        "reference_count": 6,
+        "reference_in_work": 8
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 35,
+    "fields": {
+        "article": 36,
+        "reference_count": 4,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 36,
+    "fields": {
+        "article": 37,
+        "reference_count": 8,
+        "reference_in_work": 12
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 37,
+    "fields": {
+        "article": 38,
+        "reference_count": 3,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 38,
+    "fields": {
+        "article": 39,
+        "reference_count": 9,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 39,
+    "fields": {
+        "article": 40,
+        "reference_count": 1054,
+        "reference_in_work": 4
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 40,
+    "fields": {
+        "article": 41,
+        "reference_count": 9,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 41,
+    "fields": {
+        "article": 42,
+        "reference_count": 3,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 42,
+    "fields": {
+        "article": 43,
+        "reference_count": 4,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 43,
+    "fields": {
+        "article": 44,
+        "reference_count": 2,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 1,
+    "fields": {
+        "article": 5,
+        "year": 2026,
+        "citiation": 419
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 2,
+    "fields": {
+        "article": 5,
+        "year": 2025,
+        "citiation": 5445
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 3,
+    "fields": {
+        "article": 5,
+        "year": 2024,
+        "citiation": 4782
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 4,
+    "fields": {
+        "article": 5,
+        "year": 2023,
+        "citiation": 3791
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 5,
+    "fields": {
+        "article": 5,
+        "year": 2022,
+        "citiation": 3196
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 6,
+    "fields": {
+        "article": 5,
+        "year": 2021,
+        "citiation": 2090
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 7,
+    "fields": {
+        "article": 5,
+        "year": 2020,
+        "citiation": 169
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 8,
+    "fields": {
+        "article": 5,
+        "year": 2019,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 9,
+    "fields": {
+        "article": 5,
+        "year": 2018,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 10,
+    "fields": {
+        "article": 5,
+        "year": 2012,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 11,
+    "fields": {
+        "article": 6,
+        "year": 2026,
+        "citiation": 39
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 12,
+    "fields": {
+        "article": 6,
+        "year": 2025,
+        "citiation": 696
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 13,
+    "fields": {
+        "article": 6,
+        "year": 2024,
+        "citiation": 822
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 14,
+    "fields": {
+        "article": 6,
+        "year": 2023,
+        "citiation": 977
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 15,
+    "fields": {
+        "article": 6,
+        "year": 2022,
+        "citiation": 1032
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 16,
+    "fields": {
+        "article": 6,
+        "year": 2021,
+        "citiation": 1571
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 17,
+    "fields": {
+        "article": 6,
+        "year": 2020,
+        "citiation": 1773
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 18,
+    "fields": {
+        "article": 6,
+        "year": 2019,
+        "citiation": 1134
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 19,
+    "fields": {
+        "article": 6,
+        "year": 2018,
+        "citiation": 1071
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 20,
+    "fields": {
+        "article": 6,
+        "year": 2017,
+        "citiation": 760
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 21,
+    "fields": {
+        "article": 6,
+        "year": 2016,
+        "citiation": 452
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 22,
+    "fields": {
+        "article": 6,
+        "year": 2015,
+        "citiation": 243
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 23,
+    "fields": {
+        "article": 6,
+        "year": 2014,
+        "citiation": 54
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 24,
+    "fields": {
+        "article": 6,
+        "year": 2013,
+        "citiation": 15
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 25,
+    "fields": {
+        "article": 6,
+        "year": 2012,
+        "citiation": 14
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 26,
+    "fields": {
+        "article": 7,
+        "year": 2025,
+        "citiation": 6
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 27,
+    "fields": {
+        "article": 7,
+        "year": 2024,
+        "citiation": 10
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 28,
+    "fields": {
+        "article": 7,
+        "year": 2023,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 29,
+    "fields": {
+        "article": 7,
+        "year": 2022,
+        "citiation": 10
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 30,
+    "fields": {
+        "article": 7,
+        "year": 2021,
+        "citiation": 11
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 31,
+    "fields": {
+        "article": 7,
+        "year": 2020,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 32,
+    "fields": {
+        "article": 7,
+        "year": 2019,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 33,
+    "fields": {
+        "article": 8,
+        "year": 2026,
+        "citiation": 56
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 34,
+    "fields": {
+        "article": 8,
+        "year": 2025,
+        "citiation": 782
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 35,
+    "fields": {
+        "article": 8,
+        "year": 2024,
+        "citiation": 769
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 36,
+    "fields": {
+        "article": 8,
+        "year": 2023,
+        "citiation": 662
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 37,
+    "fields": {
+        "article": 8,
+        "year": 2022,
+        "citiation": 527
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 38,
+    "fields": {
+        "article": 8,
+        "year": 2021,
+        "citiation": 571
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 39,
+    "fields": {
+        "article": 8,
+        "year": 2020,
+        "citiation": 428
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 40,
+    "fields": {
+        "article": 8,
+        "year": 2019,
+        "citiation": 283
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 41,
+    "fields": {
+        "article": 8,
+        "year": 2018,
+        "citiation": 167
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 42,
+    "fields": {
+        "article": 8,
+        "year": 2017,
+        "citiation": 28
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 43,
+    "fields": {
+        "article": 8,
+        "year": 2016,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 44,
+    "fields": {
+        "article": 8,
+        "year": 2012,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 45,
+    "fields": {
+        "article": 9,
+        "year": 2026,
+        "citiation": 74
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 46,
+    "fields": {
+        "article": 9,
+        "year": 2025,
+        "citiation": 1009
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 47,
+    "fields": {
+        "article": 9,
+        "year": 2024,
+        "citiation": 771
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 48,
+    "fields": {
+        "article": 9,
+        "year": 2023,
+        "citiation": 536
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 49,
+    "fields": {
+        "article": 9,
+        "year": 2022,
+        "citiation": 399
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 50,
+    "fields": {
+        "article": 9,
+        "year": 2021,
+        "citiation": 376
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 51,
+    "fields": {
+        "article": 9,
+        "year": 2020,
+        "citiation": 269
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 52,
+    "fields": {
+        "article": 9,
+        "year": 2019,
+        "citiation": 185
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 53,
+    "fields": {
+        "article": 9,
+        "year": 2018,
+        "citiation": 135
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 54,
+    "fields": {
+        "article": 9,
+        "year": 2017,
+        "citiation": 115
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 55,
+    "fields": {
+        "article": 9,
+        "year": 2016,
+        "citiation": 92
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 56,
+    "fields": {
+        "article": 9,
+        "year": 2015,
+        "citiation": 52
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 57,
+    "fields": {
+        "article": 9,
+        "year": 2014,
+        "citiation": 54
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 58,
+    "fields": {
+        "article": 9,
+        "year": 2013,
+        "citiation": 29
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 59,
+    "fields": {
+        "article": 9,
+        "year": 2012,
+        "citiation": 12
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 60,
+    "fields": {
+        "article": 10,
+        "year": 2026,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 61,
+    "fields": {
+        "article": 10,
+        "year": 2025,
+        "citiation": 9
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 62,
+    "fields": {
+        "article": 10,
+        "year": 2024,
+        "citiation": 9
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 63,
+    "fields": {
+        "article": 10,
+        "year": 2023,
+        "citiation": 9
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 64,
+    "fields": {
+        "article": 10,
+        "year": 2022,
+        "citiation": 6
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 65,
+    "fields": {
+        "article": 10,
+        "year": 2021,
+        "citiation": 14
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 66,
+    "fields": {
+        "article": 10,
+        "year": 2020,
+        "citiation": 15
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 67,
+    "fields": {
+        "article": 10,
+        "year": 2019,
+        "citiation": 6
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 68,
+    "fields": {
+        "article": 11,
+        "year": 2026,
+        "citiation": 95
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 69,
+    "fields": {
+        "article": 11,
+        "year": 2025,
+        "citiation": 1115
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 70,
+    "fields": {
+        "article": 11,
+        "year": 2024,
+        "citiation": 1034
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 71,
+    "fields": {
+        "article": 11,
+        "year": 2023,
+        "citiation": 784
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 72,
+    "fields": {
+        "article": 11,
+        "year": 2022,
+        "citiation": 634
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 73,
+    "fields": {
+        "article": 11,
+        "year": 2021,
+        "citiation": 535
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 74,
+    "fields": {
+        "article": 11,
+        "year": 2020,
+        "citiation": 487
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 75,
+    "fields": {
+        "article": 11,
+        "year": 2019,
+        "citiation": 300
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 76,
+    "fields": {
+        "article": 11,
+        "year": 2018,
+        "citiation": 194
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 77,
+    "fields": {
+        "article": 11,
+        "year": 2017,
+        "citiation": 129
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 78,
+    "fields": {
+        "article": 11,
+        "year": 2016,
+        "citiation": 68
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 79,
+    "fields": {
+        "article": 11,
+        "year": 2015,
+        "citiation": 32
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 80,
+    "fields": {
+        "article": 11,
+        "year": 2014,
+        "citiation": 24
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 81,
+    "fields": {
+        "article": 11,
+        "year": 2013,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 82,
+    "fields": {
+        "article": 12,
+        "year": 2026,
+        "citiation": 57
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 83,
+    "fields": {
+        "article": 12,
+        "year": 2025,
+        "citiation": 805
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 84,
+    "fields": {
+        "article": 12,
+        "year": 2024,
+        "citiation": 764
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 85,
+    "fields": {
+        "article": 12,
+        "year": 2023,
+        "citiation": 579
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 86,
+    "fields": {
+        "article": 12,
+        "year": 2022,
+        "citiation": 431
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 87,
+    "fields": {
+        "article": 12,
+        "year": 2021,
+        "citiation": 372
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 88,
+    "fields": {
+        "article": 12,
+        "year": 2020,
+        "citiation": 269
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 89,
+    "fields": {
+        "article": 12,
+        "year": 2019,
+        "citiation": 174
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 90,
+    "fields": {
+        "article": 12,
+        "year": 2018,
+        "citiation": 112
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 91,
+    "fields": {
+        "article": 12,
+        "year": 2017,
+        "citiation": 60
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 92,
+    "fields": {
+        "article": 12,
+        "year": 2016,
+        "citiation": 42
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 93,
+    "fields": {
+        "article": 12,
+        "year": 2015,
+        "citiation": 21
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 94,
+    "fields": {
+        "article": 12,
+        "year": 2014,
+        "citiation": 7
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 95,
+    "fields": {
+        "article": 13,
+        "year": 2026,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 96,
+    "fields": {
+        "article": 13,
+        "year": 2025,
+        "citiation": 5
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 97,
+    "fields": {
+        "article": 13,
+        "year": 2024,
+        "citiation": 7
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 98,
+    "fields": {
+        "article": 13,
+        "year": 2023,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 99,
+    "fields": {
+        "article": 13,
+        "year": 2022,
+        "citiation": 9
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 100,
+    "fields": {
+        "article": 13,
+        "year": 2021,
+        "citiation": 6
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 101,
+    "fields": {
+        "article": 13,
+        "year": 2020,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 102,
+    "fields": {
+        "article": 14,
+        "year": 2025,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 103,
+    "fields": {
+        "article": 14,
+        "year": 2024,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 104,
+    "fields": {
+        "article": 14,
+        "year": 2023,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 105,
+    "fields": {
+        "article": 14,
+        "year": 2022,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 106,
+    "fields": {
+        "article": 14,
+        "year": 2021,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 107,
+    "fields": {
+        "article": 14,
+        "year": 2020,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 108,
+    "fields": {
+        "article": 15,
+        "year": 2026,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 109,
+    "fields": {
+        "article": 15,
+        "year": 2025,
+        "citiation": 6
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 110,
+    "fields": {
+        "article": 15,
+        "year": 2024,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 111,
+    "fields": {
+        "article": 15,
+        "year": 2023,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 112,
+    "fields": {
+        "article": 15,
+        "year": 2022,
+        "citiation": 8
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 113,
+    "fields": {
+        "article": 15,
+        "year": 2021,
+        "citiation": 7
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 114,
+    "fields": {
+        "article": 15,
+        "year": 2020,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 115,
+    "fields": {
+        "article": 15,
+        "year": 2019,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 116,
+    "fields": {
+        "article": 16,
+        "year": 2026,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 117,
+    "fields": {
+        "article": 16,
+        "year": 2025,
+        "citiation": 16
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 118,
+    "fields": {
+        "article": 16,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 119,
+    "fields": {
+        "article": 17,
+        "year": 2025,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 120,
+    "fields": {
+        "article": 17,
+        "year": 2024,
+        "citiation": 6
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 121,
+    "fields": {
+        "article": 17,
+        "year": 2023,
+        "citiation": 7
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 122,
+    "fields": {
+        "article": 17,
+        "year": 2022,
+        "citiation": 8
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 123,
+    "fields": {
+        "article": 17,
+        "year": 2021,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 124,
+    "fields": {
+        "article": 18,
+        "year": 2025,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 125,
+    "fields": {
+        "article": 18,
+        "year": 2024,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 126,
+    "fields": {
+        "article": 18,
+        "year": 2023,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 127,
+    "fields": {
+        "article": 18,
+        "year": 2022,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 128,
+    "fields": {
+        "article": 18,
+        "year": 2018,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 129,
+    "fields": {
+        "article": 19,
+        "year": 2023,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 130,
+    "fields": {
+        "article": 19,
+        "year": 2021,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 131,
+    "fields": {
+        "article": 19,
+        "year": 2020,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 132,
+    "fields": {
+        "article": 19,
+        "year": 2018,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 133,
+    "fields": {
+        "article": 19,
+        "year": 2017,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 134,
+    "fields": {
+        "article": 19,
+        "year": 2016,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 135,
+    "fields": {
+        "article": 20,
+        "year": 2026,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 136,
+    "fields": {
+        "article": 20,
+        "year": 2025,
+        "citiation": 112
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 137,
+    "fields": {
+        "article": 20,
+        "year": 2024,
+        "citiation": 102
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 138,
+    "fields": {
+        "article": 20,
+        "year": 2023,
+        "citiation": 128
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 139,
+    "fields": {
+        "article": 20,
+        "year": 2022,
+        "citiation": 127
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 140,
+    "fields": {
+        "article": 20,
+        "year": 2021,
+        "citiation": 113
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 141,
+    "fields": {
+        "article": 20,
+        "year": 2020,
+        "citiation": 77
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 142,
+    "fields": {
+        "article": 20,
+        "year": 2019,
+        "citiation": 58
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 143,
+    "fields": {
+        "article": 20,
+        "year": 2018,
+        "citiation": 20
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 144,
+    "fields": {
+        "article": 20,
+        "year": 2017,
+        "citiation": 16
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 145,
+    "fields": {
+        "article": 20,
+        "year": 2016,
+        "citiation": 5
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 146,
+    "fields": {
+        "article": 21,
+        "year": 2026,
+        "citiation": 586
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 147,
+    "fields": {
+        "article": 21,
+        "year": 2025,
+        "citiation": 8375
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 148,
+    "fields": {
+        "article": 21,
+        "year": 2024,
+        "citiation": 7531
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 149,
+    "fields": {
+        "article": 21,
+        "year": 2023,
+        "citiation": 6441
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 150,
+    "fields": {
+        "article": 21,
+        "year": 2022,
+        "citiation": 5234
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 151,
+    "fields": {
+        "article": 21,
+        "year": 2021,
+        "citiation": 4285
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 152,
+    "fields": {
+        "article": 21,
+        "year": 2020,
+        "citiation": 1733
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 153,
+    "fields": {
+        "article": 21,
+        "year": 2019,
+        "citiation": 42
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 154,
+    "fields": {
+        "article": 21,
+        "year": 2018,
+        "citiation": 19
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 155,
+    "fields": {
+        "article": 21,
+        "year": 2017,
+        "citiation": 14
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 156,
+    "fields": {
+        "article": 21,
+        "year": 2016,
+        "citiation": 27
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 157,
+    "fields": {
+        "article": 21,
+        "year": 2015,
+        "citiation": 18
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 158,
+    "fields": {
+        "article": 21,
+        "year": 2014,
+        "citiation": 17
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 159,
+    "fields": {
+        "article": 21,
+        "year": 2013,
+        "citiation": 17
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 160,
+    "fields": {
+        "article": 21,
+        "year": 2012,
+        "citiation": 11
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 161,
+    "fields": {
+        "article": 22,
+        "year": 2025,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 162,
+    "fields": {
+        "article": 22,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 163,
+    "fields": {
+        "article": 22,
+        "year": 2023,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 164,
+    "fields": {
+        "article": 22,
+        "year": 2022,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 165,
+    "fields": {
+        "article": 22,
+        "year": 2021,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 166,
+    "fields": {
+        "article": 22,
+        "year": 2020,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 167,
+    "fields": {
+        "article": 22,
+        "year": 2019,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 168,
+    "fields": {
+        "article": 22,
+        "year": 2017,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 169,
+    "fields": {
+        "article": 23,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 170,
+    "fields": {
+        "article": 23,
+        "year": 2023,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 171,
+    "fields": {
+        "article": 23,
+        "year": 2021,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 172,
+    "fields": {
+        "article": 23,
+        "year": 2020,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 173,
+    "fields": {
+        "article": 23,
+        "year": 2019,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 174,
+    "fields": {
+        "article": 23,
+        "year": 2018,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 175,
+    "fields": {
+        "article": 23,
+        "year": 2015,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 176,
+    "fields": {
+        "article": 23,
+        "year": 2014,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 177,
+    "fields": {
+        "article": 24,
+        "year": 2024,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 178,
+    "fields": {
+        "article": 24,
+        "year": 2023,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 179,
+    "fields": {
+        "article": 24,
+        "year": 2021,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 180,
+    "fields": {
+        "article": 24,
+        "year": 2020,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 181,
+    "fields": {
+        "article": 24,
+        "year": 2018,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 182,
+    "fields": {
+        "article": 24,
+        "year": 2017,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 183,
+    "fields": {
+        "article": 24,
+        "year": 2016,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 184,
+    "fields": {
+        "article": 25,
+        "year": 2025,
+        "citiation": 118
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 185,
+    "fields": {
+        "article": 25,
+        "year": 2024,
+        "citiation": 227
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 186,
+    "fields": {
+        "article": 25,
+        "year": 2023,
+        "citiation": 244
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 187,
+    "fields": {
+        "article": 25,
+        "year": 2022,
+        "citiation": 218
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 188,
+    "fields": {
+        "article": 25,
+        "year": 2021,
+        "citiation": 288
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 189,
+    "fields": {
+        "article": 25,
+        "year": 2020,
+        "citiation": 213
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 190,
+    "fields": {
+        "article": 25,
+        "year": 2019,
+        "citiation": 152
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 191,
+    "fields": {
+        "article": 25,
+        "year": 2018,
+        "citiation": 66
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 192,
+    "fields": {
+        "article": 25,
+        "year": 2017,
+        "citiation": 32
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 193,
+    "fields": {
+        "article": 25,
+        "year": 2016,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 194,
+    "fields": {
+        "article": 26,
+        "year": 2024,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 195,
+    "fields": {
+        "article": 26,
+        "year": 2023,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 196,
+    "fields": {
+        "article": 26,
+        "year": 2022,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 197,
+    "fields": {
+        "article": 27,
+        "year": 2026,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 198,
+    "fields": {
+        "article": 27,
+        "year": 2025,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 199,
+    "fields": {
+        "article": 27,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 200,
+    "fields": {
+        "article": 28,
+        "year": 2025,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 201,
+    "fields": {
+        "article": 28,
+        "year": 2024,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 202,
+    "fields": {
+        "article": 28,
+        "year": 2023,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 203,
+    "fields": {
+        "article": 28,
+        "year": 2022,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 204,
+    "fields": {
+        "article": 29,
+        "year": 2023,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 205,
+    "fields": {
+        "article": 29,
+        "year": 2022,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 206,
+    "fields": {
+        "article": 29,
+        "year": 2021,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 207,
+    "fields": {
+        "article": 29,
+        "year": 2019,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 208,
+    "fields": {
+        "article": 30,
+        "year": 2025,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 209,
+    "fields": {
+        "article": 30,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 210,
+    "fields": {
+        "article": 30,
+        "year": 2023,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 211,
+    "fields": {
+        "article": 30,
+        "year": 2022,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 212,
+    "fields": {
+        "article": 31,
+        "year": 2025,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 213,
+    "fields": {
+        "article": 31,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 214,
+    "fields": {
+        "article": 32,
+        "year": 2026,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 215,
+    "fields": {
+        "article": 32,
+        "year": 2023,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 216,
+    "fields": {
+        "article": 32,
+        "year": 2022,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 217,
+    "fields": {
+        "article": 33,
+        "year": 2025,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 218,
+    "fields": {
+        "article": 33,
+        "year": 2024,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 219,
+    "fields": {
+        "article": 33,
+        "year": 2023,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 220,
+    "fields": {
+        "article": 34,
+        "year": 2025,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 221,
+    "fields": {
+        "article": 34,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 222,
+    "fields": {
+        "article": 35,
+        "year": 2022,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 223,
+    "fields": {
+        "article": 35,
+        "year": 2020,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 224,
+    "fields": {
+        "article": 35,
+        "year": 2019,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 225,
+    "fields": {
+        "article": 36,
+        "year": 2025,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 226,
+    "fields": {
+        "article": 36,
+        "year": 2023,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 227,
+    "fields": {
+        "article": 37,
+        "year": 2025,
+        "citiation": 3
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 228,
+    "fields": {
+        "article": 37,
+        "year": 2024,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 229,
+    "fields": {
+        "article": 37,
+        "year": 2023,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 230,
+    "fields": {
+        "article": 37,
+        "year": 2022,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 231,
+    "fields": {
+        "article": 38,
+        "year": 2021,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 232,
+    "fields": {
+        "article": 38,
+        "year": 2020,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 233,
+    "fields": {
+        "article": 39,
+        "year": 2025,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 234,
+    "fields": {
+        "article": 39,
+        "year": 2024,
+        "citiation": 4
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 235,
+    "fields": {
+        "article": 39,
+        "year": 2023,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 236,
+    "fields": {
+        "article": 39,
+        "year": 2022,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 237,
+    "fields": {
+        "article": 39,
+        "year": 2020,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 238,
+    "fields": {
+        "article": 40,
+        "year": 2025,
+        "citiation": 12
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 239,
+    "fields": {
+        "article": 40,
+        "year": 2024,
+        "citiation": 13
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 240,
+    "fields": {
+        "article": 40,
+        "year": 2023,
+        "citiation": 31
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 241,
+    "fields": {
+        "article": 40,
+        "year": 2022,
+        "citiation": 27
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 242,
+    "fields": {
+        "article": 40,
+        "year": 2021,
+        "citiation": 48
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 243,
+    "fields": {
+        "article": 40,
+        "year": 2020,
+        "citiation": 66
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 244,
+    "fields": {
+        "article": 40,
+        "year": 2019,
+        "citiation": 90
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 245,
+    "fields": {
+        "article": 40,
+        "year": 2018,
+        "citiation": 154
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 246,
+    "fields": {
+        "article": 40,
+        "year": 2017,
+        "citiation": 214
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 247,
+    "fields": {
+        "article": 40,
+        "year": 2016,
+        "citiation": 193
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 248,
+    "fields": {
+        "article": 40,
+        "year": 2015,
+        "citiation": 116
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 249,
+    "fields": {
+        "article": 40,
+        "year": 2014,
+        "citiation": 56
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 250,
+    "fields": {
+        "article": 40,
+        "year": 2013,
+        "citiation": 21
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 251,
+    "fields": {
+        "article": 40,
+        "year": 2012,
+        "citiation": 9
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 252,
+    "fields": {
+        "article": 41,
+        "year": 2015,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 253,
+    "fields": {
+        "article": 41,
+        "year": 2014,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 254,
+    "fields": {
+        "article": 41,
+        "year": 2013,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 255,
+    "fields": {
+        "article": 42,
+        "year": 2021,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 256,
+    "fields": {
+        "article": 42,
+        "year": 2020,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 257,
+    "fields": {
+        "article": 43,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 258,
+    "fields": {
+        "article": 43,
+        "year": 2022,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 259,
+    "fields": {
+        "article": 43,
+        "year": 2020,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 260,
+    "fields": {
+        "article": 44,
+        "year": 2023,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 261,
+    "fields": {
+        "article": 44,
+        "year": 2021,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 1,
+    "fields": {
+        "article": 5,
+        "main_initials": "Charles R. Harris"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 2,
+    "fields": {
+        "article": 6,
+        "main_initials": "Stéfan van der Walt"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 3,
+    "fields": {
+        "article": 7,
+        "main_initials": "Michael Bauer"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 4,
+    "fields": {
+        "article": 8,
+        "main_initials": "Ask Hjorth Larsen"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 5,
+    "fields": {
+        "article": 9,
+        "main_initials": "Naveen Michaud‐Agrawal"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 6,
+    "fields": {
+        "article": 10,
+        "main_initials": "Polina Lemenkova"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 7,
+    "fields": {
+        "article": 11,
+        "main_initials": "Brian H. Toby"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 8,
+    "fields": {
+        "article": 12,
+        "main_initials": "Alexandre Gramfort"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 9,
+    "fields": {
+        "article": 13,
+        "main_initials": "J Ranjani"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 10,
+    "fields": {
+        "article": 14,
+        "main_initials": "Ekaba Bisong"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 11,
+    "fields": {
+        "article": 15,
+        "main_initials": "Lionel Roubeyrie"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 12,
+    "fields": {
+        "article": 16,
+        "main_initials": "C. Schäfer"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 13,
+    "fields": {
+        "article": 17,
+        "main_initials": "M. Parameswari"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 14,
+    "fields": {
+        "article": 18,
+        "main_initials": "Ryan G. McClarren"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 15,
+    "fields": {
+        "article": 19,
+        "main_initials": "Troels Blum"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 16,
+    "fields": {
+        "article": 20,
+        "main_initials": "Matthew Rocklin"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 17,
+    "fields": {
+        "article": 21,
+        "main_initials": "Pauli Virtanen"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 18,
+    "fields": {
+        "article": 22,
+        "main_initials": "Claas Abert"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 19,
+    "fields": {
+        "article": 23,
+        "main_initials": "Jeff Daily"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 20,
+    "fields": {
+        "article": 24,
+        "main_initials": "Aleksandra Pawlik"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 21,
+    "fields": {
+        "article": 25,
+        "main_initials": "Guillaume Lemaître"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 22,
+    "fields": {
+        "article": 26,
+        "main_initials": "Albert Danial"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 23,
+    "fields": {
+        "article": 27,
+        "main_initials": "Pramod Gupta"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 24,
+    "fields": {
+        "article": 28,
+        "main_initials": "Vasa Rakesh"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 25,
+    "fields": {
+        "article": 29,
+        "main_initials": "T. Higuchi"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 26,
+    "fields": {
+        "article": 30,
+        "main_initials": "John M. Stewart"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 27,
+    "fields": {
+        "article": 31,
+        "main_initials": "José Unpingco"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 28,
+    "fields": {
+        "article": 32,
+        "main_initials": "Ashwin Pajankar"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 29,
+    "fields": {
+        "article": 33,
+        "main_initials": "Anthony A. Gatti"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 30,
+    "fields": {
+        "article": 34,
+        "main_initials": "Fabio Nelli"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 31,
+    "fields": {
+        "article": 35,
+        "main_initials": "Ross Smith"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 32,
+    "fields": {
+        "article": 36,
+        "main_initials": "Ashwin Pajankar"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 33,
+    "fields": {
+        "article": 37,
+        "main_initials": "Erling Andersen"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 34,
+    "fields": {
+        "article": 38,
+        "main_initials": "Valentina Porcu"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 35,
+    "fields": {
+        "article": 39,
+        "main_initials": "Laurent Fasnacht"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 36,
+    "fields": {
+        "article": 40,
+        "main_initials": "James Bergstra"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 37,
+    "fields": {
+        "article": 41,
+        "main_initials": "Matthew Turk"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 38,
+    "fields": {
+        "article": 42,
+        "main_initials": "Bernd Klein"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 39,
+    "fields": {
+        "article": 43,
+        "main_initials": "Gabriele Morra"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 40,
+    "fields": {
+        "article": 44,
+        "main_initials": "Fabio Nelli"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 1,
+    "fields": {
+        "article": 5,
+        "other_initials": "K. Jarrod Millman"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 2,
+    "fields": {
+        "article": 5,
+        "other_initials": "Stéfan J. van der Walt"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 3,
+    "fields": {
+        "article": 5,
+        "other_initials": "Ralf Gommers"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 4,
+    "fields": {
+        "article": 6,
+        "other_initials": "Steven C. Colbert"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 5,
+    "fields": {
+        "article": 6,
+        "other_initials": "Gaël Varoquaux"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 6,
+    "fields": {
+        "article": 7,
+        "other_initials": "Michael Garland"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 7,
+    "fields": {
+        "article": 8,
+        "other_initials": "Jens Jørgen Mortensen"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 8,
+    "fields": {
+        "article": 8,
+        "other_initials": "Jakob Blomqvist"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 9,
+    "fields": {
+        "article": 8,
+        "other_initials": "Ivano E. Castelli"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 10,
+    "fields": {
+        "article": 9,
+        "other_initials": "Elizabeth J. Denning"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 11,
+    "fields": {
+        "article": 9,
+        "other_initials": "Thomas B. Woolf"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 12,
+    "fields": {
+        "article": 9,
+        "other_initials": "Oliver Beckstein"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 13,
+    "fields": {
+        "article": 11,
+        "other_initials": "R. B. Von Dreele"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 14,
+    "fields": {
+        "article": 13,
+        "other_initials": "A. Sheela"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 15,
+    "fields": {
+        "article": 13,
+        "other_initials": "K. Pandi Meena"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 16,
+    "fields": {
+        "article": 15,
+        "other_initials": "Sébastien Celles"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 17,
+    "fields": {
+        "article": 17,
+        "other_initials": "L. Priyanka"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 18,
+    "fields": {
+        "article": 17,
+        "other_initials": "G. R. Swetha"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 19,
+    "fields": {
+        "article": 17,
+        "other_initials": "T. V. Uma"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 20,
+    "fields": {
+        "article": 19,
+        "other_initials": "Mads Ruben Burgdorff Kristensen"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 21,
+    "fields": {
+        "article": 19,
+        "other_initials": "Brian Vinter"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 22,
+    "fields": {
+        "article": 21,
+        "other_initials": "Ralf Gommers"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 23,
+    "fields": {
+        "article": 21,
+        "other_initials": "Travis E. Oliphant"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 24,
+    "fields": {
+        "article": 21,
+        "other_initials": "Matt Haberland"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 25,
+    "fields": {
+        "article": 22,
+        "other_initials": "Florian Bruckner"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 26,
+    "fields": {
+        "article": 22,
+        "other_initials": "Christoph Vogler"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 27,
+    "fields": {
+        "article": 22,
+        "other_initials": "Roman Windl"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 28,
+    "fields": {
+        "article": 23,
+        "other_initials": "Robert R. Lewis"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 29,
+    "fields": {
+        "article": 24,
+        "other_initials": "Judith Segal"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 30,
+    "fields": {
+        "article": 24,
+        "other_initials": "Helen Sharp"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 31,
+    "fields": {
+        "article": 24,
+        "other_initials": "Marian Petre"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 32,
+    "fields": {
+        "article": 25,
+        "other_initials": "Fernando Nogueira"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 33,
+    "fields": {
+        "article": 25,
+        "other_initials": "Christos K. Aridas"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 34,
+    "fields": {
+        "article": 27,
+        "other_initials": "Anupam Bagchi"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 35,
+    "fields": {
+        "article": 28,
+        "other_initials": "Prathima Chilukuri"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 36,
+    "fields": {
+        "article": 28,
+        "other_initials": "P. S.H Vaishnavi"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 37,
+    "fields": {
+        "article": 28,
+        "other_initials": "P Sreekaran"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 38,
+    "fields": {
+        "article": 29,
+        "other_initials": "Naoki Yoshifuji"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 39,
+    "fields": {
+        "article": 29,
+        "other_initials": "Tomoya Sakai"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 40,
+    "fields": {
+        "article": 29,
+        "other_initials": "Yoriyuki Kitta"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 41,
+    "fields": {
+        "article": 33,
+        "other_initials": "Siavash Khallaghi"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 42,
+    "fields": {
+        "article": 36,
+        "other_initials": "Aditya Joshi"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 43,
+    "fields": {
+        "article": 40,
+        "other_initials": "Olivier Breuleux"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 44,
+    "fields": {
+        "article": 40,
+        "other_initials": "Frédéric Bastien"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 45,
+    "fields": {
+        "article": 40,
+        "other_initials": "Pascal Lamblin"
+    }
+}
+]
