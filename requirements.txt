@@ -3,6 +3,7 @@ Django==5.2.6
 django-celery-beat==2.8.1
 django-environ==0.12.0
 django-timezone-field==7.1
+django-debug-toolbar
 matplotlib==3.10.7
 nameparser==1.1.3
 numpy==2.2.6

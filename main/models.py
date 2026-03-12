@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.postgres.indexes import GinIndex
 
 
 class Artical(models.Model):
@@ -12,6 +12,13 @@ class Artical(models.Model):
     source = models.CharField(max_length=20, blank=False, null=True, verbose_name="Источник")
 
     class Meta():
+        indexes = [
+            GinIndex(
+                fields=["title"],
+                opclasses=["gin_trgm_ops"],
+                name="title_trgm_gin"
+            ),
+        ]
         db_table = "Artical"
         verbose_name = "Статья"
         verbose_name_plural = "Статьи"
@@ -85,6 +92,13 @@ class ArticleMainAuthor(models.Model):
     main_initials = models.CharField(max_length=100, blank=False, null=True, verbose_name="Инициалы основного автора")
 
     class Meta():
+        indexes = [
+            GinIndex(
+                fields=["main_initials"],
+                opclasses=["gin_trgm_ops"],
+                name="main_initials_trgm_gin"
+            ),
+        ]
         db_table = "ArticleMainAuthor"
         verbose_name = "Инициалы основного автора"
         verbose_name_plural = "Инициалы основных авторов"

@@ -1117,6 +1117,110 @@
     }
 },
 {
+    "model": "main.artical",
+    "pk": 45,
+    "fields": {
+        "title": "Yield stability of winter wheat and its cultivation in Trans-Urals",
+        "doi": "10.25685/krm.2020.7.2020.005",
+        "mag": "3196026886",
+        "pmid": null,
+        "issn": "1562-0417",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 46,
+    "fields": {
+        "title": "Перспективная селекция баклажан для юга России",
+        "doi": "10.25630/pav.2019.44.16.008",
+        "mag": "3004041055",
+        "pmid": null,
+        "issn": "0022-9148",
+        "isbn": "2712-8067",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 47,
+    "fields": {
+        "title": "BIOLOGICAL ASSESSMENT OF RHIZOBIAL PREPARATIONS USED IN SOYBEAN CULTIVATION IN THE AMUR REGION",
+        "doi": "10.25633/etn.2019.10.05",
+        "mag": null,
+        "pmid": null,
+        "issn": "1684-2626",
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 48,
+    "fields": {
+        "title": "Особенности выращивания белоплодных форм баклажана",
+        "doi": "10.25630/pav.2018.7.18240",
+        "mag": "3005346028",
+        "pmid": null,
+        "issn": "0022-9148",
+        "isbn": "2712-8067",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 49,
+    "fields": {
+        "title": "Ispol'zovanie igr i uprazhnenii dlia profilaktiki disgrafii i disleksii v rabote s det'mi s ONR",
+        "doi": "10.31483/r-96570",
+        "mag": "3103408208",
+        "pmid": null,
+        "issn": null,
+        "isbn": null,
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 50,
+    "fields": {
+        "title": "BUSINESS GAME IN THE DEVELOPMENT OF HEALTH-SAVING TECHNOLOGIES IN THE TRAINING OF PRESCHOOL TEACHERS",
+        "doi": "10.26140/bgz3-2020-0904-0013",
+        "mag": "3132817502",
+        "pmid": null,
+        "issn": "2311-0066",
+        "isbn": "2712-9780",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 51,
+    "fields": {
+        "title": "Мандельштам в ≪стишках≫ Умки (Анны Герасимовой)",
+        "doi": "10.18778/1427-9681.13.06",
+        "mag": "3082059632",
+        "pmid": null,
+        "issn": "1427-9681",
+        "isbn": "2353-4834",
+        "source": "openalex"
+    }
+},
+{
+    "model": "main.artical",
+    "pk": 52,
+    "fields": {
+        "title": "Юлиане Фюрст. Цветы, пробившие асфальт: Путешествие в Советскую Хиппляндию. Пер. с англ. И. Косалс. М.: НЛО, 2023",
+        "doi": "10.25285/2078-1938-2024-16-2-189-196",
+        "mag": null,
+        "pmid": null,
+        "issn": "2076-8214",
+        "isbn": "2078-1938",
+        "source": "openalex"
+    }
+},
+{
     "model": "main.articalciteinformation",
     "pk": 4,
     "fields": {
@@ -1557,12 +1661,100 @@
     }
 },
 {
+    "model": "main.articalciteinformation",
+    "pk": 44,
+    "fields": {
+        "article": 45,
+        "journal_name": "Laboratorium Russian Review of Social Research",
+        "pages": "None-None",
+        "volume": null,
+        "issue": "7.2020"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 45,
+    "fields": {
+        "article": 46,
+        "journal_name": "Laboratorium Russian Review of Social Research",
+        "pages": "None-None",
+        "volume": null,
+        "issue": "6"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 46,
+    "fields": {
+        "article": 47,
+        "journal_name": "Laboratorium Russian Review of Social Research",
+        "pages": "None-None",
+        "volume": null,
+        "issue": "10(136)"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 47,
+    "fields": {
+        "article": 48,
+        "journal_name": "Laboratorium Russian Review of Social Research",
+        "pages": "None-None",
+        "volume": null,
+        "issue": "7"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 48,
+    "fields": {
+        "article": 49,
+        "journal_name": "Laboratorium Russian Review of Social Research",
+        "pages": "None-None",
+        "volume": null,
+        "issue": null
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 49,
+    "fields": {
+        "article": 50,
+        "journal_name": "Laboratorium Russian Review of Social Research",
+        "pages": "None-None",
+        "volume": "9",
+        "issue": "33"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 50,
+    "fields": {
+        "article": 51,
+        "journal_name": "Laboratorium Russian Review of Social Research",
+        "pages": "57-66",
+        "volume": null,
+        "issue": "13"
+    }
+},
+{
+    "model": "main.articalciteinformation",
+    "pk": 51,
+    "fields": {
+        "article": 52,
+        "journal_name": "Laboratorium Russian Review of Social Research",
+        "pages": "189-196",
+        "volume": "16",
+        "issue": "2"
+    }
+},
+{
     "model": "main.articaldate",
     "pk": 4,
     "fields": {
         "article": 5,
         "date_of_artical": "2020-09-16",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1572,7 +1764,7 @@
     "fields": {
         "article": 6,
         "date_of_artical": "2011-03-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1582,7 +1774,7 @@
     "fields": {
         "article": 7,
         "date_of_artical": "2019-11-07",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1592,7 +1784,7 @@
     "fields": {
         "article": 8,
         "date_of_artical": "2017-03-21",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1602,7 +1794,7 @@
     "fields": {
         "article": 9,
         "date_of_artical": "2011-04-15",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1612,7 +1804,7 @@
     "fields": {
         "article": 10,
         "date_of_artical": "2019-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1622,7 +1814,7 @@
     "fields": {
         "article": 11,
         "date_of_artical": "2013-03-13",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1632,7 +1824,7 @@
     "fields": {
         "article": 12,
         "date_of_artical": "2013-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1642,7 +1834,7 @@
     "fields": {
         "article": 13,
         "date_of_artical": "2019-04-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1652,7 +1844,7 @@
     "fields": {
         "article": 14,
         "date_of_artical": "2019-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1662,7 +1854,7 @@
     "fields": {
         "article": 15,
         "date_of_artical": "2018-09-04",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1672,7 +1864,7 @@
     "fields": {
         "article": 16,
         "date_of_artical": "2021-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1682,7 +1874,7 @@
     "fields": {
         "article": 17,
         "date_of_artical": "2022-05-21",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1692,7 +1884,7 @@
     "fields": {
         "article": 18,
         "date_of_artical": "2017-11-29",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1702,7 +1894,7 @@
     "fields": {
         "article": 19,
         "date_of_artical": "2014-05-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1712,7 +1904,7 @@
     "fields": {
         "article": 20,
         "date_of_artical": "2015-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1722,7 +1914,7 @@
     "fields": {
         "article": 21,
         "date_of_artical": "2020-02-03",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1732,7 +1924,7 @@
     "fields": {
         "article": 22,
         "date_of_artical": "2015-04-02",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1742,7 +1934,7 @@
     "fields": {
         "article": 23,
         "date_of_artical": "2011-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1752,7 +1944,7 @@
     "fields": {
         "article": 24,
         "date_of_artical": "2014-08-15",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1762,7 +1954,7 @@
     "fields": {
         "article": 25,
         "date_of_artical": "2016-09-21",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1772,7 +1964,7 @@
     "fields": {
         "article": 26,
         "date_of_artical": "2022-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1782,7 +1974,7 @@
     "fields": {
         "article": 27,
         "date_of_artical": "2024-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1792,7 +1984,7 @@
     "fields": {
         "article": 28,
         "date_of_artical": "2023-03-14",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1802,7 +1994,7 @@
     "fields": {
         "article": 29,
         "date_of_artical": "2019-05-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1812,7 +2004,7 @@
     "fields": {
         "article": 30,
         "date_of_artical": "2017-10-12",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1822,7 +2014,7 @@
     "fields": {
         "article": 31,
         "date_of_artical": "2021-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1832,7 +2024,7 @@
     "fields": {
         "article": 32,
         "date_of_artical": "2020-10-24",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1842,7 +2034,7 @@
     "fields": {
         "article": 33,
         "date_of_artical": "2022-12-15",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1852,7 +2044,7 @@
     "fields": {
         "article": 34,
         "date_of_artical": "2023-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1862,7 +2054,7 @@
     "fields": {
         "article": 35,
         "date_of_artical": "2016-11-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1872,7 +2064,7 @@
     "fields": {
         "article": 36,
         "date_of_artical": "2022-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1882,7 +2074,7 @@
     "fields": {
         "article": 37,
         "date_of_artical": "2022-05-25",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1892,7 +2084,7 @@
     "fields": {
         "article": 38,
         "date_of_artical": "2018-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1902,7 +2094,7 @@
     "fields": {
         "article": 39,
         "date_of_artical": "2018-06-18",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1912,7 +2104,7 @@
     "fields": {
         "article": 40,
         "date_of_artical": "2010-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1922,7 +2114,7 @@
     "fields": {
         "article": 41,
         "date_of_artical": "2008-06-28",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1932,7 +2124,7 @@
     "fields": {
         "article": 42,
         "date_of_artical": "2014-10-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1942,7 +2134,7 @@
     "fields": {
         "article": 43,
         "date_of_artical": "2017-08-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
     }
 },
@@ -1952,8 +2144,88 @@
     "fields": {
         "article": 44,
         "date_of_artical": "2018-01-01",
-        "date_of_last_update": "2026-02-03",
+        "date_of_last_update": "2026-02-16",
         "date_of_creation": "2026-02-03"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 44,
+    "fields": {
+        "article": 45,
+        "date_of_artical": "2020-09-08",
+        "date_of_last_update": "2026-02-16",
+        "date_of_creation": "2026-02-16"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 45,
+    "fields": {
+        "article": 46,
+        "date_of_artical": "2019-06-07",
+        "date_of_last_update": "2026-02-16",
+        "date_of_creation": "2026-02-16"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 46,
+    "fields": {
+        "article": 47,
+        "date_of_artical": "2019-11-18",
+        "date_of_last_update": "2026-02-16",
+        "date_of_creation": "2026-02-16"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 47,
+    "fields": {
+        "article": 48,
+        "date_of_artical": "2018-07-09",
+        "date_of_last_update": "2026-02-16",
+        "date_of_creation": "2026-02-16"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 48,
+    "fields": {
+        "article": 49,
+        "date_of_artical": "2020-11-04",
+        "date_of_last_update": "2026-02-16",
+        "date_of_creation": "2026-02-16"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 49,
+    "fields": {
+        "article": 50,
+        "date_of_artical": "2020-11-30",
+        "date_of_last_update": "2026-02-16",
+        "date_of_creation": "2026-02-16"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 50,
+    "fields": {
+        "article": 51,
+        "date_of_artical": "2020-08-28",
+        "date_of_last_update": "2026-02-16",
+        "date_of_creation": "2026-02-16"
+    }
+},
+{
+    "model": "main.articaldate",
+    "pk": 51,
+    "fields": {
+        "article": 52,
+        "date_of_artical": "2024-10-28",
+        "date_of_last_update": "2026-02-16",
+        "date_of_creation": "2026-02-16"
     }
 },
 {
@@ -1961,7 +2233,7 @@
     "pk": 4,
     "fields": {
         "article": 5,
-        "reference_count": 19901,
+        "reference_count": 20166,
         "reference_in_work": 41
     }
 },
@@ -1970,7 +2242,7 @@
     "pk": 5,
     "fields": {
         "article": 6,
-        "reference_count": 10664,
+        "reference_count": 10693,
         "reference_in_work": 1
     }
 },
@@ -1988,7 +2260,7 @@
     "pk": 7,
     "fields": {
         "article": 8,
-        "reference_count": 4276,
+        "reference_count": 4308,
         "reference_in_work": 148
     }
 },
@@ -1997,7 +2269,7 @@
     "pk": 8,
     "fields": {
         "article": 9,
-        "reference_count": 4116,
+        "reference_count": 4164,
         "reference_in_work": 24
     }
 },
@@ -2015,7 +2287,7 @@
     "pk": 10,
     "fields": {
         "article": 11,
-        "reference_count": 5436,
+        "reference_count": 5479,
         "reference_in_work": 11
     }
 },
@@ -2024,7 +2296,7 @@
     "pk": 11,
     "fields": {
         "article": 12,
-        "reference_count": 3693,
+        "reference_count": 3717,
         "reference_in_work": 53
     }
 },
@@ -2096,7 +2368,7 @@
     "pk": 19,
     "fields": {
         "article": 20,
-        "reference_count": 762,
+        "reference_count": 766,
         "reference_in_work": 17
     }
 },
@@ -2105,7 +2377,7 @@
     "pk": 20,
     "fields": {
         "article": 21,
-        "reference_count": 34473,
+        "reference_count": 34856,
         "reference_in_work": 70
     }
 },
@@ -2317,12 +2589,84 @@
     }
 },
 {
+    "model": "main.articalcitedata",
+    "pk": 44,
+    "fields": {
+        "article": 45,
+        "reference_count": 2,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 45,
+    "fields": {
+        "article": 46,
+        "reference_count": 1,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 46,
+    "fields": {
+        "article": 47,
+        "reference_count": 1,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 47,
+    "fields": {
+        "article": 48,
+        "reference_count": 1,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 48,
+    "fields": {
+        "article": 49,
+        "reference_count": 0,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 49,
+    "fields": {
+        "article": 50,
+        "reference_count": 0,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 50,
+    "fields": {
+        "article": 51,
+        "reference_count": 0,
+        "reference_in_work": 0
+    }
+},
+{
+    "model": "main.articalcitedata",
+    "pk": 51,
+    "fields": {
+        "article": 52,
+        "reference_count": 0,
+        "reference_in_work": 0
+    }
+},
+{
     "model": "main.articleciteperyear",
     "pk": 1,
     "fields": {
         "article": 5,
         "year": 2026,
-        "citiation": 419
+        "citiation": 645
     }
 },
 {
@@ -2331,7 +2675,7 @@
     "fields": {
         "article": 5,
         "year": 2025,
-        "citiation": 5445
+        "citiation": 5484
     }
 },
 {
@@ -2412,7 +2756,7 @@
     "fields": {
         "article": 6,
         "year": 2026,
-        "citiation": 39
+        "citiation": 65
     }
 },
 {
@@ -2421,7 +2765,7 @@
     "fields": {
         "article": 6,
         "year": 2025,
-        "citiation": 696
+        "citiation": 699
     }
 },
 {
@@ -2610,7 +2954,7 @@
     "fields": {
         "article": 8,
         "year": 2026,
-        "citiation": 56
+        "citiation": 88
     }
 },
 {
@@ -2718,7 +3062,7 @@
     "fields": {
         "article": 9,
         "year": 2026,
-        "citiation": 74
+        "citiation": 119
     }
 },
 {
@@ -2727,7 +3071,7 @@
     "fields": {
         "article": 9,
         "year": 2025,
-        "citiation": 1009
+        "citiation": 1012
     }
 },
 {
@@ -2925,7 +3269,7 @@
     "fields": {
         "article": 11,
         "year": 2026,
-        "citiation": 95
+        "citiation": 138
     }
 },
 {
@@ -3051,7 +3395,7 @@
     "fields": {
         "article": 12,
         "year": 2026,
-        "citiation": 57
+        "citiation": 79
     }
 },
 {
@@ -3060,7 +3404,7 @@
     "fields": {
         "article": 12,
         "year": 2025,
-        "citiation": 805
+        "citiation": 807
     }
 },
 {
@@ -3528,7 +3872,7 @@
     "fields": {
         "article": 20,
         "year": 2026,
-        "citiation": 3
+        "citiation": 7
     }
 },
 {
@@ -3627,7 +3971,7 @@
     "fields": {
         "article": 21,
         "year": 2026,
-        "citiation": 586
+        "citiation": 933
     }
 },
 {
@@ -3636,7 +3980,7 @@
     "fields": {
         "article": 21,
         "year": 2025,
-        "citiation": 8375
+        "citiation": 8410
     }
 },
 {
@@ -3645,7 +3989,7 @@
     "fields": {
         "article": 21,
         "year": 2024,
-        "citiation": 7531
+        "citiation": 7532
     }
 },
 {
@@ -4666,6 +5010,42 @@
     }
 },
 {
+    "model": "main.articleciteperyear",
+    "pk": 262,
+    "fields": {
+        "article": 45,
+        "year": 2023,
+        "citiation": 2
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 263,
+    "fields": {
+        "article": 46,
+        "year": 2024,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 264,
+    "fields": {
+        "article": 47,
+        "year": 2022,
+        "citiation": 1
+    }
+},
+{
+    "model": "main.articleciteperyear",
+    "pk": 265,
+    "fields": {
+        "article": 48,
+        "year": 2021,
+        "citiation": 1
+    }
+},
+{
     "model": "main.articlemainauthor",
     "pk": 1,
     "fields": {
@@ -4983,6 +5363,70 @@
     "fields": {
         "article": 44,
         "main_initials": "Fabio Nelli"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 41,
+    "fields": {
+        "article": 45,
+        "main_initials": "L. T. Maltseva"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 42,
+    "fields": {
+        "article": 46,
+        "main_initials": "N. V. Geraskina"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 43,
+    "fields": {
+        "article": 47,
+        "main_initials": "М. В. Якименко"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 44,
+    "fields": {
+        "article": 48,
+        "main_initials": "N. V. Geraskina"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 45,
+    "fields": {
+        "article": 49,
+        "main_initials": "Tatiana Nikolaevna Kisenko"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 46,
+    "fields": {
+        "article": 50,
+        "main_initials": "E. V Gryaznova"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 47,
+    "fields": {
+        "article": 51,
+        "main_initials": "I. A. Kargashin"
+    }
+},
+{
+    "model": "main.articlemainauthor",
+    "pk": 48,
+    "fields": {
+        "article": 52,
+        "main_initials": "Дмитрий Козлов"
     }
 },
 {
@@ -5343,6 +5787,94 @@
     "fields": {
         "article": 40,
         "other_initials": "Pascal Lamblin"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 46,
+    "fields": {
+        "article": 45,
+        "other_initials": "Е. А. Филиппова"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 47,
+    "fields": {
+        "article": 45,
+        "other_initials": "Н. Ю. Банникова"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 48,
+    "fields": {
+        "article": 45,
+        "other_initials": "Н. В. Катаева"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 49,
+    "fields": {
+        "article": 46,
+        "other_initials": "В. В. Огнев"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 50,
+    "fields": {
+        "article": 47,
+        "other_initials": "С. А. Бегун"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 51,
+    "fields": {
+        "article": 47,
+        "other_initials": "А. И. Сорокина"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 52,
+    "fields": {
+        "article": 48,
+        "other_initials": "В. В. Огнев"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 53,
+    "fields": {
+        "article": 49,
+        "other_initials": "Svetlana Anatol'evna Kuderko"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 54,
+    "fields": {
+        "article": 50,
+        "other_initials": "Svetlana M. Maltseva"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 55,
+    "fields": {
+        "article": 50,
+        "other_initials": "M. A Gamova"
+    }
+},
+{
+    "model": "main.articleotherauthor",
+    "pk": 56,
+    "fields": {
+        "article": 50,
+        "other_initials": "G. N Roganova"
     }
 }
 ]
