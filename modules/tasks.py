@@ -1,10 +1,13 @@
 from django.utils import timezone
 from django.core.cache import cache
 from django.core.management import call_command
+from django.contrib.postgres.search import SearchVector
+from django.db.models import F
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticalEmbedding
 
 import requests
+from sentence_transformers import SentenceTransformer
 from datetime import timedelta
 from celery import shared_task
 from celery.utils.log import get_task_logger, logging
@@ -73,6 +76,29 @@ def single_artical_update(self, article_pk):
 
     finally:
         cache.delete(lock_key)
+
+
+@shared_task()
+def schedule_embedding():
+    embedding_set = ArticalEmbedding.objects.filter(search_vector__isnull=True)
+
+    if not embedding_set:
+        return {'status': 'No articals available to set embedding'}
+    
+    model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+    
+    try:
+        for obj in embedding_set:
+            embedding = model.encode(obj.abstract_text).tolist()
+
+            ArticalEmbedding.objects.filter(pk=obj.pk).update(
+                embedding=embedding,
+                search_vector=SearchVector(F('abstract_text'))
+            )
+    except Exception as exc:
+        LOG.exception(f"Failed to set embedding for {obj.pk}: {exc}")
+
+    LOG.info(f"Quantity of created embeddings: {len(embedding_set)}")
 
 
 @shared_task
@@ -203,6 +229,9 @@ def update_crossref_citing(data, article):
     reference_count = cited_by_count,
     reference_in_work = reference_in_work,
     )
+
+
+    
 
 
 

@@ -3,7 +3,8 @@ import re
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding
+from modules.tasks import schedule_embedding
 
 from django.db import transaction
 from django.http import Http404
@@ -18,6 +19,7 @@ def new_parse_open_alex(response):
     articles_citing_per_years_to_create = []
     main_authors_to_create = []
     other_authors_to_create = []
+    articles_embedding_to_create = []
 
     raw_json = response["results"]
 
@@ -100,6 +102,14 @@ def new_parse_open_alex(response):
 
             articles_cite_informaion_to_create.append(article_cite_information)
 
+            if element.get("abstract_inverted_index"):
+                articles_embedding = ArticalEmbedding(
+                    article = article,
+                    abstract_text = " ".join(element.get("abstract_inverted_index").keys())
+                )
+
+                articles_embedding_to_create.append(articles_embedding)            
+
             date_of_artical = datetime.strptime(element.get("publication_date"), "%Y-%m-%d").date()
 
             artical_date = ArticalDate(
@@ -171,6 +181,10 @@ def new_parse_open_alex(response):
         ArticleCitePerYear.objects.bulk_create(articles_citing_per_years_to_create)
         ArticleMainAuthor.objects.bulk_create(main_authors_to_create)
         ArticleOtherAuthor.objects.bulk_create(other_authors_to_create)
+        ArticalEmbedding.objects.bulk_create(articles_embedding_to_create)
+
+# Start setting embedding for articles with abstract
+    schedule_embedding.delay()
 
 
 def new_parse_crossref(response):
@@ -260,7 +274,7 @@ def new_parse_crossref(response):
 
 def fetch_openalex(type, query, optional):
 
-    url = f"https://api.openalex.org/works?{type}{query}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,counts_by_year,authorships{optional}&mailto=oleg222200005555@gmail.com"
+    url = f"https://api.openalex.org/works?{type}{query}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,abstract_inverted_index,counts_by_year,authorships{optional}&mailto=oleg222200005555@gmail.com"
 
     r = requests.get(url, timeout=10)
     if r.status_code == 200 and len(r.json()["results"]) != 0:

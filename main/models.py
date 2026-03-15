@@ -37,8 +37,8 @@ class ArticalEmbedding(models.Model):
         indexes = [
             GinIndex(
                 fields=["search_vector"],
-            ),
-            # HnswIndex(
+            ), # Hnsw for docker startup, can't work on Windows
+            # HnswIndex( 
             #     fields=["embedding"],
             #     m=16,
             #     ef_construction=64,
