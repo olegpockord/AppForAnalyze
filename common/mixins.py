@@ -15,7 +15,7 @@ from nameparser import HumanName
 from nameparser.config import CONSTANTS
 import copy
 
-
+# TODO add embedding search
 class SearchMixin:
 
     def q_search(self, query, qs):

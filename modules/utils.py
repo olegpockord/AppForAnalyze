@@ -1,5 +1,6 @@
 import requests
 import re
+from datetime import date
 from datetime import datetime
 from bs4 import BeautifulSoup
 
@@ -28,8 +29,8 @@ def new_parse_open_alex(response):
        if element.get("ids").get("doi")
     ]).values_list('doi', flat=True))
 
-    exists_mag = set(Artical.objects.filter(doi__in=[
-       element.get("ids").get("mag")[16:].lower() for element in raw_json 
+    exists_mag = set(Artical.objects.filter(mag__in=[
+       element.get("ids").get("mag") for element in raw_json 
        if element.get("ids").get("mag")
     ]).values_list('mag', flat=True))
 
@@ -38,7 +39,10 @@ def new_parse_open_alex(response):
 
     for elem_num in range(n):
         element = raw_json[elem_num]
-        if element.get("ids").get("doi") and element.get("authorships") and element.get("title"):
+        ids = element.get("ids")
+        doi_raw = ids.get("doi")
+
+        if doi_raw and element.get("authorships") and element.get("title"):
             title = element.get("title")
 
             if "<" in title:
@@ -46,8 +50,7 @@ def new_parse_open_alex(response):
             if len(title) > 298:
                 continue
 
-            ids = element.get("ids")
-            doi = ids.get("doi")[16:].lower()
+            doi = doi_raw[16:].lower()
             mag = ids.get("mag")
 
             if doi in exists_doi or mag in exists_mag:
@@ -74,105 +77,106 @@ def new_parse_open_alex(response):
 
     Artical.objects.bulk_create(articles_to_create)
 
-    created_articles = Artical.objects.filter(doi__in = [i.doi for i in articles_to_create])
-    articles_by_doi = {i.doi: i for i in created_articles}
-    elements_with_doi = {i.doi for i in articles_by_doi.values()}
+    articles_by_doi = Artical.objects.in_bulk(
+    [a.doi for a in articles_to_create],
+    field_name="doi")
+
 
     for elem_num in range(n):
         element = raw_json[elem_num]
-        if element.get("ids").get("doi") and element.get("ids").get("doi")[16:].lower() in elements_with_doi:
 
-            doi = element.get("ids").get("doi")[16:].lower()
-            article = articles_by_doi.get(doi)
+        doi = element.get("ids").get("doi")
 
-            biblio = element.get("biblio")
-            journal_name = source_of_elem.get("display_name") if source_of_elem else None
-            first_page = biblio.get("first_page")
-            last_page = biblio.get("last_page")
-            volume = biblio.get("volume")
-            issue = biblio.get("issue")
+        if not doi:
+            continue
 
-            article_cite_information = ArticalCiteInformation(
+        doi = doi[16:].lower()
+
+        article = articles_by_doi.get(doi)
+        if not article:
+            continue
+
+        source = element.get("primary_location").get("source")
+
+        biblio = element.get("biblio")
+        journal_name = source.get("display_name") if source else None
+        first_page = biblio.get("first_page")
+        last_page = biblio.get("last_page")
+        volume = biblio.get("volume")
+        issue = biblio.get("issue")
+
+        articles_cite_informaion_to_create.append(
+            ArticalCiteInformation(
+            article = article,
+            journal_name = journal_name,
+            pages = f"{first_page}-{last_page}",
+            volume = volume,
+            issue = issue
+        ))
+
+        abstract = element.get("abstract_inverted_index")
+
+        if abstract:
+            articles_embedding_to_create.append(
+                ArticalEmbedding(
                 article = article,
-                journal_name = journal_name,
-                pages = f"{first_page}-{last_page}",
-                volume = volume,
-                issue = issue
-            )
+                abstract_text = " ".join(abstract)
+            ))            
 
-            articles_cite_informaion_to_create.append(article_cite_information)
+        date_of_artical = date.fromisoformat(element.get("publication_date"))
 
-            if element.get("abstract_inverted_index"):
-                articles_embedding = ArticalEmbedding(
-                    article = article,
-                    abstract_text = " ".join(element.get("abstract_inverted_index").keys())
-                )
+        articles_date_to_create.append(
+            ArticalDate(
+            article = article,
+            date_of_artical = date_of_artical,
+        ))
 
-                articles_embedding_to_create.append(articles_embedding)            
+        cited_by_count = int(element.get("cited_by_count"))
+        reference_in_work = int(element.get("referenced_works_count"))
 
-            date_of_artical = datetime.strptime(element.get("publication_date"), "%Y-%m-%d").date()
+        articles_cite_data_to_create.append(ArticalCiteData(
+            article = article,
+            reference_count = cited_by_count,
+            reference_in_work = reference_in_work
+        ))
 
-            artical_date = ArticalDate(
+        citing_by_years = element.get("counts_by_year")
+
+        for citing in citing_by_years:
+            year = int(citing['year'])
+            citiation = int(citing['cited_by_count'])
+
+            articles_citing_per_years_to_create.append(ArticleCitePerYear(
                 article = article,
-                date_of_artical = date_of_artical,
-            )
-
-            articles_date_to_create.append(artical_date)
-
-            cited_by_count = int(element.get("cited_by_count"))
-            reference_in_work = int(element.get("referenced_works_count"))
-
-            artical_cite_data = ArticalCiteData(
-                article = article,
-                reference_count = cited_by_count,
-                reference_in_work = reference_in_work
-            )
-
-            articles_cite_data_to_create.append(artical_cite_data)
-
-            citing_by_years = element.get("counts_by_year")
-
-            for citing in citing_by_years:
-                year = int(citing['year'])
-                citiation = int(citing['cited_by_count'])
-
-                article_cite_per_year = ArticleCitePerYear(
-                    article = article,
-                    year = year,
-                    citiation = citiation,
-                )
-                articles_citing_per_years_to_create.append(article_cite_per_year)
+                year = year,
+                citiation = citiation,
+            ))
             
 
-            authorships = element.get("authorships")
+        authorships = element.get("authorships")
 
-            for i, some_author in enumerate(authorships):
-                author = some_author.get("author").get("display_name")
+        for i, some_author in enumerate(authorships):
+            author = some_author.get("author").get("display_name")
 
-                if author.find('.', 0, 3) == 1 and author[2] != ' ': # Helps with "A.A. Last" problem -> A. A. Last
-                    author = f"{author[:2]} {author[2:]}"
+            if author.find('.', 0, 3) == 1 and author[2] != ' ': # Helps with "A.A. Last" problem -> A. A. Last
+                author = f"{author[:2]} {author[2:]}"
 
-                if i == 0:
-                    first_author = author
+            if i == 0:
 
-                    article_main_author = ArticleMainAuthor(
-                        article = article,
-                        main_initials = first_author,
-                    )
-
-                    main_authors_to_create.append(article_main_author)
+                main_authors_to_create.append(
+                    ArticleMainAuthor(
+                    article = article,
+                    main_initials = author,
+                ))
                 
-                else:
-                    other_author = author
+            else:
 
-                    article_other_author = ArticleOtherAuthor(
-                        article = article,
-                        other_initials = other_author,
-                    )
+                other_authors_to_create.append(ArticleOtherAuthor(
+                    article = article,
+                    other_initials = author,
+                ))
 
-                    other_authors_to_create.append(article_other_author)
-
-                if i >= 3: break
+            if i >= 3: break
 
     with transaction.atomic():
         ArticalCiteInformation.objects.bulk_create(articles_cite_informaion_to_create)

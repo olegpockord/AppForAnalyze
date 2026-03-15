@@ -81,7 +81,7 @@ def single_artical_update(self, article_pk):
 @shared_task()
 def schedule_embedding():
     embedding_set = ArticalEmbedding.objects.filter(search_vector__isnull=True)
-
+    
     if not embedding_set:
         return {'status': 'No articals available to set embedding'}
     
