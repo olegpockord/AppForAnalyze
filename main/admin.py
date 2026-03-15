@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding
 
 # Register your models here.
 # admin.site.register(Artical)
@@ -49,6 +49,10 @@ class ArticleOtherAuthorInline(admin.TabularInline):
 
     extra = 0
 
+class ArticalEmbeddingInline(admin.TabularInline):
+    model = ArticalEmbedding
+
+    extra = 0
 
 @admin.register(Artical)
 class ArticalAdmin(admin.ModelAdmin):
@@ -68,7 +72,7 @@ class ArticalAdmin(admin.ModelAdmin):
     list_filter = ("title", "doi", "source")
     search_fields = ("title", "doi", "issn", "pmid", "mag")
     readonly_fields = ("id", "source")
-    inlines = [ArticalDateInline, ArticalCiteDataInline, ArticalCiteInformationInline, ArticleCitePerYearInline, ArticleMainAuthorInline, ArticleOtherAuthorInline]
+    inlines = [ArticalDateInline, ArticalCiteDataInline, ArticalCiteInformationInline, ArticleCitePerYearInline, ArticleMainAuthorInline, ArticleOtherAuthorInline, ArticalEmbeddingInline]
 
 
 
@@ -127,3 +131,11 @@ class ArticleOtherAuthorAdmin(admin.ModelAdmin):
         "other_initials",
     )
     search_fields = ("pk", "other_initials")
+
+@admin.register(ArticalEmbedding)
+class ArticalEmbeddingAdmin(admin.ModelAdmin):
+    list_display = (
+        "article",
+        "pk",
+    )
+

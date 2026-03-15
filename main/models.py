@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.indexes import GinIndex
-
+from django.contrib.postgres.search import SearchVectorField
+from pgvector.django import VectorField, HnswIndex
 
 class Artical(models.Model):
     title = models.CharField(max_length=300, blank=False, verbose_name="Название")
@@ -26,6 +27,29 @@ class Artical(models.Model):
     def __str__(self):
         return f"{self.pk} {self.title}"
 
+class ArticalEmbedding(models.Model):
+    article = models.ForeignKey(to=Artical, related_name="abstract", on_delete=models.CASCADE, null=True, verbose_name="Статья")
+    abstract_text = models.TextField(null=True, verbose_name="Аннотация")
+    search_vector = SearchVectorField(null=True, blank=True, verbose_name="Вектор поиска")
+    embedding = VectorField(dimensions=384, blank=True, null=True)
+
+    class Meta():
+        indexes = [
+            GinIndex(
+                fields=["search_vector"],
+            ),
+            # HnswIndex(
+            #     fields=["embedding"],
+            #     m=16,
+            #     ef_construction=64,
+            # ),
+        ]          
+        db_table = "ArticalEmbedding"
+        verbose_name = "Аннотация"
+        verbose_name_plural = "Аннотации"
+
+    def __str__(self):
+        return f"Annotation of {self.article.id}"
 
 class ArticalCiteInformation(models.Model):
     article = models.ForeignKey(to=Artical, on_delete=models.CASCADE,  null=True, verbose_name="Статья")
@@ -40,7 +64,7 @@ class ArticalCiteInformation(models.Model):
         verbose_name_plural = "Информация для цитирования статьи"
 
     def __str__(self):
-        return f"Статья №{self.article} - {self.journal_name}"
+        return f"Статья №{self.article.id} - {self.journal_name}"
 
 
 class ArticalDate(models.Model):
@@ -55,7 +79,7 @@ class ArticalDate(models.Model):
         verbose_name_plural = "Информация о датах статьи"
 
     def __str__(self):
-        return f"Статья №{self.article} - {self.date_of_last_update} дата добавления: {self.date_of_creation}"
+        return f"Статья №{self.article.id} - {self.date_of_last_update} дата добавления: {self.date_of_creation}"
 
 
 class ArticalCiteData(models.Model):
@@ -70,7 +94,7 @@ class ArticalCiteData(models.Model):
         verbose_name_plural = "Информация о цитированиях статей"
 
     def __str__(self):
-        return f"Статья №{self.article} - {self.reference_count}"
+        return f"Статья №{self.article.id} - {self.reference_count}"
 
 
 class ArticleCitePerYear(models.Model):
@@ -84,7 +108,7 @@ class ArticleCitePerYear(models.Model):
         verbose_name_plural = "Информация о цитированиях статей за года"
 
     def __str__(self):
-        return f"Статья №{self.article} {self.year}-{self.citiation}"
+        return f"Статья №{self.article.id} {self.year}-{self.citiation}"
 
         
 class ArticleMainAuthor(models.Model):
@@ -104,7 +128,7 @@ class ArticleMainAuthor(models.Model):
         verbose_name_plural = "Инициалы основных авторов"
 
     def __str__(self):
-        return f"Статья №{self.article} {self.main_initials}"
+        return f"Статья №{self.article.id} {self.main_initials}"
 
 
 class ArticleOtherAuthor(models.Model):
@@ -117,4 +141,4 @@ class ArticleOtherAuthor(models.Model):
         verbose_name_plural = "Инициалы дополнительных авторов"
 
     def __str__(self):
-        return f"Статья №{self.article} {self.other_initials}"
+        return f"Статья №{self.article.id} {self.other_initials}"
