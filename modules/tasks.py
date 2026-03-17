@@ -5,9 +5,9 @@ from django.contrib.postgres.search import SearchVector
 from django.db.models import F
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticalEmbedding
+from common.ml.sentence_transformer_model import MODEL
 
 import requests
-from sentence_transformers import SentenceTransformer
 from datetime import timedelta
 from celery import shared_task
 from celery.utils.log import get_task_logger, logging
@@ -85,11 +85,11 @@ def schedule_embedding():
     if not embedding_set:
         return {'status': 'No articals available to set embedding'}
     
-    model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+    model = MODEL
     
     try:
         for obj in embedding_set:
-            embedding = model.encode(obj.abstract_text).tolist()
+            embedding = model.encode(obj.abstract_text, normalize_embeddings=True).tolist()
 
             ArticalEmbedding.objects.filter(pk=obj.pk).update(
                 embedding=embedding,

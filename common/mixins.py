@@ -7,6 +7,9 @@ from django.contrib.postgres.search import (
     SearchVector,
 )
 from django.contrib.postgres.search import SearchQuery, TrigramSimilarity
+from pgvector.django import CosineDistance
+
+from common.ml.sentence_transformer_model import MODEL
 
 import io, base64
 import matplotlib
@@ -15,36 +18,45 @@ from nameparser import HumanName
 from nameparser.config import CONSTANTS
 import copy
 
-# TODO add embedding search
+
 class SearchMixin:
 
     def q_search(self, query, qs):
 
-        cache_key = f"SearchQ{query}"
+        # cache_key = f"SearchQ{query}"
 
-        data = cache.get(cache_key)
-        if data:
-            return data
+        # data = cache.get(cache_key)
+        # if data:
+        #     return data
         
         query_for_trig = query
 
         vector = SearchVector("title", weight='A') + SearchVector("main_author_initials", weight='B')
         query = SearchQuery(query, search_type='phrase')
-    
+
         result = (
                 qs.annotate(rank=SearchRank(vector, query))
                 .filter(rank__gte=0.05)
                 .order_by("-rank")
             )
 
-        if not result:
+        if not result: # first fallback
             result = qs.annotate(similarity = TrigramSimilarity(Cast('title', TextField()), 
                     Value(query_for_trig)) +
                     TrigramSimilarity(Cast('main_author_initials', TextField()), 
                     Value(query_for_trig))
                     ).filter(similarity__gte=0.1).order_by('-similarity')
+            
+        if not result: # second fallback
+            query_embedding = MODEL.encode(query_for_trig, normalize_embeddings=True).tolist()
 
-        cache.set(cache_key, result, 60)
+            result = (qs.annotate(
+                distance = CosineDistance("abstract__embedding", query_embedding)
+            ).exclude(abstract__embedding=None)
+            .filter(distance__lt=0.6)
+            .order_by("distance")
+            )
+        # cache.set(cache_key, result, 60)
 
         return result
 
