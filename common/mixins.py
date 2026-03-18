@@ -36,7 +36,7 @@ class SearchMixin:
 
         result = (
                 qs.annotate(rank=SearchRank(vector, query))
-                .filter(rank__gte=0.05)
+                .filter(rank__gte=0.2) # 0.05 was
                 .order_by("-rank")
             )
 
@@ -45,7 +45,7 @@ class SearchMixin:
                     Value(query_for_trig)) +
                     TrigramSimilarity(Cast('main_author_initials', TextField()), 
                     Value(query_for_trig))
-                    ).filter(similarity__gte=0.1).order_by('-similarity')
+                    ).filter(similarity__gte=0.3).order_by('-similarity') # 0.1 was
             
         if not result: # second fallback
             query_embedding = MODEL.encode(query_for_trig, normalize_embeddings=True).tolist()
@@ -56,6 +56,7 @@ class SearchMixin:
             .filter(distance__lt=0.6)
             .order_by("distance")
             )
+            
         # cache.set(cache_key, result, 60)
 
         return result

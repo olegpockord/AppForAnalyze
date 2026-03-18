@@ -120,7 +120,7 @@ def new_parse_open_alex(response):
             articles_embedding_to_create.append(
                 ArticalEmbedding(
                 article = article,
-                abstract_text = " ".join(abstract)
+                abstract_text = f"{article.title}\n" + " ".join(abstract)
             ))            
 
         date_of_artical = date.fromisoformat(element.get("publication_date"))
@@ -283,7 +283,7 @@ def fetch_openalex(type, query, optional):
     r = requests.get(url, timeout=10)
     if r.status_code == 200 and len(r.json()["results"]) != 0:
         return new_parse_open_alex(r.json())
-    elif type == "doi":
+    elif r.status_code == 200 and type == "doi":
         return fetch_crossref(query)
     else:
         return None
