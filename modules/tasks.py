@@ -6,6 +6,7 @@ from django.db.models import F
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticalEmbedding
 from common.ml.sentence_transformer_model import MODEL
+from modules.services.recommendations import get_article_recommendations
 
 import requests
 from datetime import timedelta
@@ -79,7 +80,7 @@ def single_artical_update(self, article_pk):
 
 
 @shared_task()
-def schedule_embedding():
+def create_embedding():
     embedding_set = ArticalEmbedding.objects.filter(search_vector__isnull=True)
     
     if not embedding_set:
@@ -100,6 +101,14 @@ def schedule_embedding():
 
     LOG.info(f"Quantity of created embeddings: {len(embedding_set)}")
 
+@shared_task()
+def precompute_recommendations(article_id):
+
+    qs = get_article_recommendations(article_id)
+    
+    cache_key = f"recommendation_№{article_id}"
+
+    cache.set(cache_key, qs, 60 * 30)
 
 @shared_task
 def dbackup_task():

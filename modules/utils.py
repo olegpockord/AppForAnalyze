@@ -5,7 +5,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding
-from modules.tasks import schedule_embedding
+from modules.tasks import create_embedding
 
 from django.db import transaction
 from django.http import Http404
@@ -188,7 +188,7 @@ def new_parse_open_alex(response):
         ArticalEmbedding.objects.bulk_create(articles_embedding_to_create)
 
 # Start setting embedding for articles with abstract
-    schedule_embedding.delay()
+    create_embedding.delay()
 
 
 def new_parse_crossref(response):
@@ -347,7 +347,8 @@ def search_type(query):
 
     return  res
 
-
+def articles_similarity(article_id):
+    ...
 
 # def parse_openalex(response):
 #     new_parse_open_alex(response)

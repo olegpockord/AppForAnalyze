@@ -62,7 +62,26 @@
                 {% endif %}
             </div>
         </div>
-        
+
+        <!-- Block for relative articles -->
+        {% if recommendations %}
+        <div class="col-12 text-center my-4">
+            <h3>Похожие работы</h3>
+        </div>
+
+        {% for article in recommendations %}
+        <div class="col-lg-4 col-md-6 col-sm-10 mb-4">
+            <div class="card rounded-4 overflow-hidden shadow-lg h-10">
+                <a href="{% url "catalog:work_detail" article.pk %}" class="text-decoration-none">
+                <div class="card-header text-white">
+                    {{ article.title|truncatechars:100 }}
+                </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
     </div>
 </div>
 

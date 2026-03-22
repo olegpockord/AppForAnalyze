@@ -6,10 +6,9 @@ from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
-
 from modules.utils import fetch_openalex, search_type
-
 from common.mixins import CitiationMixin, GraphMixin, SearchMixin
+from modules.services.recommendations import get_article_recommendations
 
 
 class CatalogView(ListView, SearchMixin):
@@ -139,5 +138,6 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
         context["gost"] = cite_types["GOST"]
         context["mla"] = cite_types["MLA"]
 
+        context["recommendations"] = get_article_recommendations(self.object.pk)
 
         return context
