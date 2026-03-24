@@ -1,6 +1,5 @@
 volumes:
-  pgdata:
-    name: pgdata
+  pgdataVec:
   static:
 
 services:
@@ -41,13 +40,22 @@ services:
       - django
 
   postgres:
-    image: postgres:alpine
+    image: pgvector/pgvector:pg16
     container_name: postgres
     restart: always
     env_file:
       - ./.env.dev
     volumes:
-      - pgdata:/var/lib/postgresql/data/
+      - pgdataVec:/var/lib/postgresql/data/
+
+  # postgres:
+  #   image: postgres:alpine
+  #   container_name: postgres
+  #   restart: always
+  #   env_file:
+  #     - ./.env.dev
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data/
   
   redis:
     image: redis:alpine
@@ -79,7 +87,9 @@ services:
       env_file:
           - ./.env.dev
       depends_on: 
-          - redis
+          - django
       command: celery -A AppForAnalyze beat --loglevel=info --logfile=./docker/logs/celery-beat.log
       volumes:
           - ./:/AppForAnalyze
+
+      

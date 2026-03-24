@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    "debug_toolbar",
+    # "debug_toolbar",
 
     'main',
     'onearticle',
@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'AppForAnalyze.urls'
@@ -93,7 +93,7 @@ DATABASES = {
         'NAME': env('POSTGRES_DB'),
         'USER': env('POSTGRES_USER'),
         'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': 'localhost',   # env('POSTGRES_HOST')
+        'HOST': env('POSTGRES_HOST'), # 'localhost'
         'PORT': env('POSTGRES_PORT'),
     }
 }
@@ -119,14 +119,14 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Moscow'
 
 CELERY_BEAT_SCHEDULE = {
-    # 'backup_database': {
-    #     'task': 'modules.tasks.dbackup_task',
-    #     'schedule': crontab(hour=23, minute=0), # Every day in 11:00pm
-    # },
-    # 'weekly_article_update': {
-    #     'task': 'modules.tasks.periodic_update_task',
-    #     'schedule': crontab(hour=3, minute=0, day_of_week='sun'),
-    # },
+    'backup_database': {
+        'task': 'modules.tasks.dbackup_task',
+        'schedule': crontab(hour=23, minute=0), # Every day in 11:00pm
+    },
+    'weekly_article_update': {
+        'task': 'modules.tasks.periodic_update_task',
+        'schedule': crontab(hour=3, minute=0, day_of_week='sun'),
+    },
 }
 
 # Password validation

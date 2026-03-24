@@ -38,11 +38,13 @@ class ArticalEmbedding(models.Model):
             GinIndex(
                 fields=["search_vector"],
             ), # Hnsw for docker startup, can't work on Windows
-            # HnswIndex( 
-            #     fields=["embedding"],
-            #     m=16,
-            #     ef_construction=64,
-            # ),
+            HnswIndex( 
+                fields=["embedding"],
+                m=16,
+                ef_construction=64,
+                opclasses=["vector_cosine_ops"],
+                name="vector_cosin",
+            ),
         ]          
         db_table = "ArticalEmbedding"
         verbose_name = "Аннотация"
