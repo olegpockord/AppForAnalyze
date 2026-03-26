@@ -5,7 +5,7 @@ from django.contrib.postgres.search import SearchVector
 from django.db.models import F
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticalEmbedding
-from common.ml.sentence_transformer_model import MODEL
+from common.ml.sentence_transformer_model import get_model
 from modules.services.recommendations import get_article_recommendations
 
 import requests
@@ -86,7 +86,7 @@ def create_embedding():
     if not embedding_set:
         return {'status': 'No articals available to set embedding'}
     
-    model = MODEL
+    model = get_model()
     
     try:
         for obj in embedding_set:

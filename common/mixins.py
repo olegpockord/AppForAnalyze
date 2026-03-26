@@ -9,7 +9,7 @@ from django.contrib.postgres.search import (
 from django.contrib.postgres.search import SearchQuery, TrigramSimilarity
 from pgvector.django import CosineDistance
 
-from common.ml.sentence_transformer_model import MODEL
+from common.ml.sentence_transformer_model import get_model
 
 import io, base64
 import matplotlib
@@ -48,7 +48,8 @@ class SearchMixin:
                     ).filter(similarity__gte=0.3).order_by('-similarity') # 0.1 was
             
         if not result: # second fallback
-            query_embedding = MODEL.encode(query_for_trig, normalize_embeddings=True).tolist()
+            model = get_model()
+            query_embedding = model.encode(query_for_trig, normalize_embeddings=True).tolist()
 
             result = (qs.annotate(
                 distance = CosineDistance("abstract__embedding", query_embedding)
