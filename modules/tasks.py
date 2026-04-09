@@ -87,10 +87,10 @@ def create_embedding():
         return {'status': 'No articals available to set embedding'}
     
     model = get_model()
-    
+    LOG.info(f"Device used - {model.device}")
     try:
         for obj in embedding_set:
-            embedding = model.encode(obj.abstract_text, normalize_embeddings=True).tolist()
+            embedding = model.encode(obj.abstract_text, device='cpu', normalize_embeddings=True).tolist()
 
             ArticalEmbedding.objects.filter(pk=obj.pk).update(
                 embedding=embedding,

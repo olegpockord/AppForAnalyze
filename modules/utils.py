@@ -280,7 +280,7 @@ def fetch_openalex(type, query, optional):
 
     url = f"https://api.openalex.org/works?{type}{query}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,abstract_inverted_index,counts_by_year,authorships{optional}&mailto=oleg222200005555@gmail.com"
 
-    r = requests.get(url, timeout=10)
+    r = requests.get(url, timeout=20)
     if r.status_code == 200 and len(r.json()["results"]) != 0:
         return new_parse_open_alex(r.json())
     elif r.status_code == 200 and type == "doi":

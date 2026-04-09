@@ -17,3 +17,5 @@ docker/nginx/prod
 
 database-2026*
 postgres/
+
+ml_models/
