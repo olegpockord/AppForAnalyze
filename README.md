@@ -25,7 +25,7 @@
 * Recommendation system with small LM
 * Avaible 2 API
 
-#:computer: Launch via Docker
+#Launch via Docker
 
 Create dir and open in terminal
 ```bash
