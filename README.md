@@ -1,11 +1,23 @@
 # FScienceAnalyze - science pet project for search, explore and analyze main article information
 
-That application is made for analyze citation per year and view main science ID's. FScienceAnalyze don't has complex interface and unnecessary functions.
+
+:gear: Technologies stack used:
+* Python
+* Django
+* Docker
+* Celery
+* Redis
+* PostgreSQL
+* Docker
+
+
+:open_book: That application is made for analyze citation per year and view main science ID's. FScienceAnalyze don't has complex interface and unnecessary functions.
 * Graphics of citing
 * Minimalistic design
 * Simple interface
+* Citing system
 
-Main features of application:
+:rocket: Features:
 * Optimized DB queries 
 * Schedule automatic DB backup
 * Weekly update info for articles 
@@ -13,7 +25,7 @@ Main features of application:
 * Recommendation system with small LM
 * Avaible 2 API
 
-# Launch via Docker
+#:computer: Launch via Docker
 
 Create dir and open in terminal
 ```bash
