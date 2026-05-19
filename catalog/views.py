@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
-from django.db.models import OuterRef, Subquery, Prefetch
+from django.db.models import OuterRef, Subquery, Prefetch, Q
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 
@@ -25,15 +25,8 @@ class CatalogView(ListView, SearchMixin):
         "uplouddate": "-update_date",
     }
 
-    def get_queryset(self):
-        query_set =  Artical.objects.all()
-
-        query = self.request.GET.get('q')
-        param_for_api = self.request.GET.get("scope")
-        sort_param = self.request.GET.get("sort")
-        param = self.SORT_MAPPING.get(sort_param, 'pk')
-
-        query_set = query_set.annotate(
+    def display_fields(self, qs):
+        return qs.annotate(
             main_author_initials=Subquery(
             ArticleMainAuthor.objects
             .filter(article=OuterRef('pk'))
@@ -55,21 +48,73 @@ class CatalogView(ListView, SearchMixin):
             .values('reference_count')[:1]
             ),
             )
+
+    def search_fields(self, qs):
+        return qs.annotate(
+            main_author_initials=Subquery(
+            ArticleMainAuthor.objects
+            .filter(article=OuterRef('pk'))
+            .values('main_initials')[:1]
+            )
+        )
+
+    def get_queryset(self):
+        base_query_set =  Artical.objects.all()
+
+        query = self.request.GET.get('q')
+        param_for_api = self.request.GET.get("scope")
+        sort_param = self.request.GET.get("sort")
+        param = self.SORT_MAPPING.get(sort_param, 'pk')
+
+        # query_set = query_set.annotate(
+        #     main_author_initials=Subquery(
+        #     ArticleMainAuthor.objects
+        #     .filter(article=OuterRef('pk'))
+        #     .values('main_initials')[:1]
+        #     ),
+        #     publish_date=Subquery(
+        #     ArticalDate.objects
+        #     .filter(article=OuterRef('pk'))
+        #     .values('date_of_artical')[:1]
+        #     ),
+        #     update_date = Subquery(
+        #     ArticalDate.objects
+        #     .filter(article=OuterRef('pk'))
+        #     .values('date_of_last_update')[:1]
+        #     ),
+        #     cite_count=Subquery(
+        #     ArticalCiteData.objects
+        #     .filter(article=OuterRef('pk'))
+        #     .values('reference_count')[:1]
+        #     ),
+        #     )
         
-
-        if query:
+        if not query:
+            return self.display_fields(base_query_set).order_by(param, 'pk')
         
-            if param_for_api:
-                query = query.strip().replace(' ', '+')
-                created_articles = fetch_openalex("search=", query, optional="&per-page=50")
-                query_set = (self.q_search(query, query_set)
-                            | query_set.filter(doi__in=created_articles))
-            else:
-                query_set = self.q_search(query, query_set)
+        search_fields_query_set = self.search_fields(base_query_set) 
+        query_set = self.q_search(query, search_fields_query_set)
 
-        query_set = query_set.order_by(param, 'pk')
+        if param_for_api:
+            created_articles = fetch_openalex("search=", query.strip().replace(' ', '+'), optional="&per-page=50")
 
-        return query_set
+            ids_in_search = list(query_set.values_list("id", flat=True))
+
+            query_set = base_query_set.filter(Q(pk__in=ids_in_search) | Q(doi__in=created_articles))
+
+        return self.display_fields(query_set)
+        # if query:
+        
+        #     if param_for_api:
+        #         created_articles = fetch_openalex("search=", query.strip().replace(' ', '+'), optional="&per-page=50")
+        #         query_set = (self.q_search(query, query_set)
+        #                     | query_set.filter(doi__in=created_articles))
+        #     else:
+        #         query_set = self.q_search(query, query_set)
+
+        # query_set = query_set.order_by(param, 'pk')
+
+        # return query_set
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
