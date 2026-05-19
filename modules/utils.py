@@ -55,6 +55,9 @@ def new_parse_open_alex(response):
 
             if doi in exists_doi or mag in exists_mag:
                 continue
+            else:
+                exists_doi.add(doi)
+                exists_mag.add(mag)
 
             
             pmid = ids.get("pmid")[32:] if ids.get("pmid") else None
@@ -95,6 +98,7 @@ def new_parse_open_alex(response):
         article = articles_by_doi.get(doi)
         if not article:
             continue
+            
 
         source = element.get("primary_location").get("source")
 
@@ -189,6 +193,8 @@ def new_parse_open_alex(response):
 
 # Start setting embedding for articles with abstract
     create_embedding.delay()
+
+    return articles_by_doi.keys()
 
 
 def new_parse_crossref(response):

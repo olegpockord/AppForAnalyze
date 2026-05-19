@@ -28,6 +28,11 @@ class CatalogView(ListView, SearchMixin):
     def get_queryset(self):
         query_set =  Artical.objects.all()
 
+        query = self.request.GET.get('q')
+        param_for_api = self.request.GET.get("scope")
+        sort_param = self.request.GET.get("sort")
+        param = self.SORT_MAPPING.get(sort_param, 'pk')
+
         query_set = query_set.annotate(
             main_author_initials=Subquery(
             ArticleMainAuthor.objects
@@ -51,23 +56,17 @@ class CatalogView(ListView, SearchMixin):
             ),
             )
         
-        query = self.request.GET.get('q')
-        param_for_api = self.request.GET.get("scope")
-
 
         if query:
-
-            query = query.strip().replace(' ', '+')
         
             if param_for_api:
-                fetch_openalex("search=", query, optional="&per-page=50")
+                query = query.strip().replace(' ', '+')
+                created_articles = fetch_openalex("search=", query, optional="&per-page=50")
+                query_set = (self.q_search(query, query_set)
+                            | query_set.filter(doi__in=created_articles))
+            else:
+                query_set = self.q_search(query, query_set)
 
-            query_set = self.q_search(query, query_set)
-
-        
-        sort_param = self.request.GET.get("sort")
-        param = self.SORT_MAPPING.get(sort_param, 'pk')
-           
         query_set = query_set.order_by(param, 'pk')
 
         return query_set
