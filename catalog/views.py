@@ -65,56 +65,20 @@ class CatalogView(ListView, SearchMixin):
         param_for_api = self.request.GET.get("scope")
         sort_param = self.request.GET.get("sort")
         param = self.SORT_MAPPING.get(sort_param, 'pk')
-
-        # query_set = query_set.annotate(
-        #     main_author_initials=Subquery(
-        #     ArticleMainAuthor.objects
-        #     .filter(article=OuterRef('pk'))
-        #     .values('main_initials')[:1]
-        #     ),
-        #     publish_date=Subquery(
-        #     ArticalDate.objects
-        #     .filter(article=OuterRef('pk'))
-        #     .values('date_of_artical')[:1]
-        #     ),
-        #     update_date = Subquery(
-        #     ArticalDate.objects
-        #     .filter(article=OuterRef('pk'))
-        #     .values('date_of_last_update')[:1]
-        #     ),
-        #     cite_count=Subquery(
-        #     ArticalCiteData.objects
-        #     .filter(article=OuterRef('pk'))
-        #     .values('reference_count')[:1]
-        #     ),
-        #     )
         
         if not query:
             return self.display_fields(base_query_set).order_by(param, 'pk')
         
-        search_fields_query_set = self.search_fields(base_query_set) 
+        search_fields_query_set = self.search_fields(base_query_set)
         query_set = self.q_search(query, search_fields_query_set)
 
         if param_for_api:
             created_articles = fetch_openalex("search=", query.strip().replace(' ', '+'), optional="&per-page=50")
-
             ids_in_search = list(query_set.values_list("id", flat=True))
 
-            query_set = base_query_set.filter(Q(pk__in=ids_in_search) | Q(doi__in=created_articles))
+            query_set = base_query_set.filter(Q(pk__in=ids_in_search) | Q(doi__in=created_articles or []))
 
-        return self.display_fields(query_set)
-        # if query:
-        
-        #     if param_for_api:
-        #         created_articles = fetch_openalex("search=", query.strip().replace(' ', '+'), optional="&per-page=50")
-        #         query_set = (self.q_search(query, query_set)
-        #                     | query_set.filter(doi__in=created_articles))
-        #     else:
-        #         query_set = self.q_search(query, query_set)
-
-        # query_set = query_set.order_by(param, 'pk')
-
-        # return query_set
+        return self.display_fields(query_set).order_by(param, 'pk')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

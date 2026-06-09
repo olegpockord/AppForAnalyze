@@ -46,8 +46,6 @@ a:hover .card-header {
     font-size: 0.95rem;
 }
 
-
-
 .offcanvas.custom-height {
     height: auto;
     max-height: none;
@@ -92,7 +90,6 @@ a:hover .card-header {
     z-index: 10;
 }
 
-
 .card-float-icon-1 {
     background-color: #E8A87C;
     border-color: #E8A87C;
@@ -119,9 +116,6 @@ a:hover .card-header {
 .card.card-accent-3 {
     border: 5px solid #41B3A3;
 }
-
-
-
 
 @media (max-width: 767px) {
 
@@ -160,10 +154,9 @@ a:hover .card-header {
     }
 
     .card-body-m p {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     }
 }
-
 
 @media (max-width: 576px) {
     .card {
@@ -196,6 +189,132 @@ a:hover .card-header {
     }
 
     .card-body-m p {
-    font-size: 0.5rem;
+    font-size: 0.9rem;
+    }
+}
+
+.language-switcher {
+    position: absolute;
+    right: 25px;
+    bottom: 25px;
+    z-index: 1050;
+}
+
+.language-current {
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: rgb(211, 209, 231);
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+
+    list-style: none;
+    user-select: none;
+}
+
+.language-current::-webkit-details-marker {
+    display: none;
+}
+
+.language-current img {
+    width: 32px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+.language-menu {
+    position: absolute;
+
+    right: 0;
+    bottom: 70px;
+
+    min-width: 180px;
+
+    background: rgb(211, 209, 231);
+
+    border-radius: 16px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+
+    padding: 8px;
+
+    display: none;
+}
+
+.language-switcher[open] .language-menu {
+    display: block;
+}
+
+.language-menu form {
+    margin: 0;
+}
+
+.language-item {
+    width: 100%;
+
+    border: none;
+    background: transparent;
+
+    padding: 10px;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+.language-item:hover {
+    background: #f3f4f6;
+}
+
+.language-item img {
+    width: 24px;
+    height: 18px;
+
+    object-fit: cover;
+    border-radius: 3px;
+
+    flex-shrink: 0;
+}
+
+.language-item-active {
+    background: #d1fae5;
+    font-weight: 600;
+}
+
+.language-item-active:hover {
+    background: #d1fae5;
+}
+
+@media (max-width: 1054px) {
+
+    .language-switcher {
+        position: relative;
+
+        display: table;
+
+        margin: 20px auto 0;
+        right: 0px;
+    }
+
+    .language-menu {
+        left: 50%;
+        right: auto;
+
+        transform: translateX(-50%);
     }
 }

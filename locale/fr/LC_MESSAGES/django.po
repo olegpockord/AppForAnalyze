@@ -1,0 +1,172 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-01 21:00+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: .\catalog\templates\catalog.html:16
+msgid "По вашему запросу ничего не найдено"
+msgstr "Aucun résultat trouvé"
+
+#: .\catalog\templates\catalog.html:29
+msgid "Дата публикации: "
+msgstr "Date de publication: "
+
+#: .\catalog\templates\catalog.html:30
+msgid "DOI: "
+msgstr "DOI: "
+
+#: .\catalog\templates\catalog.html:31
+msgid "Сколько цитировалась: "
+msgstr "Nombre de citations: "
+
+#: .\catalog\templates\catalog.html:34
+msgid "Последнее обновление: "
+msgstr "Dernière mise à jour: "
+
+#: .\catalog\templates\catalog.html:49
+msgid "Сортировка статей"
+msgstr "Tri des articles"
+
+#: .\catalog\templates\catalog.html:62
+msgid "По умолчанию"
+msgstr "Par défaut"
+
+#: .\catalog\templates\catalog.html:67
+msgid "Самые свежие"
+msgstr "Plus récentes"
+
+#: .\catalog\templates\catalog.html:72
+msgid "Самые цитируемые"
+msgstr "Les plus citées"
+
+#: .\catalog\templates\catalog.html:77
+msgid "Добавленные в приложение недавно"
+msgstr "Ajoutées récemment"
+
+#: .\catalog\templates\catalog.html:81
+msgid "Применить"
+msgstr "Appliquer"
+
+#: .\catalog\templates\work_detail.html:19
+msgid "Журнал:"
+msgstr "Journal:"
+
+#: .\catalog\templates\work_detail.html:20
+msgid "Дата публикации:"
+msgstr "Date de publication:"
+
+#: .\catalog\templates\work_detail.html:34
+msgid "Цитирований в статье:"
+msgstr "Citations dans l'article:"
+
+#: .\catalog\templates\work_detail.html:35
+msgid "Сколько цитировалась:"
+msgstr "Nombre de citations:"
+
+#: .\catalog\templates\work_detail.html:39
+msgid "Цитировать"
+msgstr "Citer"
+
+#: .\catalog\templates\work_detail.html:43
+msgid "Последнее обновление:"
+msgstr "Dernière mise à jour: "
+
+#: .\catalog\templates\work_detail.html:52
+msgid "График цитирования"
+msgstr "Graphique des citations"
+
+#: .\catalog\templates\work_detail.html:61
+msgid "График невозможно построить из-за нехватки данных"
+msgstr "Impossible de générer le graphique"
+
+#: .\catalog\templates\work_detail.html:69
+msgid "Похожие работы"
+msgstr "Travaux similaires"
+
+#: .\catalog\templates\work_detail.html:92
+msgid "Цитировать статью"
+msgstr "Citer l'article"
+
+#: .\common\mixins.py:102
+msgid "Год"
+msgstr "Année"
+
+#: .\common\mixins.py:103
+msgid "Цитирование"
+msgstr "Citation"
+
+#: .\main\templates\main.html:25
+msgid ""
+"Через приложение fscienceanalyze вы сможете искать научные статьи с их "
+"уникальными id, такими как DOI, pubmedID, MAG. Помимо различных id, вам "
+"будет доступно цитирование по MLA и ГОСТ. Вы сможете получить информацию о "
+"цитированиях статьи и график цитирования по годам."
+msgstr ""
+"Grâce à l’application fscienceanalyze, vous pourrez rechercher des articles scientifiques à l’aide de leurs "
+"identifiants uniques, tels que le DOI, le PubMed ID ou le MAG. En plus de ces identifiants, vous aurez accès "
+"aux références bibliographiques aux formats MLA et GOST. Vous pourrez également consulter les citations "
+"d’un article ainsi que son graphique d’évolution des citations par année."
+
+#: .\main\templates\main.html:30
+msgid "Данные на карточке и на графике могут отличаться*"
+msgstr "Les données de la fiche et du graphique peuvent être différentes"
+
+#: .\main\templates\main.html:50
+msgid "В каталоге"
+msgstr "Dans le catalogue "
+
+#: .\main\templates\main.html:51
+msgid ""
+"можно будет найти все статьи, которые пользователи когда либо запрашивали. "
+"Если необходимой статьи не будет в каталоге, вы сможете найти её через "
+"внешний источник, нужно будет вернуться на главную страницу"
+msgstr ""
+"vous pourrez retrouver tous les articles scientifiques qui ont déjà été consultés par les utilisateurs. "
+"Si l’article recherché ne figure pas dans le catalogue, vous pourrez le rechercher via une source externe "
+"cela, il vous suffira de revenir à la page d’accueil"
+
+#: .\main\templates\main.html:55
+msgid "и выполнить поиск там."
+msgstr " et y effectuer une recherche"
+
+#: .\main\templates\main.html:73
+msgid ""
+"Для поиска конкретной статьи, помимо её названия и другой связанной "
+"информации, можно вбить её doi, mag или pubmedID. Для поиска по mag или "
+"pubmed нужно, перед самим id, написать mag или pmid, с doi такого делать не "
+"нужно."
+msgstr ""
+"Pour rechercher un article, vous pouvez utiliser son titre ou d’autres informations, "
+"ainsi que son DOI, MAG ID ou PubMed ID. Pour MAG et PubMed, "
+"ajoutez le préfixe mag ou pmid avant l’identifiant aucun préfixe n’est "
+"nécessaire pour le DOI."
+
+#: .\templates\base.html:29
+msgid "Поле для поиска"
+msgstr "Champ de recherche"
+
+#: .\templates\base.html:36
+msgid "Поиск"
+msgstr "Recherche"
+
+#: .\templates\base.html:46
+msgid "Выберите тип ID"
+msgstr "Sélectionnez le type d'ID"
+
+#: .\templates\base.html:51
+msgid "Типы ID для поиска"
+msgstr "Types d'ID à rechercher"

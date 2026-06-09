@@ -1,4 +1,3 @@
-from django.core.cache import cache
 from django.db.models import Value, TextField
 from django.db.models.functions import Cast
 from django.contrib.postgres.search import (
@@ -8,6 +7,7 @@ from django.contrib.postgres.search import (
 )
 from django.contrib.postgres.search import SearchQuery, TrigramSimilarity
 from pgvector.django import CosineDistance
+from django.utils.translation import gettext as _
 
 from common.ml.sentence_transformer_model import get_model
 
@@ -73,8 +73,6 @@ class GraphMixin:
             return None
 
 
-        
-
     def graph_visual(self, years_citiations_dict):
 
         years = [year for year in years_citiations_dict.keys()]
@@ -83,7 +81,7 @@ class GraphMixin:
         matplotlib.use('agg')
         buf = io.BytesIO()
 
-        plt.figure(figsize=(7,4))
+        plt.figure(figsize=(8,5))
         plt.plot(years, citiations, marker='o', markersize=6, markerfacecolor="red")
 
         for i, (xi, yi) in enumerate(zip(years, citiations)):
@@ -91,16 +89,17 @@ class GraphMixin:
                         xytext=(-15, 5), textcoords='offset points')
 
         plt.grid(True)
-        plt.xlabel("Years")
-        plt.ylabel("Citations")
+        plt.xlabel(_("Год"), fontsize=16) # Years
+        plt.ylabel(_("Цитирование"), fontsize=18) # Citations
         plt.xlim(years[-1] - 1, years[0] + 1)
+        plt.tick_params(axis='both', which='major', labelsize=11)
+        
+        plt.subplots_adjust(bottom=0.2)
 
         plt.savefig(buf, format='png', dpi=100)
         plt.close()
         buf.seek(0)
         b64 = base64.b64encode(buf.getvalue()).decode('ascii')
-
-
 
         return b64
     
@@ -285,12 +284,6 @@ class CitiationMixin:
 
             
     def create_cite_data(self, artical_info, artical_date_info, artical_main_other, article_data_for_cite):
-        # cache_key = f"citeNo-{artical_info.pk}"
-
-        # data = cache.get(cache_key)
-        # if data:
-        #     return data
-        
         title = artical_info.title
 
         date = artical_date_info.date_of_artical
@@ -321,8 +314,6 @@ class CitiationMixin:
             "GOST": gost_cite,
             "MLA": mla_cite,
         }
-
-        # cache.set(cache_key, cite_data_set, 600)
 
         return cite_data_set
     

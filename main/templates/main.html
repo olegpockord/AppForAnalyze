@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block page_title %}
 {{ name }}
-{% endblock  %}
+{% endblock %}
 
 {% block content %}
 
@@ -20,17 +21,20 @@
 
                   <div class="card-body-m text-center">
                     <strong>
-                    <p>Через приложение fscienceanalyze вы сможете искать научные статьи с их уникальными id,
+                    <p>
+                      {% blocktrans trimmed %}
+                      Через приложение fscienceanalyze вы сможете искать научные статьи с их уникальными id,
                       такими как DOI, pubmedID, MAG. Помимо различных id, вам будет доступно цитирование
                       по MLA и ГОСТ. Вы сможете получить информацию о цитированиях статьи и график цитирования по годам.
-                      <p class="text-muted">Данные на карточке и на графике могут отличаться*</p>
+                      {% endblocktrans %}
+                      <p class="text-muted">{% trans "Данные на карточке и на графике могут отличаться*" %}</p>
                     </p>
                     </strong>
                   </div>
-                  
+
             </div>
+
           </div>
-            
         </div>
 
         <div class="col-lg-6 col-md-8 col-sm-10 mb-2">
@@ -42,9 +46,12 @@
             <div class="card rounded-5 h-30 card-accent-2">
                   <div class="card-body-m text-center">
                     <strong>
-                    <p>В каталоге <i class="fas fa-book-open"></i> можно будет найти все статьи, которые пользователи когда либо запрашивали.
+                    <p>{% trans "В каталоге" %}<i class="fas fa-book-open"></i>
+                      {% blocktrans trimmed %}
+                      можно будет найти все статьи, которые пользователи когда либо запрашивали.
                       Если необходимой статьи не будет в каталоге, вы сможете найти её через внешний источник, нужно будет вернуться на главную страницу
-                      <i class="fas fa-home"></i> и выполнить поиск там.
+                      {% endblocktrans %}
+                      <i class="fas fa-home"></i>{% trans "и выполнить поиск там." %}
                     </p>
                     </strong>
                   </div>
@@ -61,8 +68,11 @@
             <div class="card rounded-5 h-30 card-accent-3">
                   <div class="card-body-m text-center">
                     <strong>
-                    <p> Для поиска конкретной статьи, помимо её названия и другой связанной информации, можно вбить её doi, mag или pubmedID.
-                      Для поиска по mag или pubmed нужно, перед самим id, написать mag или pmid, с doi такого делать не нужно. 
+                    <p>
+                      {% blocktrans trimmed%}
+                      Для поиска конкретной статьи, помимо её названия и другой связанной информации, можно вбить её doi, mag или pubmedID.
+                      Для поиска по mag или pubmed нужно, перед самим id, написать mag или pmid, с doi такого делать не нужно.
+                      {% endblocktrans %} 
                     </p>
                     </strong>
                   </div>
@@ -72,5 +82,33 @@
 
     </div>
 </div>
+
+<details class="language-switcher">
+
+  {% get_current_language as CURRENT_LANGUAGE %}
+  {% get_available_languages as LANGUAGES %}
+
+    <summary class="language-current">
+      <img src="{% static 'flags/' %}{{ CURRENT_LANGUAGE }}.svg" alt="">
+    </summary>
+
+    <div class="language-menu">
+        <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+
+            {% for code, name in LANGUAGES %}
+                <button
+                    type="submit"
+                    name="language"
+                    value="{{ code }}"
+                    class="language-item {% if code == CURRENT_LANGUAGE %}language-item-active{% endif %}">
+                    <img src="{% static 'flags/' %}{{ code }}.svg">
+                    {{ name }}
+                </button>
+            {% endfor %}
+        </form>
+    </div>
+
+</details>
 
 {% endblock  %}

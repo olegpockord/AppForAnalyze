@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="{% static "bootstrap/bootstrap.min.css" %}">
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <title>fscienceanalyze - {% block page_title %}{% endblock %}</title>
+    <title>FScienceAnalyze - {% block page_title %}{% endblock %}</title>
 </head>
 
 
 <body>
-    <form class="d-flex flex-column" role="search" action="{% url 'catalog:catalog_all'%}" method="get">
+    <form class="d-flex flex-column fixed-top" role="search" action="{% url 'catalog:catalog_all'%}" method="get">
     
     
     <div class="d-flex mb-2 mt-2 m-2">
@@ -26,14 +26,14 @@
             <i class="fas fa-book-open"></i>
         </a>
     
-        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" {% if request.GET.q %}value="{{ request.GET.q }}{% endif %}">
+        <input class="form-control me-2" type="search" name="q" placeholder={% trans "Поле для поиска" %} aria-label="Search" {% if request.GET.q %}value="{{ request.GET.q }}{% endif %}">
         {% if request.resolver_match.route|slice:":8" != 'catalog/' %}<input type="hidden" name="scope" value="external">{% endif %}
         {% if request.path == '/catalog/' %}
         <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#filterModal">
             <i class="fas fa-sliders-h"></i>
         </button>
         {% endif %}
-        <button class="btn btn-outline-success text-blue" type="submit">Поиск</button>
+        <button class="btn btn-outline-success text-blue" type="submit">{% trans "Поиск" %}</button>
     </div>
 
     </form>
@@ -43,12 +43,12 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Выберите тип ID</h5>
+                    <h5 class="modal-title">{% trans "Выберите тип ID" %}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body text-center">
-                    <p>Типы ID для поиска</p>
+                    <p>{% trans "Типы ID для поиска" %}</p>
 
                     <button type="button" class="btn btn-outline-primary me-2" id="pmidBtn">
                     PMID
@@ -62,8 +62,10 @@
             </div>
         </div>
     </div>
-    
-    {% block content %}{% endblock  %}
+
+    <div class="mt-4">
+    {% block content %}{% endblock %}
+    </div>
 
     <script src="{% static "jquery/jquery-3.7.0.min.js" %}"></script>
     <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>

@@ -1,0 +1,172 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-01 21:00+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\catalog\templates\catalog.html:16
+msgid "По вашему запросу ничего не найдено"
+msgstr "Not found"
+
+#: .\catalog\templates\catalog.html:29
+msgid "Дата публикации: "
+msgstr "Date of publication: "
+
+#: .\catalog\templates\catalog.html:30
+msgid "DOI: "
+msgstr "DOI: "
+
+#: .\catalog\templates\catalog.html:31
+msgid "Сколько цитировалась: "
+msgstr "Citation count: "
+
+#: .\catalog\templates\catalog.html:34
+msgid "Последнее обновление: "
+msgstr "Last update: "
+
+#: .\catalog\templates\catalog.html:49
+msgid "Сортировка статей"
+msgstr "Article sort"
+
+#: .\catalog\templates\catalog.html:62
+msgid "По умолчанию"
+msgstr "Default"
+
+#: .\catalog\templates\catalog.html:67
+msgid "Самые свежие"
+msgstr "Latest"
+
+#: .\catalog\templates\catalog.html:72
+msgid "Самые цитируемые"
+msgstr "Most cited"
+
+#: .\catalog\templates\catalog.html:77
+msgid "Добавленные в приложение недавно"
+msgstr "Added recently"
+
+#: .\catalog\templates\catalog.html:81
+msgid "Применить"
+msgstr "Apply"
+
+#: .\catalog\templates\work_detail.html:19
+msgid "Журнал:"
+msgstr "Journal:"
+
+#: .\catalog\templates\work_detail.html:20
+msgid "Дата публикации:"
+msgstr "Date of publication:"
+
+#: .\catalog\templates\work_detail.html:34
+msgid "Цитирований в статье:"
+msgstr "Citations in article:"
+
+#: .\catalog\templates\work_detail.html:35
+msgid "Сколько цитировалась:"
+msgstr "Citation count:"
+
+#: .\catalog\templates\work_detail.html:39
+msgid "Цитировать"
+msgstr "Cite"
+
+#: .\catalog\templates\work_detail.html:43
+msgid "Последнее обновление:"
+msgstr "Last update: "
+
+#: .\catalog\templates\work_detail.html:52
+msgid "График цитирования"
+msgstr "Cite graph"
+
+#: .\catalog\templates\work_detail.html:61
+msgid "График невозможно построить из-за нехватки данных"
+msgstr "Failed to plot graph due lack of date"
+
+#: .\catalog\templates\work_detail.html:69
+msgid "Похожие работы"
+msgstr "Related articles"
+
+#: .\catalog\templates\work_detail.html:92
+msgid "Цитировать статью"
+msgstr "Article citation"
+
+#: .\common\mixins.py:102
+msgid "Год"
+msgstr "Year"
+
+#: .\common\mixins.py:103
+msgid "Цитирование"
+msgstr "Citation"
+
+#: .\main\templates\main.html:25
+msgid ""
+"Через приложение fscienceanalyze вы сможете искать научные статьи с их "
+"уникальными id, такими как DOI, pubmedID, MAG. Помимо различных id, вам "
+"будет доступно цитирование по MLA и ГОСТ. Вы сможете получить информацию о "
+"цитированиях статьи и график цитирования по годам."
+msgstr ""
+"Using fscienceanalyze you can search for scientific articles using "
+"their unique id like DOI, PubMed ID, MAG. Along with various id, you "
+"will have access to MLA and GOST citation formats. You can also retrieve "
+"article citation data and view citation graph by year."
+
+#: .\main\templates\main.html:30
+msgid "Данные на карточке и на графике могут отличаться*"
+msgstr "Information in article and graph may differ"
+
+#: .\main\templates\main.html:50
+msgid "В каталоге"
+msgstr "Catalog "
+
+#: .\main\templates\main.html:51
+msgid ""
+"можно будет найти все статьи, которые пользователи когда либо запрашивали. "
+"Если необходимой статьи не будет в каталоге, вы сможете найти её через "
+"внешний источник, нужно будет вернуться на главную страницу"
+msgstr ""
+"contains all articles previously requested by users. "
+"If article you need is missing from catalog, you can search for it "
+"using external source by returning to main page"
+
+#: .\main\templates\main.html:55
+msgid "и выполнить поиск там."
+msgstr " and use search there."
+
+#: .\main\templates\main.html:73
+msgid ""
+"Для поиска конкретной статьи, помимо её названия и другой связанной "
+"информации, можно вбить её doi, mag или pubmedID. Для поиска по mag или "
+"pubmed нужно, перед самим id, написать mag или pmid, с doi такого делать не "
+"нужно."
+msgstr ""
+"To find a specific paper, you can search by title, and author initials "
+"also you may search by main id: DOI, Pubmed ID, MAG. "
+"When searching by MAG or PubMed, you need to type mag or pmid prefix before ID itself "
+"like mag123456. For DOI, no prefix needed."
+
+#: .\templates\base.html:29
+msgid "Поле для поиска"
+msgstr "Search field"
+
+#: .\templates\base.html:36
+msgid "Поиск"
+msgstr "Search"
+
+#: .\templates\base.html:46
+msgid "Выберите тип ID"
+msgstr "Choose ID"
+
+#: .\templates\base.html:51
+msgid "Типы ID для поиска"
+msgstr "ID for search"
