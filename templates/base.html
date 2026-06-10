@@ -27,8 +27,8 @@
         </a>
     
         <input class="form-control me-2" type="search" name="q" placeholder={% trans "Поле для поиска" %} aria-label="Search" {% if request.GET.q %}value="{{ request.GET.q }}{% endif %}">
-        {% if request.resolver_match.route|slice:":8" != 'catalog/' %}<input type="hidden" name="scope" value="external">{% endif %}
-        {% if request.path == '/catalog/' %}
+        {% if request.resolver_match.view_name == 'main:index' %}<input type="hidden" name="scope" value="external">{% endif %}
+        {% if request.resolver_match.view_name == 'catalog:catalog_all' %}
         <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#filterModal">
             <i class="fas fa-sliders-h"></i>
         </button>
