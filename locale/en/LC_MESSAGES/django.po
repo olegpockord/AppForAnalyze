@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 21:00+0300\n"
+"POT-Creation-Date: 2026-06-12 15:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,47 +65,56 @@ msgstr "Apply"
 msgid "Журнал:"
 msgstr "Journal:"
 
-#: .\catalog\templates\work_detail.html:20
+#: .\catalog\templates\work_detail.html:21
 msgid "Дата публикации:"
 msgstr "Date of publication:"
 
-#: .\catalog\templates\work_detail.html:34
+#: .\catalog\templates\work_detail.html:35
 msgid "Цитирований в статье:"
 msgstr "Citations in article:"
 
-#: .\catalog\templates\work_detail.html:35
+#: .\catalog\templates\work_detail.html:36
 msgid "Сколько цитировалась:"
 msgstr "Citation count:"
 
-#: .\catalog\templates\work_detail.html:39
+#: .\catalog\templates\work_detail.html:40
 msgid "Цитировать"
 msgstr "Cite"
 
-#: .\catalog\templates\work_detail.html:43
+#: .\catalog\templates\work_detail.html:44
 msgid "Последнее обновление:"
 msgstr "Last update: "
 
-#: .\catalog\templates\work_detail.html:52
+#: .\catalog\templates\work_detail.html:55
+#: .\catalog\templates\work_detail.html:69
 msgid "График цитирования"
 msgstr "Cite graph"
 
-#: .\catalog\templates\work_detail.html:61
+#: .\catalog\templates\work_detail.html:72
 msgid "График невозможно построить из-за нехватки данных"
 msgstr "Failed to plot graph due lack of date"
 
-#: .\catalog\templates\work_detail.html:69
+#: .\catalog\templates\work_detail.html:80
 msgid "Похожие работы"
 msgstr "Related articles"
 
-#: .\catalog\templates\work_detail.html:92
+#: .\catalog\templates\work_detail.html:123
+msgid "Цитирований в статье"
+msgstr "Article citation"
+
+#: .\catalog\templates\work_detail.html:140
+msgid "Открыть работу"
+msgstr "Open article"
+
+#: .\catalog\templates\work_detail.html:155
 msgid "Цитировать статью"
 msgstr "Article citation"
 
-#: .\common\mixins.py:102
+#: .\common\mixins.py:92
 msgid "Год"
 msgstr "Year"
 
-#: .\common\mixins.py:103
+#: .\common\mixins.py:93
 msgid "Цитирование"
 msgstr "Citation"
 
@@ -125,11 +134,11 @@ msgstr ""
 msgid "Данные на карточке и на графике могут отличаться*"
 msgstr "Information in article and graph may differ"
 
-#: .\main\templates\main.html:50
+#: .\main\templates\main.html:49
 msgid "В каталоге"
 msgstr "Catalog "
 
-#: .\main\templates\main.html:51
+#: .\main\templates\main.html:50
 msgid ""
 "можно будет найти все статьи, которые пользователи когда либо запрашивали. "
 "Если необходимой статьи не будет в каталоге, вы сможете найти её через "
@@ -139,11 +148,11 @@ msgstr ""
 "If article you need is missing from catalog, you can search for it "
 "using external source by returning to main page"
 
-#: .\main\templates\main.html:55
+#: .\main\templates\main.html:54
 msgid "и выполнить поиск там."
 msgstr " and use search there."
 
-#: .\main\templates\main.html:73
+#: .\main\templates\main.html:72
 msgid ""
 "Для поиска конкретной статьи, помимо её названия и другой связанной "
 "информации, можно вбить её doi, mag или pubmedID. Для поиска по mag или "

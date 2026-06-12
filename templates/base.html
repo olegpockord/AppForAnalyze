@@ -19,21 +19,21 @@
     
     
     <div class="d-flex mb-2 mt-2 m-2">
-        <a href="{% url 'main:index' %}" class="btn btn-outline-secondary me-2">
+        <a href="{% url 'main:index' %}" class="btn btn-outline-secondary me-2 btn-static-color">
             <i class="fas fa-home"></i>
         </a>
-        <a href="{% url 'catalog:catalog_all' %}" class="btn btn-outline-secondary me-2">
+        <a href="{% url 'catalog:catalog_all' %}" class="btn btn-outline-secondary me-2 btn-static-color">
             <i class="fas fa-book-open"></i>
         </a>
     
         <input class="form-control me-2" type="search" name="q" placeholder={% trans "Поле для поиска" %} aria-label="Search" {% if request.GET.q %}value="{{ request.GET.q }}{% endif %}">
         {% if request.resolver_match.view_name == 'main:index' %}<input type="hidden" name="scope" value="external">{% endif %}
         {% if request.resolver_match.view_name == 'catalog:catalog_all' %}
-        <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#filterModal">
+        <button type="button" class="btn btn-outline-secondary me-2 btn-static-color" data-bs-toggle="modal" data-bs-target="#filterModal">
             <i class="fas fa-sliders-h"></i>
         </button>
         {% endif %}
-        <button class="btn btn-outline-success text-blue" type="submit">{% trans "Поиск" %}</button>
+        <button class="btn btn-outline-success text-blue btn-static-color" type="submit">{% trans "Поиск" %}</button>
     </div>
 
     </form>

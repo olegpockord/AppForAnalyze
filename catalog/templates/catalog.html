@@ -25,7 +25,7 @@
                 </div>
                 </a>
                 <div class="card-body position-relative pb-0">
-                    <h5 class="card-title mb-4">{{article.main_author_initials}}</h5>
+                    <h5 class="card-title mb-4"> <i class="fas fa-user icon"></i> {{article.main_author_initials}}</h5>
                     <p><i class="fas fa-calendar icon"></i> <strong>{% trans "Дата публикации: " %} </strong>{{ article.publish_date }}</p>
                     <p><i class="fas fa-cogs icon"></i> <strong>{% trans "DOI: " %}</strong>{{ article.doi }}</p>
                     <p><i class="fas fa-bookmark  icon"></i> <strong>{% trans "Сколько цитировалась: " %}</strong>{{ article.cite_count }}</p>

@@ -8,16 +8,16 @@
 {% block content %}
 <div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
     <div class="row w-100 justify-content-center">
-        
-        
         <div class="col-lg-5 col-md-8 col-sm-10 mb-4">
             <div class="card shadow-lg h-100">
                 <div class="card-header text-center bg-primary text-white">
                     {{ article.title }}
                 </div>
                 <div class="card-body position-relative pb-0">
-                    <h5 class="card-title mb-4">{{ article_main_author.main_initials }}</h5>
+                    <h5 class="card-title mb-4"> <i class="fas fa-user icon"></i> {{ article_main_author.main_initials }}</h5>
+                    {% if artical_cite_information.journal_name %}
                     <p><i class="fas fa-book icon"></i> <strong>{% trans "Журнал:" %}</strong> {{ artical_cite_information.journal_name }}</p>
+                    {% endif %}
                     <p><i class="fas fa-calendar icon"></i> <strong>{% trans "Дата публикации:" %}</strong> {{ artical_date.date_of_artical }}</p>
                     <p><i class="fas fa-cogs icon"></i> <a class="text-decoration-none" target="_blank" href="https://doi.org/{{ article.doi }}"><strong>DOI:</strong></a> {{ article.doi }}</p>
                     {% if article.mag %}
@@ -76,26 +76,78 @@
 
         <!-- Block for relative articles -->
         {% if recommendations %}
-        <div class="col-12 text-center my-4">
-            <h3>{% trans "Похожие работы" %}</h3>
+        <div class="col-12 text-center my-5">
+            <h3 class="fw-bold">{% trans "Похожие работы" %}</h3>
         </div>
 
-        {% for article in recommendations %}
-        <div class="col-lg-4 col-md-6 col-sm-10">
-            <div class="card rounded-4 overflow-hidden shadow-lg h-10">
-                <a href="{% url "catalog:work_detail" article.pk %}" class="text-decoration-none">
-                <div class="card-header text-white">
-                    {{ article.title|truncatechars:100 }}
+        {% for rec in recommendations %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="rec-card">
+                <div class="rec-content">
+
+                    <h5 class="rec-title">
+                        {{ rec.article_title|truncatechars:120 }}
+                    </h5>
+
+                    <div class="rec-score
+                        {% if rec.similarity >= 70 %}
+                            score-high
+                        {% elif rec.similarity >= 40 %}
+                            score-medium
+                        {% else %}
+                            score-low
+                        {% endif %}">
+                                
+                        {{ rec.similarity }}%
+                    </div>
+
+                    <div class="rec-meta">
+
+                        {% if rec.main_author %}
+                        <div class="rec-meta-row">
+                            <i class="fas fa-user"></i>
+                            <span>{{ rec.main_author }}</span>
+                        </div>
+                        {% endif %}
+
+                        {% if rec.date %}
+                        <div class="rec-meta-row">
+                            <i class="fas fa-calendar"></i>
+                            <span>{{ rec.date|date:"Y" }}</span>
+                        </div>
+                        {% endif %}
+
+                        {% if rec.citations_in_article %}
+                        <div class="rec-meta-row">
+                            <i class="fas fa-quote-right"></i>
+                            <span>{% trans "Цитирований в статье" %} {{ rec.citations_in_article }}</span>
+                        </div>
+                        {% endif %}
+
+                        {% if rec.journal_name %}
+                        <div class="rec-meta-row">
+                            <i class="fas fa-book"></i>
+                            <span>{{ rec.journal_name }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
-                </a>
+
+                <div class="rec-footer">
+
+                    <a href="{% url 'catalog:work_detail' rec.article_pk %}"
+                    class="btn btn-primary w-100">
+                        {% trans "Открыть работу" %}
+                    </a>
+
+                </div>
             </div>
         </div>
         {% endfor %}
         {% endif %}
-
     </div>
 </div>
-
+<!-- Block for citing -->
 <div class="modal fade" id="citeModal" tabindex="-1" aria-labelledby="citeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg">
@@ -119,4 +171,3 @@
   </div>
 </div>
 {% endblock  %}
-
