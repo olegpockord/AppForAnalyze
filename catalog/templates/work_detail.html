@@ -33,7 +33,7 @@
                     <p><i class="fas fa-cogs icon"></i> <strong>ISBN:</strong> {{ article.isbn }}</p>
                     {% endif %}
                     <p><i class="fas fa-bookmark icon"></i> <strong>{% trans "Цитирований в статье:" %}</strong> {{ artical_cite_data.reference_in_work }}</p>
-                    <p><i class="fas fa-bookmark  icon"></i> <strong>{% trans "Сколько цитировалась:" %}</strong> {{ artical_cite_data.reference_count }}</p>
+                    <p><i class="fas fa-quote-right icon"></i> <strong>{% trans "Сколько цитировалась:" %}</strong> {{ artical_cite_data.reference_count }}</p>
                 </div>
                 <div class="d-flex justify-content-end mt-0 ">
                     <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#citeModal">
@@ -120,7 +120,7 @@
                         {% if rec.citations_in_article %}
                         <div class="rec-meta-row">
                             <i class="fas fa-quote-right"></i>
-                            <span>{% trans "Цитирований в статье" %} {{ rec.citations_in_article }}</span>
+                            <span>{% trans "Сколько цитировалась" %} {{ rec.citations_in_article }}</span>
                         </div>
                         {% endif %}
 

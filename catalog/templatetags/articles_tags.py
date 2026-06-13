@@ -18,11 +18,13 @@ def change_params(context, **kwargs):
     return query.urlencode()
 
 @register.simple_tag
-def get_proper_elided_page_range(p, number, on_each_side=2, on_ends=1):
-    paginator = Paginator(p.object_list, p.per_page)
-    return paginator.get_elided_page_range(number=number, 
-                                           on_each_side=on_each_side,
-                                           on_ends=on_ends)
+def get_proper_elided_page_range(page_obj, on_each_side=2, on_ends=1):
+
+    return page_obj.paginator.get_elided_page_range(
+        page_obj.number,
+        on_each_side=on_each_side,
+        on_ends=on_ends)
+    
 
 @register.filter
 def is_num(value):

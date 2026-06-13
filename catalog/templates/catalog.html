@@ -28,7 +28,7 @@
                     <h5 class="card-title mb-4"> <i class="fas fa-user icon"></i> {{article.main_author_initials}}</h5>
                     <p><i class="fas fa-calendar icon"></i> <strong>{% trans "Дата публикации: " %} </strong>{{ article.publish_date }}</p>
                     <p><i class="fas fa-cogs icon"></i> <strong>{% trans "DOI: " %}</strong>{{ article.doi }}</p>
-                    <p><i class="fas fa-bookmark  icon"></i> <strong>{% trans "Сколько цитировалась: " %}</strong>{{ article.cite_count }}</p>
+                    <p><i class="fas fa-quote-right icon"></i> <strong>{% trans "Сколько цитировалась: " %}</strong>{{ article.cite_count }}</p>
                 </div>
                 <div class="card-footer text-muted">
                 {% trans "Последнее обновление: " %}{{article.update_date}}
@@ -89,7 +89,7 @@
 
 <!-- Paginator -->
 
-{% get_proper_elided_page_range paginator page_obj.number as page_range %}
+{% get_proper_elided_page_range page_obj as page_range %}
 
 {% if is_pagineted or articles %}
 <nav aria-label="Page navigation example">

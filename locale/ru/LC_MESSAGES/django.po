@@ -101,8 +101,8 @@ msgid "Похожие работы"
 msgstr "Похожие работы"
 
 #: .\catalog\templates\work_detail.html:123
-msgid "Цитирований в статье"
-msgstr "Цитирований в статье"
+msgid "Сколько цитировалась"
+msgstr "Сколько цитировалась"
 
 #: .\catalog\templates\work_detail.html:140
 msgid "Открыть работу"

@@ -22,14 +22,14 @@ import copy
 class SearchMixin:
 
     def q_search(self, query, qs):
-        query_for_trig = query
+        raw_query = query
 
         vector = SearchVector("title", weight='A') + SearchVector("main_author_initials", weight='B')
         query = SearchQuery(query, search_type='phrase')
 
         searchRank_result = (
                 qs.annotate(rank=SearchRank(vector, query))
-                .filter(rank__gte=0.2) # 0.05 was
+                .filter(rank__gte=0.15) # 0.2 was
                 .order_by("-rank")
             )
 
@@ -37,24 +37,23 @@ class SearchMixin:
             return searchRank_result
         
         trigram_result = qs.annotate(similarity = TrigramSimilarity(Cast('title', TextField()), 
-                Value(query_for_trig)) +
+                Value(raw_query)) +
                 TrigramSimilarity(Cast('main_author_initials', TextField()), 
-                Value(query_for_trig))
+                Value(raw_query))
                 ).filter(similarity__gte=0.3).order_by('-similarity') # 0.1 was
             
         if trigram_result.exists():
             return trigram_result
         
         model = get_model()
-        query_embedding = model.encode(query_for_trig, normalize_embeddings=True).tolist()
+        query_embedding = model.encode(raw_query, normalize_embeddings=True).tolist()
 
         return (qs.annotate(
-            distance = CosineDistance("abstract__embedding", query_embedding)
-        ).exclude(abstract__embedding=None)
-        .filter(distance__lt=0.6)
-        .order_by("distance")
-        )
-
+            distance = CosineDistance('abstract__embedding', query_embedding))
+            .exclude(abstract__embedding=None)
+            .filter(distance__lt=0.6)
+            .order_by('distance')
+            )
 
 class GraphMixin:
 
