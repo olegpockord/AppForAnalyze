@@ -5,7 +5,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding
-from modules.tasks import create_embedding
+from modules.services.pipelines import ArticleAddingPipeline
 
 from django.db import transaction
 from django.http import Http404
@@ -191,8 +191,8 @@ def new_parse_open_alex(response):
         ArticleOtherAuthor.objects.bulk_create(other_authors_to_create)
         ArticalEmbedding.objects.bulk_create(articles_embedding_to_create)
 
-# Start setting embedding for articles with abstract
-    create_embedding.delay()
+# Start setting embedding for articles with abstract and precompute recs
+    ArticleAddingPipeline.execute()
     return articles_by_doi.keys()
 
 

@@ -1,8 +1,6 @@
 from django.utils import timezone
 from django.core.cache import cache
 from django.core.management import call_command
-from django.contrib.postgres.search import SearchVector
-from django.db.models import F
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticalEmbedding
 from common.ml.sentence_transformer_model import get_model
@@ -81,9 +79,9 @@ def single_artical_update(self, article_pk):
 
 @shared_task()
 def create_embedding():
-    embedding_set = ArticalEmbedding.objects.filter(search_vector__isnull=True)
+    embedding_set = ArticalEmbedding.objects.filter(embedding__isnull=True)
     
-    if not embedding_set:
+    if not embedding_set.exists():
         return {'status': 'No articals available to set embedding'}
     
     model = get_model()
@@ -94,21 +92,27 @@ def create_embedding():
 
             ArticalEmbedding.objects.filter(pk=obj.pk).update(
                 embedding=embedding,
-                search_vector=SearchVector(F('abstract_text'))
             )
     except Exception as exc:
-        LOG.exception(f"Failed to set embedding for {obj.pk}: {exc}")
+        LOG.exception(f"Failed to set embedding for {obj.article_id}: {exc}")
 
     LOG.info(f"Quantity of created embeddings: {len(embedding_set)}")
 
+    ids_created_embedding = [object.article_id for object in embedding_set]
+
+    return ids_created_embedding
+
 @shared_task()
-def precompute_recommendations(article_id):
+def precompute_recommendations(ids_set):
 
-    qs = get_article_recommendations(article_id)
-    
-    cache_key = f"recommendation_№{article_id}"
+    try:
+        for id in ids_set:
+            get_article_recommendations(id)
 
-    cache.set(cache_key, qs, 60 * 30)
+    except Exception as exc:
+        LOG.exception(f"Failed to precompute recommendation for article №{id} due to {exc}")
+
+    LOG.info(f"Quantity of precomputed recommendations: {len(ids_set)}")
 
 @shared_task
 def dbackup_task():
