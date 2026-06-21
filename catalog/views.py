@@ -1,15 +1,16 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
-from django.db.models import OuterRef, Subquery, Prefetch, Q
+from django.db.models import OuterRef, Subquery, Q
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticleMainAuthor
 from modules.utils import fetch_openalex, search_type
-from common.mixins import CitiationMixin, GraphMixin, SearchMixin
+from catalog.mixins import GraphMixin, SearchMixin
+from common.mixins import ArticleDetailQuerySetMixin, CitiationMixin
 from modules.services.recommendations import get_article_recommendations
-
+from citation_api.formatters.registry import FORMATTERS
 
 class CatalogView(ListView, SearchMixin):
     model = Artical
@@ -102,34 +103,17 @@ class CatalogView(ListView, SearchMixin):
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")    
-class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
+class WorkDetailView(ArticleDetailQuerySetMixin, DetailView, GraphMixin, CitiationMixin):
     model = Artical
     template_name = "work_detail.html"
     slug_field = 'pk'
     slug_url_kwarg = 'pk'
     context_object_name = "article"
-
-    def get_queryset(self):
-
-        query_set =  Artical.objects.prefetch_related(
-            Prefetch('articalciteinformation_set', to_attr="articalciteinformation_1"),
-            Prefetch('articaldate_set', to_attr="articaldate_1"),
-            Prefetch('articalcitedata_set', to_attr="articalcitedata_1"),
-            Prefetch('articlemainauthor_set', to_attr="articlemainauthor_1"),
-            Prefetch('articleciteperyear_set', 
-                     queryset=ArticleCitePerYear.objects.all(),
-                     to_attr='citing_per_year'),
-            Prefetch('articleotherauthor_set',
-                     queryset=ArticleOtherAuthor.objects.all(),
-                     to_attr="other_authors"),
-        )
-
-        return query_set
         
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["name"] = "Статья"
+        context["citation_formats"] = list(FORMATTERS.keys())
 
         article = context["article"]
 
@@ -140,7 +124,7 @@ class WorkDetailView(DetailView, GraphMixin, CitiationMixin):
 
         graph = self.graph_create(article)
 
-        cite_types = self.create_cite_data(article, context["artical_date"], context["article_main_author"], context["artical_cite_information"])
+        cite_types = self.create_cite_data(article)
 
         context["graph"] = graph
         context["gost"] = cite_types["GOST"]

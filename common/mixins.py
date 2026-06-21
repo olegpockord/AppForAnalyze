@@ -1,251 +1,78 @@
-from django.db.models import Value, TextField
-from django.db.models.functions import Cast
-from django.contrib.postgres.search import (
-    SearchQuery,
-    SearchRank,
-    SearchVector,
-)
-from django.contrib.postgres.search import SearchQuery, TrigramSimilarity
-from pgvector.django import CosineDistance
-from django.utils.translation import gettext as _
+from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404
 
-from common.ml.sentence_transformer_model import get_model
-
-import io, base64
-import matplotlib
-import matplotlib.pyplot as plt
 from nameparser import HumanName
-from nameparser.config import CONSTANTS
-import copy
+from modules.services.nameparser_constants import get_extend_constants
+
+from main.models import Artical, ArticleCitePerYear, ArticleOtherAuthor
+
+class AuthorInitialsMixin:
+
+    C = get_extend_constants()
 
 
-class SearchMixin:
+    def get_main_author_initials(self, main_author):
 
-    def q_search(self, query, qs):
-        raw_query = query
+        author_initials = HumanName(main_author, constants=self.C)
 
-        vector = SearchVector("title", weight='A') + SearchVector("main_author_initials", weight='B')
-        query = SearchQuery(query, search_type='phrase')
-
-        searchRank_result = (
-                qs.annotate(rank=SearchRank(vector, query))
-                .filter(rank__gte=0.15) # 0.2 was
-                .order_by("-rank")
-            )
-
-        if searchRank_result.exists():
-            return searchRank_result
-        
-        trigram_result = qs.annotate(similarity = TrigramSimilarity(Cast('title', TextField()), 
-                Value(raw_query)) +
-                TrigramSimilarity(Cast('main_author_initials', TextField()), 
-                Value(raw_query))
-                ).filter(similarity__gte=0.3).order_by('-similarity') # 0.1 was
-            
-        if trigram_result.exists():
-            return trigram_result
-        
-        model = get_model()
-        query_embedding = model.encode(raw_query, normalize_embeddings=True).tolist()
-
-        return (qs.annotate(
-            distance = CosineDistance('abstract__embedding', query_embedding))
-            .exclude(abstract__embedding=None)
-            .filter(distance__lt=0.6)
-            .order_by('distance')
-            )
-
-class GraphMixin:
-
-    def graph_create(self, article_data_set):
-        citing_per_year_set = article_data_set.citing_per_year
-
-        source = article_data_set.source
-
-        if source == "openalex" and citing_per_year_set:
-
-            year_citiations_map = {i.year: i.citiation
-                                   for i in citing_per_year_set}
-
-            return self.graph_visual(dict(sorted(year_citiations_map.items(), reverse=True)))
-        else:
-            return None
-
-
-    def graph_visual(self, years_citiations_dict):
-
-        years = [year for year in years_citiations_dict.keys()]
-        citiations = [citiations for citiations in years_citiations_dict.values()]
-
-        matplotlib.use('agg')
-        buf = io.BytesIO()
-
-        plt.figure(figsize=(8,5))
-        plt.plot(years, citiations, marker='o', markersize=6, markerfacecolor="red")
-
-        for i, (xi, yi) in enumerate(zip(years, citiations)):
-            plt.annotate(f'({yi})', (xi, yi),
-                        xytext=(-15, 5), textcoords='offset points')
-
-        plt.grid(True)
-        plt.xlabel(_("Год"), fontsize=16) # Years
-        plt.ylabel(_("Цитирование"), fontsize=18) # Citations
-        plt.xlim(years[-1] - 1, years[0] + 1)
-        plt.tick_params(axis='both', which='major', labelsize=11)
-        
-        plt.subplots_adjust(bottom=0.2)
-
-        plt.savefig(buf, format='png', dpi=100)
-        plt.close()
-        buf.seek(0)
-        b64 = base64.b64encode(buf.getvalue()).decode('ascii')
-
-        return b64
+        return author_initials
     
-class CitiationMixin:
+    def get_other_author_initials(self, other_authors):
 
-    C = copy.deepcopy(CONSTANTS)
+        if not other_authors:
+            return []
 
-    def extended_constants(self):
+        other_authors_initials = [HumanName(author, constants=self.C) for author in other_authors]
 
-        prefixes = [
-            # Arabic / Semitic:
-            "al", "al-", "al'", "al shaikh", "al-sheikh", "ibn", "bin", "bint", "ben",
-            "abu", "abu-", "ibn al", "bint al", "ibn al-",
-
-            # Urdu / Persian / South Asian connectors and common multiword forms:
-            "ur", "ur-", "ur ", "ullah", "ulla", "khan", "khawaja", "khwaja", "zada",
-            "zada-", "ullah-", "ulla-", "bhai",
-
-            # South/SE Asian honorific connectors (often part of family-name clusters):
-            "bai", "begum", "bibi", "rao", "shah", "ahmed", "singh",
-
-            # Romance / Iberian / Latin:
-            "de", "del", "de la", "de las", "de los", "dos", "das", "do", "da", "di",
-            "della", "della", "d'", "d’", "du", "des", "de le",
-
-            # Spanish multiword particles:
-            "y", "y de", "y del",
-
-            # Dutch / Flemish / Afrikaans:
-            "van", "van de", "van der", "van den", "van 't", "vander", "van het",
-
-            # Germanic / Austrian / Swiss:
-            "von", "zu", "zum", "zur", "vom", "von der", "von den", "freiherr", "freifrau",
-
-            # French:
-            "le", "la", "du", "des", "de la",
-
-            # Celtic / Gaelic:
-            "mac", "mc", "o'", "o’", "fitz",
-
-            # Italian:
-            "della", "del", "d'", "de'",
-
-            # Portuguese / Brazilian:
-            "da", "das", "dos", "do", "dos santos", "dos Reis",
-
-            # Malay / Indonesian / SE Asia:
-            "bin", "binti", "bte", "bte.", "binti-", "bin-",
-
-            # Other multiword/rare but encountered in metadata:
-            "af", "al-qahtani", "al qasimi", "al farsi", "al-farsi", "de la cruz", "de la fuente",
-            "van de venen", "van den berg", "van berg"
-        ]
-
-        for p in set([s.strip().lower() for s in prefixes if s and not s.isspace()]):
-            self.C.prefixes.add(p)
-        
-        suffix_not_acronyms = [
-        "jr", "sr", "ii", "iii", "iv", "v", "esq", "qc", "kc", "ret"
-        ]
-
-        for s in suffix_not_acronyms:
-            self.C.suffix_not_acronyms.add(s)
-        
-        cap_exceptions = {
-        # Romance / Dutch / Germanic
-        "de": "de",
-        "del": "del",
-        "de la": "de la",
-        "de los": "de los",
-        "van": "van",
-        "van der": "van der",
-        "van den": "van den",
-        "van 't": "van 't",
-        "von": "von",
-        "zu": "zu",
-        "le": "le",
-        "la": "la",
-        "du": "du",
-        "dos": "dos",
-        "da": "da",
-        "der": "der",
-        # Arabic / South Asian
-        "al": "al",
-        "al-": "al-",
-        "ibn": "ibn",
-        "bin": "bin",
-        "binti": "binti",
-        "ur": "ur",
-        "ullah": "ullah",
-        # Celtic / Gaelic
-        "mac": "mac",
-        "mc": "mc",
-        "o'": "o'",
-        }
-        self.C.capitalization_exceptions.update(cap_exceptions)
-
-        return self.C
+        return other_authors_initials
     
-    def to_mla_cite(self, human_initials, reversed = False):
-        #MLA like type -> Last, first middle. or Last, first.
+    def to_inverted_name(self, human_initials, reversed = False):
 
         last_name = human_initials.last
         first_name = human_initials.first
         middle_name = human_initials.middle
 
         if middle_name:
-            full_mla_name = f"{last_name}, {first_name} {middle_name}."
+            full_inverted_name = f"{last_name}, {first_name} {middle_name}."
 
         else:
-            full_mla_name = f"{last_name}, {first_name.rstrip('.')}."
-
+            full_inverted_name = f"{last_name}, {first_name.rstrip('.')}."
 
         if reversed:
             if middle_name:
-                full_mla_name = f"{middle_name} {first_name} {last_name}"
+                full_inverted_name = f"{middle_name} {first_name} {last_name}"
             else:
-                full_mla_name = f"{first_name} {last_name}"
+                full_inverted_name = f"{first_name} {last_name}"
 
-        return full_mla_name
+        return full_inverted_name
+
+# TODO refactor class to normal condition
+class CitiationMixin(AuthorInitialsMixin):
 
 
-
-    def to_gost_cite(self, human_initials):
-        #GOST like type -> Last first[0]. middle[0]. or Last first[0].
+    def to_initials_name(self, human_initials):
         
         last_name = human_initials.last
         first_name = human_initials.first
         middle_name = human_initials.middle
 
         if middle_name:
-            full_gost_name = f"{last_name} {first_name[0]}. {human_initials.middle[0]}."
+            full_initials_name = f"{last_name} {first_name[0]}. {middle_name[0]}."
         else:
-            full_gost_name = f"{last_name} {first_name[0]}."
+            full_initials_name = f"{last_name} {first_name[0]}."
 
-        return full_gost_name
+        return full_initials_name
 
 
     def author_parser(self, main_author, other_authors):
-        C = self.extended_constants()
 
-        other_authors_len = len(other_authors)
+        main_author_initials = self.get_main_author_initials(main_author)
 
-        author_initials = HumanName(main_author, constants=C)
+        main_author_gost_name = self.to_initials_name(main_author_initials)
+        main_author_mla_name = self.to_inverted_name(main_author_initials)
 
-        main_author_gost_name = self.to_gost_cite(author_initials)
-        main_author_mla_name = self.to_mla_cite(author_initials)
+        other_authors_initials = self.get_other_author_initials(other_authors)
+        other_authors_len = len(other_authors_initials)
 
         prepared_main_author_mla_name = main_author_mla_name[:-1] if main_author_mla_name.endswith("..") else main_author_mla_name.rstrip('.') # ".." if middle name present # Problem with 1 word
 
@@ -264,11 +91,10 @@ class CitiationMixin:
         other_mla_citing = []
         main_author_mla_name = ""
 
-        for x in other_authors:
-            author_initials = HumanName(x, constants=C)
-            other_author_gost_name = self.to_gost_cite(author_initials)
+        for author in other_authors_initials:
+            other_author_gost_name = self.to_initials_name(author)
             main_author_gost_name = f"{main_author_gost_name}, {other_author_gost_name}"
-            other_author_mla_name = self.to_mla_cite(author_initials, reversed=True)
+            other_author_mla_name = self.to_inverted_name(author, reversed=True)
             other_mla_citing.insert(0, other_author_mla_name)
 
         main_author_mla_name = f"{prepared_main_author_mla_name}, and {other_mla_citing[0]}."
@@ -282,19 +108,20 @@ class CitiationMixin:
         }
 
             
-    def create_cite_data(self, artical_info, artical_date_info, artical_main_other, article_data_for_cite):
-        title = artical_info.title
+    def create_cite_data(self, article_qs):
+        title = article_qs.title
 
-        date = artical_date_info.date_of_artical
-        
+        date = article_qs.articaldate_1[0].date_of_artical
+
+        article_data_for_cite = article_qs.articalciteinformation_1[0]
         journal = article_data_for_cite.journal_name
         pages = article_data_for_cite.pages
         volume = article_data_for_cite.volume
         issue = article_data_for_cite.issue
 
-        main_author = artical_main_other.main_initials
+        main_author = article_qs.articlemainauthor_1[0].main_initials
 
-        other_authors = artical_info.other_authors
+        other_authors = article_qs.other_authors
         other_authors = [i.other_initials for i in other_authors]
 
         authors = self.author_parser(main_author, other_authors)
@@ -316,3 +143,28 @@ class CitiationMixin:
 
         return cite_data_set
     
+
+class ArticleDetailQuerySetMixin:
+    
+    def get_queryset(self):
+
+            query_set =  Artical.objects.prefetch_related(
+                Prefetch('articalciteinformation_set', to_attr="articalciteinformation_1"),
+                Prefetch('articaldate_set', to_attr="articaldate_1"),
+                Prefetch('articalcitedata_set', to_attr="articalcitedata_1"),
+                Prefetch('articlemainauthor_set', to_attr="articlemainauthor_1"),
+                Prefetch('articleciteperyear_set', 
+                        queryset=ArticleCitePerYear.objects.all(),
+                        to_attr='citing_per_year'),
+                Prefetch('articleotherauthor_set',
+                        queryset=ArticleOtherAuthor.objects.all(),
+                        to_attr="other_authors"),
+            )
+
+            return query_set
+    
+    def get_queryset_by_pk(self, pk):
+        
+        query_set = self.get_queryset()
+
+        return get_object_or_404(query_set, id=pk)

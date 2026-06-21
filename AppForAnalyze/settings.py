@@ -45,11 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "debug_toolbar",
+    "rest_framework",
 
     'main',
-    'onearticle',
     'modules',
     'catalog',
+    'citation_api',
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'AppForAnalyze.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -122,7 +131,7 @@ CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_BEAT_SCHEDULE = {
     'backup_database': {
         'task': 'modules.tasks.dbackup_task',
-        'schedule': crontab(hour=23, minute=0), # Every day in 11:00pm
+        'schedule': crontab(hour=23, minute=0), # Every day in 11:00pm (UTC+3)
     },
     'weekly_article_update': {
         'task': 'modules.tasks.periodic_update_task',

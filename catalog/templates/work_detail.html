@@ -97,7 +97,6 @@
                         {% else %}
                             score-low
                         {% endif %}">
-                                
                         {{ rec.similarity }}%
                     </div>
 
@@ -149,25 +148,38 @@
 </div>
 <!-- Block for citing -->
 <div class="modal fade" id="citeModal" tabindex="-1" aria-labelledby="citeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow-lg">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="citeModalLabel"><i class="fas fa-quote-right"></i>{% trans "Цитировать статью" %}</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      {% if gost or mla %}
-      <div class="modal-body">
-        <p><strong>GOST:</strong><br>
-          {{gost}}
-        </p>
-        <hr>
-        <p><strong>MLA:</strong><br>
-          {{mla}}
-        </p>
-        <hr>
-      </div>
-      {% endif %}
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="citeModalLabel"><i class="fas fa-quote-right"></i> {% trans "Цитировать статью" %}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {% if gost and mla %}
+            <div class="modal-body">
+                <p><strong>GOST:</strong><br>
+                {{gost}}
+                </p>
+                <hr>
+                <p><strong>MLA:</strong><br>
+                {{mla}}
+                </p>
+            </div>
+            {% else %}
+            <p>Недостаточно информации для цитирования GOST и MLA</p>
+            {% endif %}
+            <div class="modal-footer">
+                <div class="row g-2 w-100 justify-content-center">
+                    {% for type in citation_formats %}
+                    <div class="col-3 col-md-3">
+                        <a href="{% url "api:citation_export" pk=article.pk format_name=type %}"
+                        class="btn btn-outline-primary w-100">
+                            {{ type }}
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock  %}

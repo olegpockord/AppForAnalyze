@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class OnearticleConfig(AppConfig):
+class CitationApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'onearticle'
+    name = 'citation_api'

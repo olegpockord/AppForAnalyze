@@ -23,11 +23,11 @@ from django.conf.urls.i18n import i18n_patterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
+    path('api/', include('citation_api.urls', namespace='api')),
 ]
 
 urlpatterns += i18n_patterns(
     path('', include('main.urls', namespace='main')),
-    path('search/', include('onearticle.urls', namespace='onearticle')),
     path('catalog/', include('catalog.urls', namespace='catalog')),
 )
 
@@ -39,6 +39,5 @@ if DEBUG:
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
 #     path('', include('main.urls', namespace='main')),
-#     path('search/', include('onearticle.urls', namespace='onearticle')),
 #     path('catalog/', include('catalog.urls', namespace='catalog')),
 # ]
