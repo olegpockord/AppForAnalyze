@@ -1,5 +1,5 @@
 from django.db.models import Value, TextField
-from django.db.models.functions import Cast
+from django.db.models.functions import Cast, Greatest
 from django.contrib.postgres.search import (
     SearchQuery,
     SearchRank,
@@ -32,13 +32,13 @@ class SearchMixin:
 
         if searchRank_result.exists():
             return searchRank_result
+
+        trigram_result = qs.annotate(
+            similarity_title = TrigramSimilarity('title', raw_query),
+            similarity_author = TrigramSimilarity('main_author_initials', raw_query),
+            similarity=Greatest('similarity_title', 'similarity_author')
+            ).filter(similarity__gte=0.1).order_by('-similarity') # 0.1 was
         
-        trigram_result = qs.annotate(similarity = TrigramSimilarity(Cast('title', TextField()), 
-                Value(raw_query)) +
-                TrigramSimilarity(Cast('main_author_initials', TextField()), 
-                Value(raw_query))
-                ).filter(similarity__gte=0.3).order_by('-similarity') # 0.1 was
-            
         if trigram_result.exists():
             return trigram_result
         
