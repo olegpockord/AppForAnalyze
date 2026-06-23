@@ -3,7 +3,7 @@ from common.mixins import AuthorInitialsMixin
 
 class EnwTemplate(BaseTemplate, AuthorInitialsMixin):
 
-    content_type = "text/plain"
+    content_type = "text/plain; charset=utf-8"
     inline = False
     extension = "enw"
 

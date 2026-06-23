@@ -3,7 +3,7 @@ from common.mixins import AuthorInitialsMixin
 
 class BibTexTemplate(BaseTemplate, AuthorInitialsMixin):
 
-    content_type = "text/plain"
+    content_type = "text/plain; charset=utf-8"
     inline = True
     extension = "bib"
 
@@ -49,6 +49,6 @@ class BibTexTemplate(BaseTemplate, AuthorInitialsMixin):
             if value
         )
 
-        head = f"{raw_main_author_initials.last.replace(' ', '').lower()}{fields['year']},\n" # AuthorLastNameYear
+        head = f"{raw_main_author_initials.last.lower()}{fields['year']},\n" # AuthorLastNameYear
     
         return f"@article{{{head}{body}\n}}"
