@@ -4,7 +4,7 @@ from datetime import date
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding, ArticleSearchVector
 from modules.services.pipelines import ArticleAddingPipeline
 
 from django.db import transaction
@@ -21,6 +21,7 @@ def new_parse_open_alex(response):
     main_authors_to_create = []
     other_authors_to_create = []
     articles_embedding_to_create = []
+    articles_search_vector_to_create = []
 
     raw_json = response["results"]
 
@@ -125,7 +126,9 @@ def new_parse_open_alex(response):
                 ArticalEmbedding(
                 article = article,
                 abstract_text = f"{article.title}\n" + " ".join(abstract)
-            ))            
+            ))
+
+        articles_search_vector_to_create.append(ArticleSearchVector(article=article))            
 
         date_of_artical = date.fromisoformat(element.get("publication_date"))
 
@@ -166,7 +169,6 @@ def new_parse_open_alex(response):
                 author = f"{author[:2]} {author[2:]}"
 
             if i == 0:
-
                 main_authors_to_create.append(
                     ArticleMainAuthor(
                     article = article,
@@ -174,7 +176,6 @@ def new_parse_open_alex(response):
                 ))
                 
             else:
-
                 other_authors_to_create.append(ArticleOtherAuthor(
                     article = article,
                     other_initials = author,
@@ -190,6 +191,8 @@ def new_parse_open_alex(response):
         ArticleMainAuthor.objects.bulk_create(main_authors_to_create)
         ArticleOtherAuthor.objects.bulk_create(other_authors_to_create)
         ArticalEmbedding.objects.bulk_create(articles_embedding_to_create)
+        ArticleSearchVector.objects.bulk_create(articles_search_vector_to_create)
+        
 
 # Start setting embedding for articles with abstract and precompute recs
     ArticleAddingPipeline.execute()

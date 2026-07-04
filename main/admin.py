@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding, ArticleSearchVector
 
 # Register your models here.
 # admin.site.register(Artical)
@@ -10,6 +10,7 @@ from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInform
 # admin.site.register(ArticleCitePerYear)
 # admin.site.register(ArticleMainAuthor)
 # admin.site.register(ArticleOtherAuthor)
+# admin.site.register(ArticleSearchVector)
 
 
 class ArticalDateInline(admin.TabularInline):
@@ -54,6 +55,11 @@ class ArticalEmbeddingInline(admin.TabularInline):
 
     extra = 0
 
+class ArticleSearchVectorInline(admin.TabularInline):
+    model = ArticleSearchVector
+
+    extra = 0
+
 @admin.register(Artical)
 class ArticalAdmin(admin.ModelAdmin):
     list_display = (
@@ -72,7 +78,14 @@ class ArticalAdmin(admin.ModelAdmin):
     list_filter = ("title", "doi", "source")
     search_fields = ("title", "doi", "issn", "pmid", "mag")
     readonly_fields = ("id", "source")
-    inlines = [ArticalDateInline, ArticalCiteDataInline, ArticalCiteInformationInline, ArticleCitePerYearInline, ArticleMainAuthorInline, ArticleOtherAuthorInline, ArticalEmbeddingInline]
+    inlines = [ArticalDateInline,
+               ArticalCiteDataInline, 
+               ArticalCiteInformationInline, 
+               ArticleCitePerYearInline, 
+               ArticleMainAuthorInline, 
+               ArticleOtherAuthorInline,
+               ArticalEmbeddingInline,
+               ArticleSearchVectorInline]
 
 
 
@@ -139,3 +152,9 @@ class ArticalEmbeddingAdmin(admin.ModelAdmin):
         "pk",
     )
 
+@admin.register(ArticleSearchVector)
+class ArticleSearchVectorAdmin(admin.ModelAdmin):
+    list_display = (
+        "article",
+        "pk",
+    )

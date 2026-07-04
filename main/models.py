@@ -30,14 +30,11 @@ class Artical(models.Model):
 class ArticalEmbedding(models.Model):
     article = models.ForeignKey(to=Artical, related_name="abstract", on_delete=models.CASCADE, null=True, verbose_name="Статья")
     abstract_text = models.TextField(null=True, verbose_name="Аннотация")
-    search_vector = SearchVectorField(null=True, blank=True, verbose_name="Вектор поиска")
     embedding = VectorField(dimensions=384, blank=True, null=True)
 
     class Meta():
         indexes = [
-            GinIndex(
-                fields=["search_vector"],
-            ), # Hnsw for docker startup, can't work on Windows
+            # Hnsw for docker startup, can't work on Windows
             # HnswIndex( 
             #     fields=["embedding"],
             #     m=16,
@@ -52,6 +49,24 @@ class ArticalEmbedding(models.Model):
 
     def __str__(self):
         return f"Annotation of {self.article.id}"
+    
+
+class ArticleSearchVector(models.Model):
+    article = models.ForeignKey(to=Artical, on_delete=models.CASCADE, null=True, verbose_name="Статья")
+    search_vector = SearchVectorField(null=True, verbose_name="Вектор поиска")
+
+    class Meta():
+        indexes = [
+            GinIndex(
+                fields=["search_vector"],
+            ),
+        ]
+        db_table = "ArticleSearchVector"
+        verbose_name = "Вектор поиска"
+        verbose_name_plural = "Вектора поиска"
+
+    def __str__(self):
+        return f"Search vector for {self.article}"
 
 class ArticalCiteInformation(models.Model):
     article = models.ForeignKey(to=Artical, on_delete=models.CASCADE,  null=True, verbose_name="Статья")

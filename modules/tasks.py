@@ -1,8 +1,10 @@
 from django.utils import timezone
 from django.core.cache import cache
 from django.core.management import call_command
+from django.db.models import F, Value
+from django.contrib.postgres.search import SearchVector
 
-from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticalEmbedding
+from main.models import Artical, ArticalCiteData, ArticalDate, ArticleCitePerYear, ArticalEmbedding, ArticleSearchVector
 from common.ml.sentence_transformer_model import get_model
 from modules.services.recommendations import get_article_recommendations
 
@@ -82,13 +84,13 @@ def create_embedding():
     embedding_set = ArticalEmbedding.objects.filter(embedding__isnull=True)
     
     if not embedding_set.exists():
-        return {'status': 'No articals available to set embedding'}
+        return {'status': 'No articles available to set embedding'}
     
     model = get_model()
     LOG.info(f"Device used - {model.device}")
     try:
         for obj in embedding_set:
-            embedding = model.encode(obj.abstract_text, device='cpu', normalize_embeddings=True).tolist()
+            embedding = model.encode(obj.abstract_text, normalize_embeddings=True).tolist()
 
             ArticalEmbedding.objects.filter(pk=obj.pk).update(
                 embedding=embedding,
@@ -101,6 +103,25 @@ def create_embedding():
     ids_created_embedding = [object.article_id for object in embedding_set]
 
     return ids_created_embedding
+
+
+@shared_task
+def create_search_vector():
+    qs = ArticleSearchVector.objects.filter(search_vector__isnull=True).annotate(
+        title=F("article__title"),
+        main_author=F("article__articlemainauthor__main_initials")
+    )
+
+    if not qs.exists():
+        return {'status': 'No articles available to set search vector'}
+    
+    for obj in qs:
+        ArticleSearchVector.objects.filter(pk=obj.pk).update(
+            search_vector = SearchVector(Value(obj.title), weight='A')
+                            + SearchVector(Value(obj.main_author), weight='B')
+        )
+
+
 
 @shared_task()
 def precompute_recommendations(ids_set):

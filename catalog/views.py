@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
-from django.db.models import OuterRef, Subquery, Q
+from django.db.models import OuterRef, Subquery, Q, F
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 
@@ -49,6 +49,13 @@ class CatalogView(ListView, SearchMixin):
             .values('reference_count')[:1]
             ),
             )
+    
+        # return qs.annotate(
+        #     main_author_initials=F("articlemainauthor__main_initials"),
+        #     publish_date=F("articaldate__date_of_artical"),
+        #     update_date=F("articaldate__date_of_last_update"),
+        #     cite_count=F("articalcitedata__reference_count")
+        # )
 
     def search_fields(self, qs):
         return qs.annotate(
@@ -58,6 +65,9 @@ class CatalogView(ListView, SearchMixin):
             .values('main_initials')[:1]
             )
         )
+        # return qs.annotate(
+        #     main_author_initials=F("articlemainauthor__main_initials")
+        # )
 
     def get_queryset(self):
         base_query_set =  Artical.objects.all()
@@ -71,7 +81,7 @@ class CatalogView(ListView, SearchMixin):
             return self.display_fields(base_query_set).order_by(param, '-pk')
         
         search_fields_query_set = self.search_fields(base_query_set)
-        query_set = self.q_search(query, search_fields_query_set)
+        query_set = self.full_text_search(query, search_fields_query_set)
 
         if param_for_api:
             created_articles = fetch_openalex("search=", query.strip().replace(' ', '+'), optional="&per-page=50")
