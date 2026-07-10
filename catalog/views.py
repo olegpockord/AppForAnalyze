@@ -1,16 +1,20 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
-from django.db.models import OuterRef, Subquery, Q, F
+from django.db.models import OuterRef, Subquery, Q
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.core.cache import cache
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticleMainAuthor
-from modules.utils import fetch_openalex, search_type
+from modules.utils import search_type, get_openalex_dois
+from modules.services.external_requests import fetch_openalex
 from catalog.mixins import GraphMixin, SearchMixin
 from common.mixins import ArticleDetailQuerySetMixin, CitiationMixin
 from modules.services.recommendations import get_article_recommendations
 from citation_api.formatters.registry import FORMATTERS
+
+import uuid
 
 class CatalogView(ListView, SearchMixin):
     model = Artical
@@ -49,7 +53,7 @@ class CatalogView(ListView, SearchMixin):
             .values('reference_count')[:1]
             ),
             )
-    
+        # Method with F slower with paginator, but significantly faster with query itself, subquery win in just 2-3ms
         # return qs.annotate(
         #     main_author_initials=F("articlemainauthor__main_initials"),
         #     publish_date=F("articaldate__date_of_artical"),
@@ -57,43 +61,33 @@ class CatalogView(ListView, SearchMixin):
         #     cite_count=F("articalcitedata__reference_count")
         # )
 
-    def search_fields(self, qs):
-        return qs.annotate(
-            main_author_initials=Subquery(
-            ArticleMainAuthor.objects
-            .filter(article=OuterRef('pk'))
-            .values('main_initials')[:1]
-            )
-        )
-        # return qs.annotate(
-        #     main_author_initials=F("articlemainauthor__main_initials")
-        # )
-
     def get_queryset(self):
-        base_query_set =  Artical.objects.all()
+        base_query_set = Artical.objects.all()
 
         query = self.request.GET.get('q')
         param_for_api = self.request.GET.get("scope")
         sort_param = self.request.GET.get("sort")
         param = self.SORT_MAPPING.get(sort_param, '-pk')
-        
+
+
         if not query:
             return self.display_fields(base_query_set).order_by(param, '-pk')
+
+        search_ids = self.full_text_search(query)
+        created_articles_dois = []
         
-        search_fields_query_set = self.search_fields(base_query_set)
-        query_set = self.full_text_search(query, search_fields_query_set)
+        if param_for_api or self.request.GET.get("sid"):
+            
+            created_articles_dois = get_openalex_dois(self, query)
 
-        if param_for_api:
-            created_articles = fetch_openalex("search=", query.strip().replace(' ', '+'), optional="&per-page=50")
-            ids_in_search = list(query_set.values_list("id", flat=True))
-
-            query_set = base_query_set.filter(Q(pk__in=ids_in_search) | Q(doi__in=created_articles or []))
+        query_set = base_query_set.filter(Q(pk__in=search_ids or []) | Q(doi__in=created_articles_dois))
 
         return self.display_fields(query_set).order_by(param, '-pk')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["name"] = "catalog" 
+        context["sid"] = getattr(self, "sid", None)
 
         return context
     
@@ -108,8 +102,11 @@ class CatalogView(ListView, SearchMixin):
                 return redirect(
                     reverse("catalog:work_detail", kwargs={'pk': qs})
                 )
-
-        return super().get(request, *args, **kwargs)
+            
+        try:
+            return super().get(request, *args, **kwargs)
+        except ZeroDivisionError:
+            return redirect(reverse("main:index"))
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")    

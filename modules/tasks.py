@@ -69,7 +69,7 @@ def single_artical_update(self, article_pk):
     
     except Artical.DoesNotExist:
         LOG.exception(f"Article with pk - {article_pk} not found")
-        return {'status': 'deleted'}    
+        return {'status': 'Error with article, it doesnot exist'}    
     
     except Exception:
         LOG.exception(f"Unexpected error was occurred: {Exception} while running article №{article_pk}")
@@ -84,7 +84,8 @@ def create_embedding():
     embedding_set = ArticalEmbedding.objects.filter(embedding__isnull=True)
     
     if not embedding_set.exists():
-        return {'status': 'No articles available to set embedding'}
+        LOG.info("No articles available to set embedding")
+        return None
     
     model = get_model()
     LOG.info(f"Device used - {model.device}")
@@ -121,33 +122,42 @@ def create_search_vector():
                             + SearchVector(Value(obj.main_author), weight='B')
         )
 
+    return {'status': f"Quantity of created search vectors: {len(qs)}"}
 
 
 @shared_task()
 def precompute_recommendations(ids_set):
+    success = 0
+
+    if not ids_set:
+        return {'status': 'No articles avaible to precompute recomendations'}
 
     try:
         for id in ids_set:
             get_article_recommendations(id)
+            success += 1
 
     except Exception as exc:
         LOG.exception(f"Failed to precompute recommendation for article №{id} due to {exc}")
 
-    LOG.info(f"Quantity of precomputed recommendations: {len(ids_set)}")
+    LOG.info(f"Quantity of precomputed recommendations: {len(ids_set)}, successful - {success}")
 
 @shared_task
 def dbackup_task():
-
     call_command('dbackup')
 
 
 
 def update_openalex_source(article):
     doi = article.doi
-
     url = f"https://api.openalex.org/works?filter=doi:{doi}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,counts_by_year,authorships&mailto=oleg222200005555@gmail.com"
+    
+    try:
+        response = requests.get(url, timeout=10)
+    except requests.exceptions.ConnectionError:
+        LOG.info(f"Something with connection to API openalex")
+        return {'status': "Error with connection to openalex"}
 
-    response = requests.get(url, timeout=10)
     data = response.json().get("results", [])
 
     if not data:
@@ -162,13 +172,37 @@ def update_openalex_source(article):
 
     return {'status': 'article updated'}
 
+def update_crossref_source(article):
+    doi = article.doi
+    url = f"https://api.crossref.org/works/{doi}"
+
+    try:
+        response = requests.get(url, timeout=10)
+    except requests.exceptions.ConnectionError:
+        LOG.info(f"Something with connection to API crossref")
+        return {'status': "Error with connection to crossref"}
+    
+    data = response.json().get("message", [])
+
+    if not data:
+        return delete_article(article)
+    
+
+    update_crossref_citing(data, article)
+    refresh_date_of_last_update(article)
+
+    return {'status': f"article with doi: {doi} was updated"}
 
 def update_missing_doi_openalex(article):
     mag = article.mag
-
     url = f"https://api.openalex.org/works?filter=mag:{mag}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,counts_by_year,authorships&mailto=oleg222200005555@gmail.com"
 
-    response = requests.get(url, timeout=10)
+    try:
+        response = requests.get(url, timeout=10)
+    except requests.exceptions.ConnectionError:
+        LOG.info(f"Something with connection to API openalex")
+        return {'status': "Error with connection to openalex"}
+    
     data = response.json().get("results", [])
 
     if not data:
@@ -183,29 +217,16 @@ def update_missing_doi_openalex(article):
 
     return {'status': 'article was updated'}
 
-
-def update_crossref_source(article):
-    doi = article.doi
-
-    url = f"https://api.crossref.org/works/{doi}"
-    response = requests.get(url, timeout=10)
-    data = response.json().get("message", [])
-
-    if not data:
-        return delete_article(article)
-    
-
-    update_crossref_citing(data, article)
-    refresh_date_of_last_update(article)
-
-    return {'status': 'article was updated'}
-
     
 def delete_article(article):
-    LOG.info(f"Article {article.title} with doi {article.doi} was deleted due to unavailable updating capability")
-    article.delete()
 
-    return {'status': 'deleted'}
+    try:
+        article.delete()
+    except Exception as exc:
+        LOG.info(f"Article {article.title} with doi {article.doi} wasnt deleted due to {exc}")
+        return {'status': f"Error with delete"}
+
+    return {'status': f"Article {article.title} deleted"}
 
 
 def refresh_date_of_last_update(article):

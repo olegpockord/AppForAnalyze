@@ -23,7 +23,7 @@ class SearchMixin:
         "embedding_search"
     ]
 
-    def full_text_search(self, query, qs):
+    def full_text_search(self, query):
 
         used_methods = [name for name in self.search_methods]
 
@@ -39,7 +39,7 @@ class SearchMixin:
             if ids:
                 break
 
-        return qs.filter(pk__in=ids)
+        return ids
 
     
     def rank_search(self, query):

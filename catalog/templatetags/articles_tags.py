@@ -9,6 +9,11 @@ SERVICE_PARAMS = {'scope'}
 def change_params(context, **kwargs):
     query = context['request'].GET.copy()
 
+    sid = context.get("sid")
+
+    if sid:
+        query["sid"] = sid
+
     for i in SERVICE_PARAMS:
         query.pop(i, None)
 
