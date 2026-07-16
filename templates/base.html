@@ -17,7 +17,6 @@
 <body>
     <form class="d-flex flex-column fixed-top" role="search" action="{% url 'catalog:catalog_all'%}" method="get">
     
-    
     <div class="d-flex mb-2 mt-2 m-2">
         <a href="{% url 'main:index' %}" class="btn btn-outline-secondary me-2 btn-static-color">
             <i class="fas fa-home"></i>
@@ -37,6 +36,20 @@
     </div>
 
     </form>
+
+    {% if messages %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            {% for message in messages %}
+            <div class="col-md-3 alert-wrapper">
+                <div class="alert alert-{{ message.tags }} text-center fade show" role="alert">
+                    {{ message }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 
     <div class="modal fade" id="idChoiceModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -69,6 +82,6 @@
 
     <script src="{% static "jquery/jquery-3.7.0.min.js" %}"></script>
     <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
-    <script src="{% static "js/check_pattern.js" %}"></script>
+    <script src="{% static "js/utils.js" %}"></script>
 </body>
 </html>

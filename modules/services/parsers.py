@@ -192,7 +192,7 @@ def parse_open_alex(response):
 
 # Start setting embedding for articles with abstract and precompute recs
     ArticleAddingPipeline.execute()
-    return list(articles_by_doi.keys())
+    return list(articles_by_doi.keys()) or []
 
 
 def parse_crossref(response):

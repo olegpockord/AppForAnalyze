@@ -2,13 +2,16 @@ body {
     background-color: #f8f9fa;
     font-family: Arial, sans-serif;
 }
+
 .container {
     padding-top: 50px;
 }
+
 .card {
     margin-bottom: 30px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
+
 .card-header {
     font-size: 1.2rem;
     font-weight: bold;
@@ -24,13 +27,16 @@ a:hover .card-header {
     background-color: white;
     padding: 20px;
 }
+
 .card-footer {
     background-color: #f1f1f1;
     font-size: 0.9rem;
 }
+
 .keywords {
     margin-top: 10px;
 }
+
 .keywords span {
     display: inline-block;
     background-color: #e9ecef;
@@ -38,6 +44,7 @@ a:hover .card-header {
     margin: 2px;
     border-radius: 5px;
 }
+
 .icon {
     color: #007bff;
     margin-right: 5px;

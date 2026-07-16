@@ -4,17 +4,15 @@ from django.urls import reverse
 from django.db.models import OuterRef, Subquery, Q
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
-from django.core.cache import cache
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticleMainAuthor
 from modules.utils import search_type, get_openalex_dois
-from modules.services.external_requests import fetch_openalex
 from catalog.mixins import GraphMixin, SearchMixin
 from common.mixins import ArticleDetailQuerySetMixin, CitiationMixin
 from modules.services.recommendations import get_article_recommendations
+from modules.services.custom_exceptions import SearchSearchExpired
 from citation_api.formatters.registry import FORMATTERS
-
-import uuid
+from django.contrib import messages
 
 class CatalogView(ListView, SearchMixin):
     model = Artical
@@ -69,18 +67,18 @@ class CatalogView(ListView, SearchMixin):
         sort_param = self.request.GET.get("sort")
         param = self.SORT_MAPPING.get(sort_param, '-pk')
 
-
         if not query:
             return self.display_fields(base_query_set).order_by(param, '-pk')
 
         search_ids = self.full_text_search(query)
         created_articles_dois = []
+        messages.success(self.request, f"Поиск был выполнен по {query}")
         
         if param_for_api or self.request.GET.get("sid"):
             
             created_articles_dois = get_openalex_dois(self, query)
 
-        query_set = base_query_set.filter(Q(pk__in=search_ids or []) | Q(doi__in=created_articles_dois))
+        query_set = base_query_set.filter(Q(pk__in=search_ids or []) | Q(doi__in=created_articles_dois or []))
 
         return self.display_fields(query_set).order_by(param, '-pk')
 
@@ -105,7 +103,7 @@ class CatalogView(ListView, SearchMixin):
             
         try:
             return super().get(request, *args, **kwargs)
-        except ZeroDivisionError:
+        except SearchSearchExpired:
             return redirect(reverse("main:index"))
 
 
@@ -119,15 +117,14 @@ class WorkDetailView(ArticleDetailQuerySetMixin, DetailView, GraphMixin, Citiati
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["name"] = "Статья"
-        context["citation_formats"] = list(FORMATTERS.keys())
-
         article = context["article"]
 
         context["artical_cite_information"] = article.articalciteinformation_1[0]
         context["artical_date"] = article.articaldate_1[0]
         context["article_main_author"] = article.articlemainauthor_1[0]
         context["artical_cite_data"] = article.articalcitedata_1[0]
+
+        context["name"] = article.title
 
         graph = self.graph_create(article)
 
@@ -136,6 +133,7 @@ class WorkDetailView(ArticleDetailQuerySetMixin, DetailView, GraphMixin, Citiati
         context["graph"] = graph
         context["gost"] = cite_types["GOST"]
         context["mla"] = cite_types["MLA"]
+        context["citation_formats"] = list(FORMATTERS.keys())
 
         context["recommendations"] = get_article_recommendations(self.object.pk)
 

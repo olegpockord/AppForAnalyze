@@ -3,12 +3,13 @@ import uuid
 
 from main.models import Artical
 from modules.services.external_requests import fetch_openalex
+from modules.services.custom_exceptions import SearchSearchExpired
 
 from django.http import Http404
 from django.core.cache import cache
+from django.utils.translation import gettext as _
+from django.contrib import messages
 
-
-from django.core.exceptions import PermissionDenied
 
 def detect_pattern_type(query):
     doi_pattern = r'^10\.'
@@ -63,12 +64,10 @@ def get_openalex_dois(self, query, update_time=180):
 
     if sid:
         dois = cache.get(f"openalex:{sid}")
-        print(dois)
 
         if dois is None:
-            print("dois none")
-            # temporary
-            raise ZeroDivisionError
+            messages.warning(self.request, _("Время сессии истекло, вы возвращены на главную")) # Session time expired, you returned on main page
+            raise SearchSearchExpired
 
         cache.touch(f"openalex:{sid}", update_time)
         return dois

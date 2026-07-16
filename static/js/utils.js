@@ -1,3 +1,4 @@
+  // code for open modal window for id choose
   function isAmbiguousId(value) {
     return /^\d{6,16}$/.test(value);
   }
@@ -33,6 +34,14 @@
     modal.hide();
     form.submit();
   });
+// message window dissepear
+  setTimeout(() => {
+    document.querySelectorAll('.alert').forEach(alertEl => {
+        alertEl.addEventListener('closed.bs.alert', () => {
+            alertEl.closest('.alert-wrapper').remove();
+        });
 
-
+        bootstrap.Alert.getOrCreateInstance(alertEl).close();
+    });
+  }, 5000);
   
