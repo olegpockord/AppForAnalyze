@@ -53,6 +53,8 @@ class SearchMixin:
 
         return searchRank_ids or []    
 
+
+    # problem with pg_trgm constants: 0.3 for trigram_similar and 0.6 for trigram_word_similar. Need data for alter and choose method (1 or more word user typed for search)
     def trigram_search(self, query):
         title_trgm = (Artical.objects.filter(title__trigram_similar=query)
         .annotate(similarity=TrigramSimilarity("title", query))
