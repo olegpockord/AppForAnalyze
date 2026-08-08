@@ -13,8 +13,8 @@ class CitiationExportAPIView(APIView, ArticleDetailQuerySetMixin):
         formatter_cls = FORMATTERS.get(format_name)
 
         if not formatter_cls:
-            raise Http404(f"Not supported {format_name} type.",
-                          f"Supported formats: {FORMATTERS.keys()}")
+            raise Http404(f"Not supported {format_name} type. Supported formats: {', '.join(FORMATTERS.keys())}")
+
         
         artical_object = self.get_queryset_by_pk(pk)
 
