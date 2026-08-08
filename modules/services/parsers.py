@@ -7,7 +7,7 @@ from modules.services.pipelines import ArticleAddingPipeline
 
 from django.db import transaction
 
-def parse_open_alex(response):
+def parse_openalex(response):
     articles_to_create = []
     articles_cite_informaion_to_create = []
     articles_date_to_create = []
@@ -278,3 +278,5 @@ def parse_crossref(response):
         ArticalCiteData.objects.create(artical_cite_data)
         ArticleMainAuthor.objects.create(article_main_author)
         ArticleOtherAuthor.objects.bulk_create(other_authors_to_create)
+    # need test
+    return doi or None

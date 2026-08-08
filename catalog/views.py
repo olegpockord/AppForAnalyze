@@ -10,9 +10,8 @@ from modules.utils import search_type, get_openalex_dois
 from catalog.mixins import GraphMixin, SearchMixin
 from common.mixins import ArticleDetailQuerySetMixin, CitiationMixin
 from modules.services.recommendations import get_article_recommendations
-from modules.services.custom_exceptions import SearchSearchExpired
+from modules.services.custom_exceptions import SearchSessionExpired
 from citation_api.formatters.registry import FORMATTERS
-from django.contrib import messages
 
 class CatalogView(ListView, SearchMixin):
     model = Artical
@@ -72,7 +71,6 @@ class CatalogView(ListView, SearchMixin):
 
         search_ids = self.full_text_search(query)
         created_articles_dois = []
-        messages.success(self.request, f"Поиск был выполнен по {query}")
         
         if param_for_api or self.request.GET.get("sid"):
             
@@ -103,7 +101,7 @@ class CatalogView(ListView, SearchMixin):
             
         try:
             return super().get(request, *args, **kwargs)
-        except SearchSearchExpired:
+        except SearchSessionExpired:
             return redirect(reverse("main:index"))
 
 

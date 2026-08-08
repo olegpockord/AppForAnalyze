@@ -1,6 +1,8 @@
 import factory
 from datetime import datetime
 
+from django.utils import timezone
+
 from main.models import (
     Artical,
     ArticalCiteData,
@@ -24,6 +26,7 @@ class ArticalFactory(factory.django.DjangoModelFactory):
 
     title = factory.Sequence(lambda n: f"Article №{n}")
     doi = factory.Sequence(lambda n: f"10.1000/st{n}")
+    mag = factory.Sequence(lambda n: f"{2200000001 + n}")
     source = "openalex"
 
 class ArticalCiteDataFactory(factory.django.DjangoModelFactory):
@@ -53,6 +56,7 @@ class ArticalDateFactory(factory.django.DjangoModelFactory):
     
     article = factory.SubFactory(ArticalFactory)
     date_of_artical = factory.Sequence(lambda n: datetime(1900+n, 10, 10))
+    date_of_last_update = factory.LazyFunction(timezone.now)
 
 class ArticalEmbeddingFactory(factory.django.DjangoModelFactory):
 

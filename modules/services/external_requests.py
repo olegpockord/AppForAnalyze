@@ -1,18 +1,18 @@
 import requests
-import time
-from modules.services.parsers import parse_open_alex, parse_crossref
 
-def fetch_openalex(type, query, optional):
-    url = f"https://api.openalex.org/works?{type}{query}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,abstract_inverted_index,counts_by_year,authorships{optional}&mailto=oleg222200005555@gmail.com"
-    start = time.time()
+from modules.services.parsers import parse_openalex, parse_crossref
+
+def fetch_openalex(filter_type, query, optional=''):
+    url = f"https://api.openalex.org/works?{filter_type}{query}&select=ids,primary_location,referenced_works_count,cited_by_count,biblio,title,publication_date,abstract_inverted_index,counts_by_year,authorships{optional}&mailto=oleg222200005555@gmail.com"
+
     try:
         r = requests.get(url, timeout=20)
     except requests.exceptions.ConnectionError:
         return None
-    print(f"Время в мс {(time.time() - start) * 1000}")
+
     if r.status_code == 200 and len(r.json()["results"]) != 0:
-        return parse_open_alex(r.json())
-    elif r.status_code == 200 and type == "doi":
+        return parse_openalex(r.json())
+    elif r.status_code == 200 and type == "filter=doi:":
         return fetch_crossref(query)
     else:
         return None

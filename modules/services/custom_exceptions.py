@@ -1,2 +1,2 @@
-class SearchSearchExpired(Exception):
+class SearchSessionExpired(Exception):
     ...

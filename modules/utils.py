@@ -3,7 +3,7 @@ import uuid
 
 from main.models import Artical
 from modules.services.external_requests import fetch_openalex
-from modules.services.custom_exceptions import SearchSearchExpired
+from modules.services.custom_exceptions import SearchSessionExpired
 
 from django.http import Http404
 from django.core.cache import cache
@@ -17,6 +17,7 @@ def detect_pattern_type(query):
     pmid_pattern = r'^pmid\d'
 
     detected = "search="
+
     if re.match(doi_pattern, query):
         detected = "filter=doi:"
 
@@ -25,13 +26,13 @@ def detect_pattern_type(query):
 
     elif re.match(pmid_pattern, query):
         detected = "filter=pmid:"
+
     return detected
 
 
 def search_type(query):
 
     pattern = detect_pattern_type(query)
-    addition = ''
 
     if pattern == "search=":
         return None
@@ -48,8 +49,8 @@ def search_type(query):
 
     if article:
         return article.pk
-        
-    fetch_openalex(pattern, query, addition)
+    # openalex parser return id list, maybe refactor search_type function    
+    fetch_openalex(pattern, query)
 
     try:
         res = Artical.objects.filter(**pattern_kwargs).first().pk
@@ -67,7 +68,7 @@ def get_openalex_dois(self, query, update_time=180):
 
         if dois is None:
             messages.warning(self.request, _("Время сессии истекло, вы возвращены на главную")) # Session time expired, you returned on main page
-            raise SearchSearchExpired
+            raise SearchSessionExpired
 
         cache.touch(f"openalex:{sid}", update_time)
         return dois

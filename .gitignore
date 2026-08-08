@@ -15,7 +15,7 @@ docker/redis/data/
 docker-compose.prod.yml
 docker/nginx/prod
 
-database-2026*
+db_backups/database-2026*
 postgres/
 
 ml_models/

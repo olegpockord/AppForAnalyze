@@ -5,7 +5,7 @@ from datetime import datetime
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        fname = f'database-{datetime.now().strftime("%Y-%m-%d-%H-%M-%S")}.json'
+        fname = f'db_backups/database-{datetime.now().strftime("%Y-%m-%d-%H-%M-%S")}.json'
         self.stdout.write(f'Writing dump to {fname} (utf-8)...')
         
         with open(fname, 'w', encoding='utf-8') as f:
