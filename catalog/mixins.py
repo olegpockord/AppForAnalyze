@@ -34,7 +34,7 @@ class SearchMixin:
             if ids:
                 return ids
 
-        return 
+        return None
 
     
     def rank_search(self, query):
@@ -76,7 +76,7 @@ class SearchMixin:
         .order_by("distance")[:300]
         ).values("article_id", "distance")
 
-        filtered_ids_list = [obj["article_id"] for obj in embedding_qs if obj["distance"] < 0.6]
+        filtered_ids_list = [obj["article_id"] for obj in embedding_qs if obj["distance"] < 0.4]
 
         return filtered_ids_list or []
 

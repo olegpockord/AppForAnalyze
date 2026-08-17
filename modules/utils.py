@@ -49,15 +49,15 @@ def search_type(query):
 
     if article:
         return article.pk
-    # openalex parser return id list, maybe refactor search_type function    
+
     fetch_openalex(pattern, query)
 
     try:
-        res = Artical.objects.filter(**pattern_kwargs).first().pk
+        new_article = Artical.objects.filter(**pattern_kwargs).first().pk
     except AttributeError:
         raise Http404
 
-    return res
+    return new_article
 
 def get_openalex_dois(self, query, update_time=180):
 
@@ -74,6 +74,9 @@ def get_openalex_dois(self, query, update_time=180):
         return dois
 
     created_dois = fetch_openalex("search=", query.strip().replace(' ', '+'), optional="&per-page=50")
+
+    if not created_dois:
+        return None
 
     sid = uuid.uuid4().hex
 

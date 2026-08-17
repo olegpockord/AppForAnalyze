@@ -18,7 +18,7 @@ class AuthorFormatter(AuthorInitialsMixin):
             return f"{authors[0]}, and {authors[1].rstrip('.')}."
         
         elif len(authors) == 3:
-            return f"{authors[0]}, {authors[1]}, and {authors[2]}"
+            return f"{authors[0]}, {authors[1]}, and {authors[2].rstrip('.')}."
 
         else:
             return f"{authors[0]}, et al."

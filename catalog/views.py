@@ -94,11 +94,11 @@ class CatalogView(ListView, SearchMixin):
         query = self.request.GET.get('q')
 
         if query:
-            qs = search_type(query)
+            article_id = search_type(query)
 
-            if qs:
+            if article_id:
                 return redirect(
-                    reverse("catalog:work_detail", kwargs={'pk': qs})
+                    reverse("catalog:work_detail", kwargs={'pk': article_id})
                 )
             
         try:
