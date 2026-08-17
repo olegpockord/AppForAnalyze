@@ -110,11 +110,11 @@ msgstr "Open article"
 msgid "Цитировать статью"
 msgstr "Article citation"
 
-#: .\common\mixins.py:92
+#: .modules\services\graph_creation.py:41
 msgid "Год"
 msgstr "Year"
 
-#: .\common\mixins.py:93
+#: .modules\services\graph_creation.py:42
 msgid "Цитирование"
 msgstr "Citation"
 

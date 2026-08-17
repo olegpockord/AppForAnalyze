@@ -1,6 +1,6 @@
 from django.http import HttpResponse
+from common.mixins import CitiationData
 
-# Abstract class for other types
 class BaseTemplate:
 
     content_type = "text/plain"
@@ -8,7 +8,8 @@ class BaseTemplate:
     extension = "txt"
 
     def to_response(self, article):
-        content = self.format(article)
+        citiation_data = CitiationData.collect_citiation_data(article)
+        content = self.format(citiation_data)
         disposition = "inline" if self.inline else f"attachment; filename=article.{self.extension}"
 
         response = HttpResponse(content=content, content_type=self.content_type)
@@ -16,5 +17,5 @@ class BaseTemplate:
 
         return response
 
-    def format(self, article):
+    def format(self, data):
         raise NotImplementedError

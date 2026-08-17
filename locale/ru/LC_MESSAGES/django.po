@@ -112,11 +112,11 @@ msgstr "Открыть работу"
 msgid "Цитировать статью"
 msgstr "Цитировать статью"
 
-#: .\common\mixins.py:92
+#: .modules\services\graph_creation.py:41 
 msgid "Год"
 msgstr "Год"
 
-#: .\common\mixins.py:93
+#: .modules\services\graph_creation.py:42 
 msgid "Цитирование"
 msgstr "Цитирование"
 

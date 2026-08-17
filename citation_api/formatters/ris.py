@@ -20,33 +20,32 @@ class RisTemplate(BaseTemplate, AuthorInitialsMixin):
         return start, end 
     
 
-    def format(self, article):
+    def format(self, data):
 
-        raw_main_author_initials = self.get_main_author_initials(article.articlemainauthor_1[0].main_initials)
-        main_author_initials = self.to_inverted_name(raw_main_author_initials).rstrip('.')
-
-        other_authors = article.other_authors
-        other_authors_initials = self.get_other_author_initials([author.other_initials for author in other_authors])
+        raw_main_author_initials = self.get_main_author_initials(data.main_author)
+        main_author_initials = self.to_inverted_name(raw_main_author_initials)
+        
+        other_authors_initials = self.get_other_author_initials(data.other_authors)
 
         raw_author_list = [main_author_initials]
 
         for author in other_authors_initials:
-            raw_author_list.append(self.to_inverted_name(author).rstrip('.'))
+            raw_author_list.append(self.to_inverted_name(author))
 
         ready_author_list = "".join(f"\nA1  - {author}" for author in raw_author_list)
             
-        start, end = self.get_ris_page_range(article.articalciteinformation_1[0].pages)
+        start, end = self.get_ris_page_range(data.pages)
 
         fields = {
-            "T1": article.title,
-            "JO": article.articalciteinformation_1[0].journal_name,
-            "VL": article.articalciteinformation_1[0].volume,
-            "IS": article.articalciteinformation_1[0].issue,
+            "T1": data.title,
+            "JO": data.journal_name,
+            "VL": data.volume,
+            "IS": data.issue,
             "SP": start,
             "EP": end,
-            "DO": article.doi,
-            "SN": article.issn,
-            "Y1": article.articaldate_1[0].date_of_artical.year,
+            "DO": data.doi,
+            "SN": data.issn,
+            "Y1": data.date.year,
         }
 
         body = "".join(
@@ -55,4 +54,4 @@ class RisTemplate(BaseTemplate, AuthorInitialsMixin):
             if value
         )
 
-        return f"TY  - JOUR {ready_author_list}{body}\nER  - "
+        return f"TY  - JOUR {ready_author_list.replace('.', '')}{body}\nER  - "

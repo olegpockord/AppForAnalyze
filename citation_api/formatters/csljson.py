@@ -14,11 +14,9 @@ class CSLJsonTemplate(BaseTemplate, AuthorInitialsMixin):
         
         return page_range
 
-    def format(self, article):
-        raw_main_author_initials = self.get_main_author_initials(article.articlemainauthor_1[0].main_initials)
-
-        other_authors = article.other_authors
-        other_authors_initials = self.get_other_author_initials([author.other_initials for author in other_authors])
+    def format(self, data):
+        raw_main_author_initials = self.get_main_author_initials(data.main_author)
+        other_authors_initials = self.get_other_author_initials(data.other_authors)
         authors = [raw_main_author_initials, *other_authors_initials]
 
         ready_authors = [
@@ -29,24 +27,24 @@ class CSLJsonTemplate(BaseTemplate, AuthorInitialsMixin):
             for author_object in authors
         ]
 
-        article_date_object =  article.articaldate_1[0].date_of_artical
+        article_date_object =  data.date
         date_parts = {"date-parts": [[article_date_object.year, article_date_object.month, article_date_object.day]]}
             
         fields = {
-            "id": f"{raw_main_author_initials.last.lower()}{article.articaldate_1[0].date_of_artical.year}",
+            "id": f"{raw_main_author_initials.last.lower()}{article_date_object.year}",
             "type": "article-journal",
-            "title": article.title,
+            "title": data.title,
             "author": ready_authors,
             "issued": date_parts,
-            "container-title": article.articalciteinformation_1[0].journal_name,
-            "volume": article.articalciteinformation_1[0].volume,
-            "issue": article.articalciteinformation_1[0].issue,
-            "page": self.get_csl_json_page_range(article.articalciteinformation_1[0].pages),
-            "DOI": article.doi,
-            "URL": f"https://doi.org/{article.doi}",
-            "ISSN": article.issn,
-            "ISBN": article.isbn,
-            "PMID": article.pmid
+            "container-title": data.journal_name,
+            "volume": data.volume,
+            "issue": data.issue,
+            "page": self.get_csl_json_page_range(data.pages),
+            "DOI": data.doi,
+            "URL": f"https://doi.org/{data.doi}",
+            "ISSN": data.issn,
+            "ISBN": data.isbn,
+            "PMID": data.pmid
         }
 
         fields = {

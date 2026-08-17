@@ -7,10 +7,12 @@ from django.utils.decorators import method_decorator
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticleMainAuthor
 from modules.utils import search_type, get_openalex_dois
-from catalog.mixins import GraphMixin, SearchMixin
-from common.mixins import ArticleDetailQuerySetMixin, CitiationMixin
+from catalog.mixins import SearchMixin
+from common.mixins import ArticleDetailQuerySetMixin
 from modules.services.recommendations import get_article_recommendations
 from modules.services.custom_exceptions import SearchSessionExpired
+from modules.services.html_ready_citiation import CitiationFormatter
+from modules.services.graph_creation import GraphFormatter
 from citation_api.formatters.registry import FORMATTERS
 
 class CatalogView(ListView, SearchMixin):
@@ -106,7 +108,7 @@ class CatalogView(ListView, SearchMixin):
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")    
-class WorkDetailView(ArticleDetailQuerySetMixin, DetailView, GraphMixin, CitiationMixin):
+class WorkDetailView(ArticleDetailQuerySetMixin, DetailView):
     model = Artical
     template_name = "work_detail.html"
     slug_field = 'pk'
@@ -124,13 +126,11 @@ class WorkDetailView(ArticleDetailQuerySetMixin, DetailView, GraphMixin, Citiati
 
         context["name"] = article.title
 
-        graph = self.graph_create(article)
+        citiation_formatter = CitiationFormatter(article)
 
-        cite_types = self.create_cite_data(article)
-
-        context["graph"] = graph
-        context["gost"] = cite_types["GOST"]
-        context["mla"] = cite_types["MLA"]
+        context["graph"] = GraphFormatter().graph_create(article)
+        context["gost"] = citiation_formatter.gost()
+        context["mla"] = citiation_formatter.mla()
         context["citation_formats"] = list(FORMATTERS.keys())
 
         context["recommendations"] = get_article_recommendations(self.object.pk)

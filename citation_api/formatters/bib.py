@@ -17,30 +17,28 @@ class BibTexTemplate(BaseTemplate, AuthorInitialsMixin):
 
         return page_range_for_bib
 
+    def format(self, data):
 
-    def format(self, article):
+        raw_main_author_initials = self.get_main_author_initials(data.main_author)
+        main_author_initials = self.to_inverted_name(raw_main_author_initials)
 
-        raw_main_author_initials = self.get_main_author_initials(article.articlemainauthor_1[0].main_initials)
-        main_author_initials = self.to_inverted_name(raw_main_author_initials).rstrip('.')
-
-        other_authors = article.other_authors
-        other_authors_initials = self.get_other_author_initials([author.other_initials for author in other_authors])
+        other_authors_initials = self.get_other_author_initials(data.other_authors)
 
         raw_author_list = [main_author_initials]
 
         for author in other_authors_initials:
-            raw_author_list.append(self.to_inverted_name(author).rstrip('.'))
+            raw_author_list.append(self.to_inverted_name(author))
 
-        ready_list = " and ".join(raw_author_list).rstrip()
+        ready_list = " and ".join(raw_author_list).replace('.', '')
 
         fields = {
-            "title": article.title,
+            "title": data.title,
             "author": ready_list,
-            "journal": article.articalciteinformation_1[0].journal_name,
-            "volume": article.articalciteinformation_1[0].volume,
-            "number": article.articalciteinformation_1[0].issue,
-            "pages": self.get_bibtex_page_range(article.articalciteinformation_1[0].pages),
-            "year": article.articaldate_1[0].date_of_artical.year
+            "journal": data.journal_name,
+            "volume": data.volume,
+            "number": data.issue,
+            "pages": self.get_bibtex_page_range(data.pages),
+            "year": data.date.year
         }
 
         body = ",\n".join(
