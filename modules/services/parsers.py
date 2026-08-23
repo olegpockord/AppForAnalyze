@@ -3,7 +3,6 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 from main.models import Artical, ArticalCiteData, ArticalDate, ArticalCiteInformation, ArticleCitePerYear, ArticleMainAuthor, ArticleOtherAuthor, ArticalEmbedding, ArticleSearchVector
-from modules.services.pipelines import ArticleAddingPipeline
 
 from django.db import transaction
 
@@ -17,29 +16,26 @@ def parse_openalex(response):
     other_authors_to_create = []
     articles_embedding_to_create = []
     articles_search_vector_to_create = []
-
-    raw_json = response["results"]
-
+    
     exists_doi = set(Artical.objects.filter(doi__in=[
-       element.get("ids").get("doi")[16:].lower() for element in raw_json 
+       element.get("ids").get("doi")[16:].lower() for element in response 
        if element.get("ids").get("doi")
     ]).values_list('doi', flat=True))
 
     exists_mag = set(Artical.objects.filter(mag__in=[
-       element.get("ids").get("mag") for element in raw_json 
+       element.get("ids").get("mag") for element in response 
        if element.get("ids").get("mag")
     ]).values_list('mag', flat=True))
 
-    n = len(raw_json)
-
+    n = len(response)
 
     for elem_num in range(n):
-        element = raw_json[elem_num]
+        element = response[elem_num]
         ids = element.get("ids")
         doi_raw = ids.get("doi")
 
         if not doi_raw or not element.get("authorships") or not element.get("title"):
-            return []
+            continue
 
         title = element.get("title")
 
@@ -84,7 +80,7 @@ def parse_openalex(response):
 
 
     for elem_num in range(n):
-        element = raw_json[elem_num]
+        element = response[elem_num]
 
         doi = element.get("ids").get("doi")
 
@@ -189,25 +185,21 @@ def parse_openalex(response):
         ArticleSearchVector.objects.bulk_create(articles_search_vector_to_create)
         
 
-# Start setting embedding for articles with abstract and precompute recs
-    ArticleAddingPipeline.execute()
     return list(articles_by_doi.keys()) or []
 
 
 def parse_crossref(response):
     other_authors_to_create = []   
 
-    element = response["message"]
-
-    authorship = element.get("author")
-    doi = element.get("DOI")
+    authorship = response.get("author")
+    doi = response.get("DOI")
 
     if not authorship or not doi:
         return None
     
-    title = element.get("title")[0]
+    title = response.get("title")[0]
     doi = doi.lower()
-    issn_list = element.get("ISSN")
+    issn_list = response.get("ISSN")
     issn = issn_list[0] if issn_list else None
     isbn = issn_list[1] if issn_list and len(issn_list) > 1 else None
 
@@ -219,10 +211,10 @@ def parse_crossref(response):
             source = "crossref"
         )
 
-    journal_name = element.get("container-title")[0] if element.get("container-title") else None
-    pages = element.get("page")
-    volume = element.get("volume")
-    issue = element.get("issue")
+    journal_name = response.get("container-title")[0] if response.get("container-title") else None
+    pages = response.get("page")
+    volume = response.get("volume")
+    issue = response.get("issue")
 
     article_cite_information = ArticalCiteInformation(
             article = article,
@@ -232,7 +224,7 @@ def parse_crossref(response):
             issue = issue
         )
 
-    timestamp = int(element['created']['timestamp']) // 1000
+    timestamp = int(response['created']['timestamp']) // 1000
     date_of_artical = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
 
     artical_date = ArticalDate(
@@ -240,8 +232,8 @@ def parse_crossref(response):
             date_of_artical = date_of_artical,
         )
     
-    cited_by_count = int(element.get("is-referenced-by-count"))
-    reference_in_work = int(element.get("reference-count"))
+    cited_by_count = int(response.get("is-referenced-by-count"))
+    reference_in_work = int(response.get("reference-count"))
 
     artical_cite_data = ArticalCiteData(
             article = article,
@@ -281,4 +273,31 @@ def parse_crossref(response):
         article_main_author.save()
         ArticleOtherAuthor.objects.bulk_create(other_authors_to_create)
 
-    return doi
+    return list(doi)
+
+class OpenalexArticleParser:
+
+    def parse_and_create(self, json_data):
+        return parse_openalex(json_data)
+        
+    def parse_citiation(self, data):
+        data = data[0]
+        return {
+            "cited_by_count": int(data.get("cited_by_count")),
+            "reference_in_work": int(data.get("referenced_works_count"))
+        }
+
+    def parse_citiation_by_year(self, data):
+        data = data[0]
+        return {"citing_by_years": data.get("counts_by_year")}
+
+class CrossrefArticleParser:
+
+    def parse_and_create(self, json_data):
+        return parse_crossref(json_data)
+
+    def parse_citiation(self, data):
+        return {
+            "cited_by_count": int(data.get("is-referenced-by-count")),
+            "reference_in_work": int(data.get("reference-count"))
+        }

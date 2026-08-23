@@ -15,7 +15,6 @@ import environ
 from celery.schedules import crontab
 
 env = environ.Env()
-
 environ.Env.read_env(env_file=Path('.env.dev'))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +25,8 @@ MODEL_PATH = BASE_DIR / "ml_models" / "paraphrase-multilingual-MiniLM-L12-v2"
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
+
+API_KEY = env('API_KEY', default='')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(env('DEBUG', default=1))
@@ -93,6 +94,39 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/day',
     }
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "verbose": {
+            "format": (
+                "{asctime} [{levelname}] "
+                "{name}: {message}"
+            ),
+            "style": "{",
+        },
+    },
+
+    "handlers": {
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "logs" / "django.log",
+            "encoding": "utf-8",
+            "formatter": "verbose",
+            "level": "INFO",
+        },
+    },
+
+    "loggers": {
+        "modules": {
+            "handlers": ["file"],
+            "level": "INFO",    
+            "propagate": False,
+        },
+    },
 }
 
 # Database

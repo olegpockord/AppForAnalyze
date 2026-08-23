@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fname = f'db_backups/database-{datetime.now().strftime("%Y-%m-%d-%H")}.json'
-        LOG.info(f"Start to backup DB at {datetime.now().strftime("%H-%M")}")
+        LOG.info(f'Start to backup DB at {datetime.now().strftime("%H-%M")}')
         
         with open(fname, 'w', encoding='utf-8') as f:
             call_command(
@@ -24,4 +24,4 @@ class Command(BaseCommand):
                 '--indent=4',
                 stdout=f
             )
-        LOG.info(f"Backup done at {datetime.now().strftime("%H-%M")}")
+        LOG.info(f'Backup done at {datetime.now().strftime("%H-%M")}')

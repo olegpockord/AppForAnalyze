@@ -9,8 +9,9 @@ staticfiles/
 .env*
 celerybeat-schedule*
 
-docker/logs/
 docker/redis/data/
+
+logs/*
 
 docker-compose.prod.yml
 docker/nginx/prod
