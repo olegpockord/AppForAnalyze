@@ -96,7 +96,7 @@ class ArticalDate(models.Model):
         verbose_name_plural = "Информация о датах статьи"
 
     def __str__(self):
-        return f"Статья №{self.article.id} - {self.date_of_last_update} дата добавления: {self.date_of_creation}"
+        return f"Статья №{self.article.id} - {self.date_of_last_update} дата создания: {self.date_of_artical}"
 
 
 class ArticalCiteData(models.Model):

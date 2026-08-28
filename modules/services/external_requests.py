@@ -13,7 +13,7 @@ if api_key:
 
 class BaseAPIRequest:
 
-    def get_response(self, url, source, timeout=7):
+    def get_response(self, url, source):
         try:
             response = requests.get(url, timeout=7)
 
@@ -57,7 +57,7 @@ class CrossrefClient:
 
     def __init__(self):
         self.custom_request = BaseAPIRequest()
-        
+
     def fetch_by_doi(self, doi):
         url = f"https://api.crossref.org/works/{doi}"
 
