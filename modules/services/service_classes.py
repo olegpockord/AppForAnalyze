@@ -66,7 +66,7 @@ class ArticleUpdateService:
 
         if not data:
             logger.warning(f"Resolver couldnt find info for article, it will be deleted: article_id={article.id}; source={source}; doi={article.doi}")
-            return self.updater.article_delete(article)
+            return self.updater.delete_article(article)
 
         if source == "openalex":
             return self.update_openalex_article(article, data)
@@ -75,11 +75,11 @@ class ArticleUpdateService:
             return self.update_crossref_article(article, data)
 
     def update_openalex_article(self, article, json_data):
-        citiation_data = self.openalex_parser.parse_citiation(json_data)
-        citiation_by_year_data = self.openalex_parser.parse_citiation_by_year(json_data)
+        citiation_data = self.openalex_parser.parse_citation(json_data)
+        citiation_by_year_data = self.openalex_parser.parse_citation_by_year(json_data)
 
-        self.updater.update_citiations(article, citiation_data)
-        self.updater.update_citiations_by_year(article, citiation_by_year_data)
+        self.updater.update_citations(article, citiation_data)
+        self.updater.update_citations_by_year(article, citiation_by_year_data)
         self.updater.refresh_date_of_last_update(article)
 
         logger.info(f"Article was updated: article_id={article.id}; source={article.source}; doi={article.doi}")
@@ -87,6 +87,6 @@ class ArticleUpdateService:
     def update_crossref_article(self, article, json_data):
         citiation_data = self.crossref_parser.parse_citiation(json_data)
 
-        self.updater.update_citiations(article, citiation_data)
+        self.updater.update_citations(article, citiation_data)
         self.updater.refresh_date_of_last_update(article)
         logger.info(f"Article was updated: article_id={article.id}; source={article.source}; doi={article.doi}")

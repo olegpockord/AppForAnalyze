@@ -49,6 +49,7 @@ def single_artical_update(self, article_pk):
     if not got_lock:
         LOG.info(f"Article {article_pk} is already being processed by another worker")
         return None
+    
     try:
         article = Artical.objects.get(pk=int(article_pk))
 

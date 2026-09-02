@@ -3,41 +3,44 @@ from django.utils import timezone
 
 from main.tests.factories import ArticalFactory, ArticalDateFactory, ArticalCiteDataFactory, ArticleCitePerYearFactory
 from main.models import Artical, ArticalDate, ArticleCitePerYear
-from modules.tasks import delete_article, refresh_date_of_last_update, update_openalex_citing, update_openalex_citations_by_year
+from modules.services.crud_operations import ArticleUpdater
 
 from datetime import timedelta
 from unittest.mock import patch
 
-class TestArticleDelete(TestCase):
+
+class TestDeleteOperations(TestCase):
 
     def setUp(self):
-
-        self.normal_article = ArticalFactory()
-
+        self.default_article = ArticalFactory()
+        self.updater = ArticleUpdater()
 
     def test_delete_normal(self):
+        pk = self.default_article.pk
 
-        pk = self.normal_article.pk
+        result = self.updater.delete_article(self.default_article)
 
-        result = delete_article(self.normal_article)
-
-        self.assertEqual(result, {'status': f"Article {self.normal_article.title} deleted"})
-
+        self.assertIsNone(result)
         self.assertFalse(Artical.objects.filter(pk=pk).exists())
 
+    @patch("modules.services.crud_operations.logger")
     @patch.object(Artical, "delete", side_effect = Exception("Some DB error"))
-    def test_delete_error(self, mock_del):
+    def test_delete_error(self, mock_del, mock_logger):
+        pk = self.default_article.pk
 
-        result = delete_article(self.normal_article)
+        self.updater.delete_article(self.default_article)
 
         mock_del.assert_called_once()
+        mock_logger.warning.assert_called_once()
 
-        self.assertEqual(result, {'status': "Error with delete"})
+        self.assertTrue(Artical.objects.filter(pk=pk).exists())
 
 class TestArticleUpdate(TestCase):
 
-    def test_article_refresh_date(self):
+    def setUp(self):
+        self.updater = ArticleUpdater()
 
+    def test_article_refresh_date(self):
         old_article = ArticalFactory()
         old_date = (timezone.now() - timedelta(days=7)).date()
 
@@ -49,26 +52,25 @@ class TestArticleUpdate(TestCase):
             date_of_last_update = old_date
         )
 
-        refresh_date_of_last_update(old_article)
+        self.updater.refresh_date_of_last_update(old_article)
 
         self.assertGreater(article_date.date_of_last_update, old_date)
 
-    def test_openalex_citing_update(self):
-
-        openalex_article = ArticalFactory()
+    def test_citing_update(self):
+        default_article = ArticalFactory()
 
         old_cite_data = ArticalCiteDataFactory(
-            article = openalex_article,
+            article = default_article,
             reference_count = 501,
             reference_in_work = 28
         )
 
         data = {
             "cited_by_count": 523,
-            "referenced_works_count": 29
+            "reference_in_work": 29
         }
 
-        update_openalex_citing(data, openalex_article)
+        self.updater.update_citations(default_article, data)
 
         old_cite_data.refresh_from_db()
 
@@ -78,18 +80,17 @@ class TestArticleUpdate(TestCase):
         self.assertEqual(old_cite_data.reference_count, 523)
         self.assertEqual(old_cite_data.reference_in_work, 29)
 
-    def test_update_openalex_citations_old_var(self):
-
-        openalex_article = ArticalFactory()
+    def test_update_citation_by_year(self):
+        default_article = ArticalFactory()
 
         ArticleCitePerYearFactory(
-            article = openalex_article,
+            article = default_article,
             year = 2026,
             citiation = 51
         )
 
         data = {
-            "counts_by_year": [
+            "citing_by_years": [
                 {
                     "year": 2026,
                     "cited_by_count": 58
@@ -97,23 +98,21 @@ class TestArticleUpdate(TestCase):
             ]
         }
         
-        update_openalex_citations_by_year(data, openalex_article)
-
-        citiation = ArticleCitePerYear.objects.get(article=openalex_article).citiation
+        self.updater.update_citations_by_year(default_article, data)
+        citiation = ArticleCitePerYear.objects.get(article=default_article).citiation
 
         self.assertEqual(citiation, 58)
 
-    def test_update_openalex_citations_new_year_add(self):
-
-        openalex_article = ArticalFactory()
+    def test_update_citations_new_year_add(self):
+        default_article = ArticalFactory()
 
         ArticleCitePerYearFactory.create_batch(
             3,
-            article = openalex_article
+            article = default_article
         )
 
         data = {
-            "counts_by_year": [
+            "citing_by_years": [
                 {
                     "year": 2026,
                     "cited_by_count": 2
@@ -121,8 +120,8 @@ class TestArticleUpdate(TestCase):
             ]
         }        
 
-        update_openalex_citations_by_year(data, openalex_article)
+        self.updater.update_citations_by_year(default_article, data)
 
-        quantity_of_records = ArticleCitePerYear.objects.filter(article = openalex_article).count()
+        quantity_of_records = ArticleCitePerYear.objects.filter(article=default_article).count()
 
         self.assertEqual(quantity_of_records, 4)

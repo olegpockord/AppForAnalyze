@@ -280,14 +280,14 @@ class OpenalexArticleParser:
     def parse_and_create(self, json_data):
         return parse_openalex(json_data)
         
-    def parse_citiation(self, data):
+    def parse_citation(self, data):
         data = data[0]
         return {
             "cited_by_count": int(data.get("cited_by_count")),
             "reference_in_work": int(data.get("referenced_works_count"))
         }
 
-    def parse_citiation_by_year(self, data):
+    def parse_citation_by_year(self, data):
         data = data[0]
         return {"citing_by_years": data.get("counts_by_year")}
 
@@ -296,7 +296,7 @@ class CrossrefArticleParser:
     def parse_and_create(self, json_data):
         return parse_crossref(json_data)
 
-    def parse_citiation(self, data):
+    def parse_citation(self, data):
         return {
             "cited_by_count": int(data.get("is-referenced-by-count")),
             "reference_in_work": int(data.get("reference-count"))

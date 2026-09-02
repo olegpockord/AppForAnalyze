@@ -2,9 +2,13 @@ from django.utils import timezone
 
 from main.models import ArticalCiteData, ArticalDate, ArticleCitePerYear
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class ArticleUpdater:
 
-    def update_citiations(self, article, data):
+    def update_citations(self, article, data):
         ArticalCiteData.objects.filter(article=article).update(
                 reference_count = data["cited_by_count"],
                 reference_in_work = data["reference_in_work"],
@@ -17,15 +21,14 @@ class ArticleUpdater:
             )
 
 
-    def article_delete(self, article):
+    def delete_article(self, article):
         try:
             article.delete()
         except Exception as exc:
-            ...
+            logger.warning(f"Article wasnt delete due to exc: exc={exc}; title={article.title}; doi={article.doi}; mag={article.mag}; source={article.source}")
 
 
-    def update_citiations_by_year(self, article, data):
-
+    def update_citations_by_year(self, article, data):
         exist = {i.year: i
                 for i in ArticleCitePerYear.objects.filter(article=article)}
         
