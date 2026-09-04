@@ -13,24 +13,22 @@ class TestPeriodicTask(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.default_article = ArticalFactory()
+        cls.old_default_article = ArticalFactory()
         cls.crossref_article = ArticalFactory(source="crossref")
 
-        ArticalDateFactory(article = cls.default_article)
+        ArticalDateFactory(article = cls.old_default_article)
         ArticalDateFactory(article = cls.crossref_article)
 
     @patch("modules.tasks.LOG")
     @patch("modules.tasks.single_artical_update.delay")
     def test_old_articles(self, mock_delay, mock_logger):
-        pk = self.default_article.pk
-
-        ArticalDate.objects.filter(pk=pk).update(
+        ArticalDate.objects.filter(article=self.old_default_article).update(
             date_of_last_update=timezone.now() - timedelta(days=4)
         )
 
         result = periodic_update_task()
 
-        mock_delay.assert_called_once_with(pk)
+        mock_delay.assert_called_once_with(self.old_default_article.pk)
 
         self.assertEqual(result, {'status': 'All articles in queue'})
 

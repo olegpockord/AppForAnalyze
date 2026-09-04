@@ -161,7 +161,7 @@ class TestAPIFallback(TestCase):
         result = self.fallback.fetch_update(article_obj=self.default_article)
 
         self.assertEqual(result, mag_data)
-        self.assertEqual(mock_openalex.call_args_list, [(("10.1000/st0",), {"identifier": "doi",}), call("2200000001", identifier="mag"),]) # We could use call() or do that in tuple, dict
+        self.assertEqual(mock_openalex.call_args_list, [((self.default_article.doi,), {"identifier": "doi",}), call(self.default_article.mag, identifier="mag"),]) # We could use call() or do that in tuple, dict
 
     @patch("modules.services.external_requests.logger")
     @patch.object(OpenalexClient, "fetch")
@@ -171,6 +171,6 @@ class TestAPIFallback(TestCase):
         result = self.fallback.fetch_update(article_obj=self.article_witout_mag)
 
         mock_logger.warning.assert_called_once()
-        mock_openalex.assert_called_with("10.1000/st2", identifier="doi")
+        mock_openalex.assert_called_with(self.article_witout_mag.doi, identifier="doi")
 
         self.assertIsNone(result)
